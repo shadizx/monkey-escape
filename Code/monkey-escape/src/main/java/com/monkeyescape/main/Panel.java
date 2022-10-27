@@ -1,9 +1,15 @@
 package com.monkeyescape.main;
 
+import com.monkeyescape.entity.Monkey;
+import com.monkeyescape.entity.Entity;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -23,6 +29,9 @@ public class Panel extends JPanel implements Runnable {
 
     KeyHandler kh = new KeyHandler();
     Thread gameThread;
+    Monkey monkey = new Monkey(this, kh);
+
+    List<Entity> entities = new ArrayList<>();
 
     /**
      * Creates a new Panel
@@ -33,6 +42,9 @@ public class Panel extends JPanel implements Runnable {
         this.setDoubleBuffered(true); // improves games rendering performance
         this.addKeyListener(kh);
         this.setFocusable(true); // Game panel is "focused" to receive key input
+
+        // default panel contains monkey in entities - may want to change this
+        addEntity(monkey);
     }
 
     /**
@@ -73,7 +85,7 @@ public class Panel extends JPanel implements Runnable {
      * Updates game information
      */
     public void update() {
-
+        entities.forEach(Entity::update);
     }
 
     /**
@@ -84,8 +96,17 @@ public class Panel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         // draw stuff here
+        entities.forEach(entity -> entity.draw(g2));
         // draw stuff here
 
         g2.dispose(); // good practice to save memory
+    }
+
+    /**
+     * Adds an entity into the panel
+     * @param entity A non-null entity
+     */
+    public void addEntity(Entity entity) {
+        entities.add(entity);
     }
 }
