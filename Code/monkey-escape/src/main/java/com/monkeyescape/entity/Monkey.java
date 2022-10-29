@@ -17,6 +17,8 @@ public class Monkey extends Entity {
      */
     public Monkey(Panel panel, KeyHandler kh) {
         super(panel, kh);
+        this.type = "monkey";
+        getImage();
         // random starting values
         x = panel.width / 2;
         y = panel.height / 2;
