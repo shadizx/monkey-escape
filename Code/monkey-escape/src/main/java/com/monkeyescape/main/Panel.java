@@ -109,4 +109,12 @@ public class Panel extends JPanel implements Runnable {
     public void addEntity(Entity entity) {
         entities.add(entity);
     }
+
+    /**
+     * Removes selected entity from the panel
+     * @param entity A non-null entity
+     */
+    public boolean removeEntity(Entity entity) {
+        return entities.remove(entity);
+    }
 }
