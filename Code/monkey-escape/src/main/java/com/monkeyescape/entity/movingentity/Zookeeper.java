@@ -1,7 +1,10 @@
 package com.monkeyescape.entity.movingentity;
 
+import com.monkeyescape.entity.Position;
 import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.Panel;
+
+import java.awt.*;
 
 /**
  * Represents the zookeeper
@@ -25,37 +28,67 @@ public class Zookeeper extends MovingEntity {
         loadImage();
 
         // random starting position
-        x = (int)(Math.random() * panel.width);
-        y = (int)(Math.random() * panel.height);
+        Position randomPosition = super.createRandomPosition(panel);
+        x = randomPosition.x;
+        y = randomPosition.y;
 
         //Checks if zookeeper is too close off of spawn
         while(tilesToMonkey() < 5){
-            x = (int)(Math.random() * panel.width);
-            y = (int)(Math.random() * panel.height);
+            randomPosition = super.createRandomPosition(panel);
+            x = randomPosition.x;
+            y = randomPosition.y;
         }
+
+        areaX = 8;
+        areaY = 16;
+
+        //set entity area to be smaller than tile so that it can fit in 1 tile spaces
+        area = new Rectangle(areaX, areaY, 32, 32);
+        speed = 1;
+
+        direction = "down";
+        collided = false;
     }
 
     /**
      * Moves the zookeeper towards the monkey
      */
-    public void update() { //Can create better pathfinding once walls are implemented
-        if (kh.isPressedDown() || kh.isPressedUp() || kh.isPressedLeft() || kh.isPressedRight()) { //Only moves if player is moving
-            if (Math.abs(monkey.x - x) > Math.abs(monkey.y - y)) { //If the monkey is further away on the x-axis than y-axis
-                //Move one tile towards monkey on x-axis
-                if (monkey.x - x > 0) { //Check which direction to move along x-axis
-                    x += speed;
+    public void update(){ //Can create better pashfinding once walls are implemented
+        if(kh.isPressedDown() || kh.isPressedUp() || kh.isPressedLeft() || kh.isPressedRight()){ //Only moves if player is moving
+            if(Math.abs(monkey.x - x) > Math.abs(monkey.y - y)){ //If the monkey is further away on the x axis than y axis
+                //Move one tile towards monkey on x axis
+                if(monkey.x - x > 0){ //Check which direction to move along x axis
+                    direction = "right";
                 }
                 else {
-                    x -= speed;
+                    direction = "left";
                 }
             }
-            else { //Monkey is further away on the y-axis than x-axis
-                //Move one tile towards monkey on y-axis
-                if (monkey.y - y > 0) { //Check which direction to move along y-axis
-                    y += speed;
+            else{ //Monkey is further away on the y axis than x axis
+                //Move one tile towards monkey on y axis
+                if(monkey.y - y > 0){ //Check which direction to move along y axis
+                    direction = "down";
                 }
                 else {
-                    y -= speed;
+                    direction = "up";
+                }
+            }
+            collided = false;
+            panel.collisionChecker.checkTile(this);
+            if (!collided) {
+                switch (direction) {
+                    case "up":
+                        y -= speed;
+                        break;
+                    case "right":
+                        x += speed;
+                        break;
+                    case "down":
+                        y += speed;
+                        break;
+                    case "left":
+                        x -= speed;
+                        break;
                 }
             }
         }
@@ -68,4 +101,11 @@ public class Zookeeper extends MovingEntity {
     public int tilesToMonkey(){
         return Math.abs(monkey.x - x) + Math.abs(monkey.y - y);
     }
+    public boolean remove(){
+        return panel.removeEntity(this);
+    }
+    public boolean removeZookeeper(){
+        return panel.removeZookeeper(this);
+    }
 }
+

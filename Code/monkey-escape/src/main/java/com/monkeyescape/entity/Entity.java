@@ -11,16 +11,17 @@ public interface Entity {
     /**
      * Loads the image for this entity
      */
-    public void loadImage();
+     void loadImage();
 
     /**
      * Updates the location of this entity based on game input
      */
-    public void update();
+     void update();
 
     /**
      * Draws the Entity
      * @param g2 the <code>Graphics2D</code> object used to draw
      */
-    public void draw(Graphics2D g2);
+     void draw(Graphics2D g2);
+
 }

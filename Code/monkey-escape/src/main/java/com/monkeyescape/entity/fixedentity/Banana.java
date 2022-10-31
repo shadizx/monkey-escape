@@ -21,9 +21,8 @@ public class Banana extends FixedEntity {
         type = "banana";
         impact = 100;
 
-        // random starting position
-        x = (int)(Math.random() * panel.width);
-        y = (int)(Math.random() * panel.height); //Remove this and use interactable find position once map is implemented
+        panel.tm.addFixedEntitytoMap(y/ panel.tileSize, x/ panel.tileSize, this);
+
         loadImage();
     }
 

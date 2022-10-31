@@ -1,11 +1,12 @@
 package com.monkeyescape.entity.movingentity;
 
 import com.monkeyescape.entity.Entity;
+import com.monkeyescape.entity.Position;
 import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.Panel;
 
 import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -22,14 +23,18 @@ public abstract class MovingEntity implements Entity {
 
     public int x;
     public int y;
-    protected int speed;
+    public int speed;
 
     private final HashMap<String, BufferedImage> images = new HashMap<>();
     public String direction;
 
+    public Rectangle area;
+    public int areaX;
+    public int areaY;
     private int drawImageDelay = 0;
     private int drawImageVersion = 1;
 
+    public boolean collided = false;
     /**
      * Creates a moving entity
      * @param panel A <code>Panel</code>> to refer to
@@ -39,6 +44,7 @@ public abstract class MovingEntity implements Entity {
         this.panel = panel;
         this.kh = kh;
         direction = "down";
+
     }
 
     /**
@@ -64,27 +70,42 @@ public abstract class MovingEntity implements Entity {
      * Updates location of moving entity based on key input
      */
     public void update() {
-        if (kh.isPressedUp()) {
-            direction = "up";
-            y -= speed;
-        }
-        else if (kh.isPressedRight()) {
-            direction = "right";
-            x += speed;
-        }
-        else if (kh.isPressedDown()) {
-            direction = "down";
-            y += speed;
-        }
-        else if (kh.isPressedLeft()) {
-            direction = "left";
-            x -= speed;
-        }
-        else {
-            // if no keys are pressed down then set direction to down and return
-            // this makes it look like the monkey is not moving
-            direction = "down";
-            return;
+        if(kh.isPressedUp() || kh.isPressedRight() || kh.isPressedDown() || kh.isPressedLeft()) {
+            if (kh.isPressedUp()) {
+                direction = "up";
+
+            } else if (kh.isPressedRight()) {
+                direction = "right";
+
+            } else if (kh.isPressedDown()) {
+                direction = "down";
+
+            } else if (kh.isPressedLeft()) {
+                direction = "left";
+
+            }
+
+            collided = false;
+            panel.collisionChecker.checkTile(this);
+            panel.collisionChecker.checkInteractable(this);
+            panel.collisionChecker.checkZookeeper(this,panel.zookeepers);
+
+            if (!collided) {
+                switch (direction) {
+                    case "up":
+                        y -= speed;
+                        break;
+                    case "right":
+                        x += speed;
+                        break;
+                    case "down":
+                        y += speed;
+                        break;
+                    case "left":
+                        x -= speed;
+                        break;
+                }
+            }
         }
 
         // after 15 game "ticks" we want to switch the image (version 1 or version 2)
@@ -94,7 +115,21 @@ public abstract class MovingEntity implements Entity {
             drawImageDelay = 0;
         }
     }
+    public Position createRandomPosition(Panel panel){
+        boolean found = false;
+        Position newpos = null;
+        while(!found) {
+            //generates random colIndex and rowIndex between 1-14 which are between boundaries of walls
+            int colIndex = (int) (Math.random() * (panel.cols - 2) + 1);
+            int rowIndex = (int) (Math.random() * (panel.rows - 2) + 1);
+            if(!(panel.tm.tileMap[colIndex][rowIndex].blocked) && !(panel.tm.tileMap[colIndex][rowIndex].hasFixedEntity)){
+                newpos = new Position(colIndex*panel.tileSize, rowIndex*panel.tileSize);
+                found = true;
+            }
 
+        }
+        return newpos;
+    }
     public void draw(Graphics2D g2) {
         g2.drawImage(images.get(direction + drawImageVersion), x, y, panel.tileSize, panel.tileSize, null);
     }

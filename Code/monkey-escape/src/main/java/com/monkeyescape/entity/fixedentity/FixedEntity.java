@@ -1,10 +1,11 @@
 package com.monkeyescape.entity.fixedentity;
 
 import com.monkeyescape.entity.Entity;
+import com.monkeyescape.entity.Position;
 import com.monkeyescape.main.Panel;
 
 import javax.imageio.ImageIO;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
@@ -17,19 +18,25 @@ public abstract class FixedEntity implements Entity {
 
     public String type;
 
-    protected int x;
-    protected int y;
+    public int x;
+    public int y;
 
     private BufferedImage image;
     public int impact;
+    public Rectangle area;
 
     /**
      * Creates a fixed entity
      * @param panel A <code>Panel</code>> to refer to
      */
     public FixedEntity(Panel panel) {
+
         this.panel = panel;
+        Position pos = createRandomPosition(panel);
+        x = pos.x;
+        y = pos.y;
     }
+
 
     public void loadImage() {
         try {
@@ -43,11 +50,25 @@ public abstract class FixedEntity implements Entity {
     public void draw(Graphics2D g2) {
         g2.drawImage(image, x, y, panel.tileSize, panel.tileSize, null);
     }
+    public Position createRandomPosition(Panel panel){
+        boolean found = false;
+        Position newpos = null;
+        while(!found) {
+            //generates random colIndex and rowIndex between 1-14 which are between boundaries of walls
+            int colIndex = (int) (Math.random() * (panel.cols - 2) + 1);
+            int rowIndex = (int) (Math.random() * (panel.rows - 2) + 1);
+            if(!(panel.tm.tileMap[colIndex][rowIndex].blocked) && !(panel.tm.tileMap[colIndex][rowIndex].hasFixedEntity)){
+                newpos = new Position(colIndex*panel.tileSize, rowIndex*panel.tileSize);
+                found = true;
+            }
 
+        }
+        return newpos;
+    }
     /**
      * Returns the fixed entity from the map
      */
-    boolean remove() {
+    public boolean remove() {
         return panel.removeEntity(this);
     }
 }
