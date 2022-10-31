@@ -1,16 +1,13 @@
 package com.monkeyescape.main;
 
 import com.monkeyescape.entity.Entity;
+import com.monkeyescape.entity.movingentity.Zookeeper;
+import com.monkeyescape.map.TileMap;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JPanel;
 
 /**
  * Represents a JPanel panel that is used for interaction
@@ -25,10 +22,14 @@ public class Panel extends JPanel implements Runnable {
     public final int height = tileSize * rows;
     public final int FPS = 60;
 
+
+    public TileMap tm = new TileMap(this);
     KeyHandler kh = new KeyHandler();
     Thread gameThread;
 
     List<Entity> entities = new ArrayList<>();
+    public List<Zookeeper> zookeepers = new ArrayList<>();
+    public Collision collisionChecker = new Collision(this);
 
     /**
      * Creates a new Panel
@@ -79,7 +80,9 @@ public class Panel extends JPanel implements Runnable {
      * Updates game information
      */
     public void update() {
-        entities.forEach(Entity::update);
+        for (int i = 0; i < entities.size(); i++) {
+            entities.get(i).update();
+        }
     }
 
     /**
@@ -90,6 +93,9 @@ public class Panel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         // draw stuff here
+
+        tm.drawMap(g2);
+
         // use this type of for loop to not throw exception ConcurrentModificationException
         for (int i = 0; i < entities.size(); i++) {
             entities.get(i).draw(g2);
@@ -99,6 +105,7 @@ public class Panel extends JPanel implements Runnable {
         g2.dispose(); // good practice to save memory
     }
 
+
     /**
      * Adds an entity into the panel
      * @param entity A non-null entity
@@ -107,6 +114,18 @@ public class Panel extends JPanel implements Runnable {
         entities.add(entity);
     }
 
+
+    /**
+     * Adds an zookeeper to a list of enemies
+     * @param zookeeper A non-null entity
+     */
+    public void addZookeeper(Zookeeper zookeeper) {
+        zookeepers.add(zookeeper);
+    }
+
+
+
+
     /**
      * Removes selected entity from the panel
      * @param entity A non-null entity
@@ -114,4 +133,13 @@ public class Panel extends JPanel implements Runnable {
     public boolean removeEntity(Entity entity) {
         return entities.remove(entity);
     }
+
+    /**
+     * Removes selected zookeeper from the list of enemies
+     * @param zookeeper A non-null entity
+     */
+    public boolean removeZookeeper(Zookeeper zookeeper) {
+        return zookeepers.remove(zookeeper);
+    }
+
 }

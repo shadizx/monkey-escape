@@ -1,5 +1,7 @@
 package com.monkeyescape.entity;
 
+import com.monkeyescape.main.Panel;
+
 /**
  * Represents a position
  * @author Henry Ruckman-Utting
@@ -16,4 +18,5 @@ public class Position {
         this.x = x;
         this.y = y;
     }
+
 }

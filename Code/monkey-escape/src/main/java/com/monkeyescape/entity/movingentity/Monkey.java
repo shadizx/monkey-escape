@@ -3,6 +3,8 @@ package com.monkeyescape.entity.movingentity;
 import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.Panel;
 
+import java.awt.*;
+
 /**
  * Represents a monkey
  * @author Shadi Zoldjalali
@@ -16,13 +18,22 @@ public class Monkey extends MovingEntity {
      * @param kh a <code>KeyHandler</code> for handling key inputs
      */
     public Monkey(Panel panel, KeyHandler kh) {
+
         super(panel, kh);
         type = "monkey";
-        speed = 4;
         loadImage();
 
-        // random starting values
-        x = panel.width / 2;
-        y = panel.height / 2;
+
+        this.type = "monkey";
+
+        areaX = 8;
+        areaY = 16;
+        //set entity area to be smaller than tile so that it can fit in 1 tile spaces
+        area = new Rectangle(areaX, areaY, 32, 32);
+
+        // start to wherever the cage is
+        x = 96;
+        y = 0;
+        speed = 4;
     }
 }

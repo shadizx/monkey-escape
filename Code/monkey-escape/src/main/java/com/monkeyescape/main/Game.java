@@ -12,6 +12,7 @@ import com.monkeyescape.entity.movingentity.Zookeeper;
  * @version 10/30/2022
  */
 public class Game {
+
     Window window;
     Panel panel;
     Monkey monkey;
@@ -57,7 +58,9 @@ public class Game {
      */
     public void spawnZookeepers() {
         for(int i = 0; i < level; i++){
-            panel.addEntity(new Zookeeper(panel, panel.kh ,monkey));
+            Zookeeper zookeeper = new Zookeeper(panel,panel.kh,monkey);
+            panel.addEntity(zookeeper);
+            panel.addZookeeper(zookeeper);
         }
     }
 
