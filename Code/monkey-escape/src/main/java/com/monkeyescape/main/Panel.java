@@ -1,6 +1,5 @@
 package com.monkeyescape.main;
 
-import com.monkeyescape.entity.Monkey;
 import com.monkeyescape.entity.Entity;
 
 import java.awt.Color;
@@ -16,10 +15,9 @@ import javax.swing.JPanel;
 /**
  * Represents a JPanel panel that is used for interaction
  * @author Shadi Zoldjalali
- * @version 10/26/2022
+ * @version 10/30/2022
  */
 public class Panel extends JPanel implements Runnable {
-
     public final int tileSize = 48;
     public final int rows = 16;
     public final int cols = 16;
@@ -29,7 +27,6 @@ public class Panel extends JPanel implements Runnable {
 
     KeyHandler kh = new KeyHandler();
     Thread gameThread;
-    Monkey monkey = new Monkey(this, kh);
 
     List<Entity> entities = new ArrayList<>();
 
@@ -42,9 +39,6 @@ public class Panel extends JPanel implements Runnable {
         this.setDoubleBuffered(true); // improves games rendering performance
         this.addKeyListener(kh);
         this.setFocusable(true); // Game panel is "focused" to receive key input
-
-        // default panel contains monkey in entities - may want to change this
-        addEntity(monkey);
     }
 
     /**
@@ -96,7 +90,10 @@ public class Panel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
 
         // draw stuff here
-        entities.forEach(entity -> entity.draw(g2));
+        // use this type of for loop to not throw exception ConcurrentModificationException
+        for (int i = 0; i < entities.size(); i++) {
+            entities.get(i).draw(g2);
+        }
         // draw stuff here
 
         g2.dispose(); // good practice to save memory

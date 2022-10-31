@@ -1,35 +1,38 @@
-package com.monkeyescape.entity;
+package com.monkeyescape.entity.fixedentity;
 
-import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.Panel;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 
 /**
- * Represents the Bonus Reward (banana)
+ * Represents a banana
  * @author Henry Ruckman-Utting
- * @version 10/29/2022
+ * @version 10/30/2022
  */
-public class BonusReward extends Interactable {
+public class Banana extends FixedEntity {
     int lifecycle = 1000;
 
     /**
-     * Initializes a banana with random position
+     * Creates a banana with random position
+     * @param panel A <code>Panel</code>> to refer to
      */
-    public BonusReward(Panel panel, KeyHandler kh) {
-        super(panel, kh);
+    public Banana(Panel panel) {
+        super(panel);
+        type = "banana";
         impact = 100;
 
         // random starting position
         x = (int)(Math.random() * panel.width);
         y = (int)(Math.random() * panel.height); //Remove this and use interactable find position once map is implemented
+        loadImage();
     }
 
     /**
      * Updates the number of ticks the banana has left
      */
-    public void update(){
-        lifecycle--; //Banana despawns after set amount of time
+    public void update() {
+        // Banana despawns after set amount of time
+        lifecycle--;
     }
 
     /**
@@ -38,8 +41,7 @@ public class BonusReward extends Interactable {
      */
     public void draw(Graphics2D g2) {
         if(lifecycle > 0){
-            g2.setColor(Color.yellow);
-            g2.fillRect(x, y, panel.tileSize, panel.tileSize);
+            super.draw(g2);
         }
     }
 }
