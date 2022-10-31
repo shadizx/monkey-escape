@@ -1,23 +1,24 @@
 package com.monkeyescape.main;
 
-import com.monkeyescape.entity.BonusReward;
-import com.monkeyescape.entity.Key;
-import com.monkeyescape.entity.Punishment;
-import com.monkeyescape.entity.Enemy;
+import com.monkeyescape.entity.fixedentity.Banana;
+import com.monkeyescape.entity.fixedentity.Key;
+import com.monkeyescape.entity.fixedentity.LionPit;
+import com.monkeyescape.entity.movingentity.Monkey;
+import com.monkeyescape.entity.movingentity.Zookeeper;
 
 /**
  * Represents the game
  * @author Shadi Zoldjalali
- * @version 10/26/2022
+ * @version 10/30/2022
  */
 public class Game {
-
     Window window;
     Panel panel;
+    Monkey monkey;
     int level;
 
     /**
-     * Initializes window and panel, and starts the game loop
+     * Initializes the game
      */
     public Game() {
         window = new Window();
@@ -26,34 +27,62 @@ public class Game {
         panel.startGameThread();
 
         level = 1;
-
-        spawnInteractibles();
+        spawnEntities();
     }
 
     /**
-     * Spawns the interactibles
+     * Spawns the Entities
      */
-    public void spawnInteractibles() {
-        //Spawn one key
-        panel.addEntity(new Key(panel,panel.kh));
+    public void spawnEntities() {
+        monkey = new Monkey(panel, panel.kh);
 
-        //Spawn three bananas
-        panel.addEntity(new BonusReward(panel,panel.kh));
-        panel.addEntity(new BonusReward(panel,panel.kh));
-        panel.addEntity(new BonusReward(panel,panel.kh));
-
-        //Spawn 2 lion pits
-        panel.addEntity(new Punishment(panel,panel.kh));
-        panel.addEntity(new Punishment(panel,panel.kh));
+        // spawnFloors(); #TODO
+        // spawnWalls();  #TODO
+        spawnBananas();
+        spawnKeys();
+        spawnLionPits();
+        spawnZookeepers();
+        spawnMonkey();
     }
 
     /**
-     * Spawns the enemies
+     * Spawns the Monkey
      */
-    public void spawnEnemies() {
-        //Spawns same # of enemies as level
+    public void spawnMonkey() {
+        panel.addEntity(monkey);
+    }
+
+    /**
+     * Spawns the same number of zookeeper's as the level
+     */
+    public void spawnZookeepers() {
         for(int i = 0; i < level; i++){
-            panel.addEntity(new Enemy(panel,panel.kh,panel.monkey));
+            panel.addEntity(new Zookeeper(panel, panel.kh ,monkey));
         }
+    }
+
+    /**
+     * Spawns bananas
+     */
+    public void spawnBananas() {
+        panel.addEntity(new Banana(panel));
+        panel.addEntity(new Banana(panel));
+        panel.addEntity(new Banana(panel));
+    }
+
+    /**
+     * Spawns keys
+     */
+    public void spawnKeys() {
+        panel.addEntity(new Key(panel));
+    }
+
+
+    /**
+     * Spawns lion pits
+     */
+    public void spawnLionPits() {
+        panel.addEntity(new LionPit(panel));
+        panel.addEntity(new LionPit(panel));
     }
 }

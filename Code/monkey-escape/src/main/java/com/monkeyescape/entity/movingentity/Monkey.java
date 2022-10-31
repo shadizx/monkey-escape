@@ -1,27 +1,28 @@
-package com.monkeyescape.entity;
+package com.monkeyescape.entity.movingentity;
 
 import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.Panel;
 
 /**
- * Represents the Monkey entity
+ * Represents a monkey
  * @author Shadi Zoldjalali
- * @version 10/26/2022
+ * @version 10/30/2022
  */
-public class Monkey extends Entity {
-
+public class Monkey extends MovingEntity {
     /**
      * Creates a Monkey
-     * @param panel A panel to add the monkey to
+     *
+     * @param panel A <code>Panel</code>> to refer to
      * @param kh a <code>KeyHandler</code> for handling key inputs
      */
     public Monkey(Panel panel, KeyHandler kh) {
         super(panel, kh);
-        this.type = "monkey";
-        getImage();
+        type = "monkey";
+        speed = 4;
+        loadImage();
+
         // random starting values
         x = panel.width / 2;
         y = panel.height / 2;
-        speed = 4;
     }
 }

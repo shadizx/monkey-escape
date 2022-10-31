@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 /**
  * Represents a JFrame window
  * @author Shadi Zoldjalali
- * @version 10/26/2022
+ * @version 10/30/2022
  */
 public class Window {
 
@@ -23,7 +23,7 @@ public class Window {
 
     /**
      * Adds a panel to the window
-     * @param panel A non-null Panel
+     * @param panel A <code>Panel</code>> to refer to
      */
     public void addPanel(Panel panel) {
         window.add(panel);
