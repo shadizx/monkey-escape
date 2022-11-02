@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 /**
  * Handles key input
- * @author Shadi Zoldjalali
+ * @author Shadi Zoldjalali & Kaleigh Toering
  * @version 10/26/2022
  */
 public class KeyHandler implements KeyListener {
@@ -14,6 +14,12 @@ public class KeyHandler implements KeyListener {
     private boolean pressedRight;
     private boolean pressedDown;
     private boolean pressedLeft;
+
+    private boolean pressedEsc;
+
+    private boolean pressedEnter;
+
+    private boolean pressedSpace;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -40,6 +46,15 @@ public class KeyHandler implements KeyListener {
         else if (code == KeyEvent.VK_LEFT) {
             pressedLeft = true;
         }
+        else if (code == KeyEvent.VK_ESCAPE) {
+            pressedEsc = true;
+        }
+        else if (code == KeyEvent.VK_ENTER) {
+            pressedEnter = true;
+        }
+        else if (code == KeyEvent.VK_SPACE) {
+            pressedSpace = true;
+        }
     }
 
     /**
@@ -62,6 +77,15 @@ public class KeyHandler implements KeyListener {
         else if (code == KeyEvent.VK_LEFT) {
             pressedLeft = false;
         }
+        else if (code == KeyEvent.VK_ESCAPE) {
+            pressedEsc = false;
+        }
+        else if (code == KeyEvent.VK_ENTER) {
+            pressedEnter = false;
+        }
+        else if (code == KeyEvent.VK_SPACE) {
+            pressedSpace = false;
+        }
     }
 
     public boolean isPressedUp() {
@@ -79,4 +103,10 @@ public class KeyHandler implements KeyListener {
     public boolean isPressedLeft() {
         return pressedLeft;
     }
+
+    public boolean isPressedEsc() { return pressedEsc;}
+
+    public boolean isPressedEnter() {return pressedEnter;}
+
+    public boolean isPressedSpace() {return pressedSpace;}
 }
