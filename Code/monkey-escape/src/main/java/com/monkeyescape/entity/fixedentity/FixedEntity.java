@@ -5,16 +5,17 @@ import com.monkeyescape.entity.Position;
 import com.monkeyescape.main.Panel;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 /**
  * Represents a fixed entity
  * @author Henry Ruckman-Utting
- * @version 10/30/2022
+ * @version 11/02/2022
  */
 public abstract class FixedEntity implements Entity {
-    private final Panel panel;
+    protected final Panel panel;
 
     public String type;
 
@@ -30,13 +31,11 @@ public abstract class FixedEntity implements Entity {
      * @param panel A <code>Panel</code>> to refer to
      */
     public FixedEntity(Panel panel) {
-
         this.panel = panel;
         Position pos = createRandomPosition(panel);
         x = pos.x;
         y = pos.y;
     }
-
 
     public void loadImage() {
         try {
@@ -50,6 +49,11 @@ public abstract class FixedEntity implements Entity {
     public void draw(Graphics2D g2) {
         g2.drawImage(image, x, y, panel.tileSize, panel.tileSize, null);
     }
+
+    /**
+     * Creates a random position
+     * @param panel A <code>Panel</code>> to refer to
+     */
     public Position createRandomPosition(Panel panel){
         boolean found = false;
         Position newpos = null;
@@ -61,14 +65,14 @@ public abstract class FixedEntity implements Entity {
                 newpos = new Position(colIndex*panel.tileSize, rowIndex*panel.tileSize);
                 found = true;
             }
-
         }
         return newpos;
     }
+
     /**
-     * Returns the fixed entity from the map
+     * Removes the fixed entity from the panel
      */
-    public boolean remove() {
-        return panel.removeEntity(this);
+    public void remove() {
+        panel.removeEntity(this);
     }
 }

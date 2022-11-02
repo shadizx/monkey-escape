@@ -6,7 +6,8 @@ import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.Panel;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
@@ -44,7 +45,6 @@ public abstract class MovingEntity implements Entity {
         this.panel = panel;
         this.kh = kh;
         direction = "down";
-
     }
 
     /**
@@ -88,7 +88,7 @@ public abstract class MovingEntity implements Entity {
             collided = false;
             panel.collisionChecker.checkTile(this);
             panel.collisionChecker.checkInteractable(this);
-            panel.collisionChecker.checkZookeeper(this,panel.zookeepers);
+            panel.collisionChecker.checkZookeeper(this, panel.zookeepers);
 
             if (!collided) {
                 switch (direction) {
@@ -115,6 +115,11 @@ public abstract class MovingEntity implements Entity {
             drawImageDelay = 0;
         }
     }
+
+    /**
+     * Creates a random position
+     * @param panel A <code>Panel</code>> to refer to
+     */
     public Position createRandomPosition(Panel panel){
         boolean found = false;
         Position newpos = null;
@@ -126,10 +131,10 @@ public abstract class MovingEntity implements Entity {
                 newpos = new Position(colIndex*panel.tileSize, rowIndex*panel.tileSize);
                 found = true;
             }
-
         }
         return newpos;
     }
+
     public void draw(Graphics2D g2) {
         g2.drawImage(images.get(direction + drawImageVersion), x, y, panel.tileSize, panel.tileSize, null);
     }

@@ -4,14 +4,19 @@ import com.monkeyescape.entity.Entity;
 import com.monkeyescape.entity.movingentity.Zookeeper;
 import com.monkeyescape.map.TileMap;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.awt.image.*;
-import java.io.*;
-import javax.imageio.*;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * Represents a JPanel panel that is used for interaction
@@ -26,6 +31,8 @@ public class Panel extends JPanel implements Runnable {
     public final int height = tileSize * rows;
     public final int FPS = 60;
 
+    public int score = 0;
+    public int secondsTimer = 0;
 
     public TileMap tm = new TileMap(this);
     KeyHandler kh = new KeyHandler();
@@ -65,29 +72,37 @@ public class Panel extends JPanel implements Runnable {
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
+        long timerCount = 0;
 
         // Game loop
         while (gameThread != null) {
-
             currentTime = System.nanoTime();
+
             delta += (currentTime - lastTime) / drawInterval;
+            timerCount += (currentTime - lastTime);
             lastTime = currentTime;
 
-            this.requestFocus();
-            state.changeState(kh);
             if (delta >= 1) {
-                    update();
-                    repaint();
-                    delta--;
-                }
+                update();
+                repaint();
 
+                delta--;
+            }
+
+            if (timerCount >= 1000000000) {
+                secondsTimer += 1;
+                score += collisionChecker.delayedDamages;
+                collisionChecker.delayedDamages = 0;
+                timerCount = 0;
             }
         }
+    }
 
     /**
      * Updates game information
      */
     public void update() {
+        state.changeState(kh);
         for (int i = 0; i < entities.size(); i++) {
             entities.get(i).update();
         }
@@ -120,9 +135,7 @@ public class Panel extends JPanel implements Runnable {
 
             g2.dispose(); // good practice to save memory
         }
-
     }
-
 
     /**
      * Adds an entity into the panel
@@ -132,7 +145,6 @@ public class Panel extends JPanel implements Runnable {
         entities.add(entity);
     }
 
-
     /**
      * Adds an zookeeper to a list of enemies
      * @param zookeeper A non-null entity
@@ -140,9 +152,6 @@ public class Panel extends JPanel implements Runnable {
     public void addZookeeper(Zookeeper zookeeper) {
         zookeepers.add(zookeeper);
     }
-
-
-
 
     /**
      * Removes selected entity from the panel
@@ -204,5 +213,4 @@ public class Panel extends JPanel implements Runnable {
     public boolean removeZookeeper(Zookeeper zookeeper) {
         return zookeepers.remove(zookeeper);
     }
-
 }
