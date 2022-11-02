@@ -9,9 +9,13 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.awt.image.*;
+import java.io.*;
+import javax.imageio.*;
+
 /**
  * Represents a JPanel panel that is used for interaction
- * @author Shadi Zoldjalali
+ * @author Shadi Zoldjalali & Kaleigh Toering
  * @version 10/30/2022
  */
 public class Panel extends JPanel implements Runnable {
@@ -26,6 +30,8 @@ public class Panel extends JPanel implements Runnable {
     public TileMap tm = new TileMap(this);
     KeyHandler kh = new KeyHandler();
     Thread gameThread;
+
+    State state = new State();
 
     List<Entity> entities = new ArrayList<>();
     public List<Zookeeper> zookeepers = new ArrayList<>();
@@ -64,17 +70,19 @@ public class Panel extends JPanel implements Runnable {
         while (gameThread != null) {
 
             currentTime = System.nanoTime();
-
             delta += (currentTime - lastTime) / drawInterval;
             lastTime = currentTime;
 
+            this.requestFocus();
+            state.changeState(kh);
             if (delta >= 1) {
-                update();
-                repaint();
-                delta--;
+                    update();
+                    repaint();
+                    delta--;
+                }
+
             }
         }
-    }
 
     /**
      * Updates game information
@@ -92,17 +100,27 @@ public class Panel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        // draw stuff here
-
-        tm.drawMap(g2);
-
-        // use this type of for loop to not throw exception ConcurrentModificationException
-        for (int i = 0; i < entities.size(); i++) {
-            entities.get(i).draw(g2);
+        if (state.getGameState() == State.GameState.START) {
+            paintStartMenu(g2);
         }
-        // draw stuff here
+        else if (state.getGameState() == State.GameState.PAUSE) {
+            paintPauseMenu(g2);
+        }
+        else if (state.getGameState() == State.GameState.EXIT) {
+            paintExitMenu(g2);
+        }
+        else {
+            // draw stuff here
+            tm.drawMap(g2);
+            // use this type of for loop to not throw exception ConcurrentModificationException
+            for (int i = 0; i < entities.size(); i++) {
+                entities.get(i).draw(g2);
+            }
+            // draw stuff here
 
-        g2.dispose(); // good practice to save memory
+            g2.dispose(); // good practice to save memory
+        }
+
     }
 
 
@@ -134,6 +152,51 @@ public class Panel extends JPanel implements Runnable {
         return entities.remove(entity);
     }
 
+    /**
+     * Paints the Start Menu screen onto the Jpanel
+     * @param g2 graphics item
+     */
+    public void paintStartMenu(Graphics2D g2) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(this.getClass().getResource("/menu/start.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        JLabel wIcon = new JLabel(new ImageIcon(image));
+        g2.drawImage(image, 0, 0, this);
+    }
+
+    /**
+     * Paints the Pause Menu screen onto the Jpanel
+     * @param g2 graphics item
+     */
+    public void paintPauseMenu(Graphics2D g2) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(this.getClass().getResource("/menu/pause.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        JLabel wIcon = new JLabel(new ImageIcon(image));
+        g2.drawImage(image, 0, 0, this);
+    }
+
+    /**
+     * Paints the Exit Menu screen onto the Jpanel
+     * @param g2 graphics item
+     */
+    public void paintExitMenu(Graphics2D g2) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(this.getClass().getResource("/menu/exit.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        JLabel wIcon = new JLabel(new ImageIcon(image));
+        g2.drawImage(image, 0, 0, this);
+    }
+    
     /**
      * Removes selected zookeeper from the list of enemies
      * @param zookeeper A non-null entity
