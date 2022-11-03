@@ -2,12 +2,10 @@ package com.monkeyescape.entity.fixedentity;
 
 import com.monkeyescape.main.Panel;
 
-import java.awt.Graphics2D;
-
 /**
  * Represents a banana
  * @author Henry Ruckman-Utting
- * @version 10/30/2022
+ * @version 11/02/2022
  */
 public class Banana extends FixedEntity {
     int lifecycle = 1000;
@@ -21,7 +19,7 @@ public class Banana extends FixedEntity {
         type = "banana";
         impact = 100;
 
-        panel.tm.addFixedEntitytoMap(y/ panel.tileSize, x/ panel.tileSize, this);
+        panel.tm.addFixedEntitytoMap(y / panel.tileSize, x / panel.tileSize, this);
 
         loadImage();
     }
@@ -31,16 +29,12 @@ public class Banana extends FixedEntity {
      */
     public void update() {
         // Banana despawns after set amount of time
-        lifecycle--;
-    }
+        if (--lifecycle < 0) {
+            var tileToRemove = panel.tm.tileMap[x / panel.tileSize][y / panel.tileSize];
 
-    /**
-     * Draws the Banana
-     * @param g2 the <code>Graphics2D</code> object used to draw
-     */
-    public void draw(Graphics2D g2) {
-        if(lifecycle > 0){
-            super.draw(g2);
+            tileToRemove.hasFixedEntity = false;
+            tileToRemove.FixedEntityObject.remove();
+            panel.removeEntity(this);
         }
     }
 }

@@ -1,86 +1,79 @@
 package com.monkeyescape.main;
 
+import com.monkeyescape.entity.fixedentity.FixedEntity;
 import com.monkeyescape.entity.movingentity.MovingEntity;
 import com.monkeyescape.entity.movingentity.Zookeeper;
+import com.monkeyescape.map.Tile;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Handles Collisions between background tiles and Entities
  * @author Jeffrey Ramacula
- * @version 10/30/2022
+ * @version 11/02/2022
  * */
-
-
 public class Collision {
-    Panel p;
+    Panel panel;
+
+    public long delayedDamages = 0;
 
     /**
      * Initializes a Collision Checker to the panel
      * @param panel the panel to where the map is drawn on */
     public Collision(Panel panel){
-        this.p = panel;
+        this.panel = panel;
     }
 
     /**
      * Checks nearby tiles in the direction the entity wants to move to
      * @param entity the entity that wants to move*/
-
     public void checkTile(MovingEntity entity){
         int LeftX = entity.x + entity.area.x;
         int RightX = entity.x + entity.area.x + entity.area.width;
         int TopY = entity.y + entity.area.y;
         int BottomY = entity.y + entity.area.y + entity.area.height;
 
-        int ColLeft = LeftX/p.tileSize;
-        int ColRight = RightX/p.tileSize;
-        int RowTop = TopY/p.tileSize;
-        int RowBottom = BottomY/p.tileSize;
-
-
-
+        int ColLeft = LeftX/ panel.tileSize;
+        int ColRight = RightX/ panel.tileSize;
+        int RowTop = TopY/ panel.tileSize;
+        int RowBottom = BottomY/ panel.tileSize;
 
         switch (entity.direction){
             case "up":
                 //checks if top left or top right corner of entity is touching another tile
-                RowTop = (TopY - entity.speed)/p.tileSize;
-                if(p.tm.tileMap[ColLeft][RowTop].blocked || p.tm.tileMap[ColRight][RowTop].blocked){
+                RowTop = (TopY - entity.speed)/ panel.tileSize;
+                if(panel.tm.tileMap[ColLeft][RowTop].blocked || panel.tm.tileMap[ColRight][RowTop].blocked){
                      entity.collided = true;
                 }
                 break;
 
             case "right":
                 //checks if top right or bottom right corner of entity is touching another tile
-                ColRight = (RightX + entity.speed)/p.tileSize;
-                if(p.tm.tileMap[ColRight][RowTop].blocked || p.tm.tileMap[ColRight][RowBottom].blocked){
+                ColRight = (RightX + entity.speed)/ panel.tileSize;
+                if(panel.tm.tileMap[ColRight][RowTop].blocked || panel.tm.tileMap[ColRight][RowBottom].blocked){
                     entity.collided = true;
                 }
-
                 break;
 
             case "down":
                 //checks if bottom left or bottom right corner of entity is touching another tile
-                RowBottom = (BottomY + entity.speed)/p.tileSize;
-                if(p.tm.tileMap[ColLeft][RowBottom].blocked || p.tm.tileMap[ColRight][RowBottom].blocked){
+                RowBottom = (BottomY + entity.speed)/ panel.tileSize;
+                if(panel.tm.tileMap[ColLeft][RowBottom].blocked || panel.tm.tileMap[ColRight][RowBottom].blocked){
                     entity.collided = true;
                 }
-
-
                 break;
 
             case "left":
                 //checks if top left or bottom left corner of entity is touching another tile
-                ColLeft = (LeftX - entity.speed)/p.tileSize;
-                if(p.tm.tileMap[ColLeft][RowTop].blocked || p.tm.tileMap[ColLeft][RowBottom].blocked){
+                ColLeft = (LeftX - entity.speed)/ panel.tileSize;
+                if(panel.tm.tileMap[ColLeft][RowTop].blocked || panel.tm.tileMap[ColLeft][RowBottom].blocked){
                     entity.collided = true;
                 }
-
-
                 break;
         }
-
-
-
     }
 
     /**
@@ -93,33 +86,20 @@ public class Collision {
         int TopY = entity.y + entity.area.y;
         int BottomY = entity.y + entity.area.y + entity.area.height;
 
-        int colLeft = LeftX/p.tileSize;
-        int colRight = RightX/p.tileSize;
-        int rowTop = TopY/p.tileSize;
-        int rowBottom = BottomY/p.tileSize;
+        int colLeft = LeftX/ panel.tileSize;
+        int colRight = RightX/ panel.tileSize;
+        int rowTop = TopY/ panel.tileSize;
+        int rowBottom = BottomY/ panel.tileSize;
 
-        //removes interactable for now
-        //TODO: make interactable does something(increase score) when player hits it.
-        if(p.tm.tileMap[colLeft][rowTop].hasFixedEntity){
-            p.tm.tileMap[colLeft][rowTop].FixedEntityObject.remove();
-            p.tm.tileMap[colLeft][rowTop].hasFixedEntity = false;
+        List<Tile> potentialCollisions = Stream.of(
+            panel.tm.tileMap[colLeft][rowTop],
+            panel.tm.tileMap[colRight][rowTop],
+            panel.tm.tileMap[colLeft][rowBottom],
+            panel.tm.tileMap[colRight][rowBottom])
+            .filter(tile -> tile.FixedEntityObject != null)
+            .collect(Collectors.toList());
 
-        }
-        if(p.tm.tileMap[colRight][rowTop].hasFixedEntity){
-            p.tm.tileMap[colRight][rowTop].FixedEntityObject.remove();
-            p.tm.tileMap[colRight][rowTop].hasFixedEntity = false;
-        }
-        if(p.tm.tileMap[colLeft][rowBottom].hasFixedEntity){
-            p.tm.tileMap[colLeft][rowBottom].FixedEntityObject.remove();
-            p.tm.tileMap[colLeft][rowBottom].hasFixedEntity = false;
-
-        }
-        if(p.tm.tileMap[colRight][rowBottom].hasFixedEntity){
-            p.tm.tileMap[colRight][rowBottom].FixedEntityObject.remove();
-            p.tm.tileMap[colRight][rowBottom].hasFixedEntity = false;
-
-        }
-
+        processCollision(panel, potentialCollisions);
     }
 
     /**
@@ -183,6 +163,22 @@ public class Collision {
         }
     }
 
+    public void processCollision(Panel panel, List<Tile> potentialCollisions) {
+        if (potentialCollisions.size() == 0) return;
+
+        Tile collidedTile = potentialCollisions.get(0);
+        if (collidedTile.hasFixedEntity) {
+            FixedEntity entityCollidedWith = collidedTile.FixedEntityObject;
+
+            // We don't want to remove lion pits
+            if (!Objects.equals(entityCollidedWith.type, "lionpit")) {
+                panel.score += entityCollidedWith.impact;
+                entityCollidedWith.remove();
+                collidedTile.hasFixedEntity = false;
+            }
+            else {
+                delayedDamages = entityCollidedWith.impact;
+            }
+        }
+    }
 }
-
-
