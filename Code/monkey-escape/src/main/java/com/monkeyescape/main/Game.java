@@ -41,7 +41,6 @@ public class Game {
     public void spawnEntities() {
         monkey = new Monkey(panel, panel.kh);
 
-
         spawnBananas();
         spawnKeys();
         spawnLionPits();
