@@ -1,23 +1,16 @@
 package com.monkeyescape.main;
 
 import com.monkeyescape.entity.Entity;
-import com.monkeyescape.entity.fixedentity.Banana;
 import com.monkeyescape.entity.movingentity.Zookeeper;
 import com.monkeyescape.map.TileMap;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 /**
  * Represents a JPanel panel that is used for interaction
@@ -30,6 +23,7 @@ public class Panel extends JPanel implements Runnable {
     public final int cols = 16;
     public final int width = tileSize * cols;
     public final int height = tileSize * rows;
+    private final int sideBarWidth = 200;
     public final int FPS = 60;
 
     public int score = 0;
@@ -59,7 +53,7 @@ public class Panel extends JPanel implements Runnable {
      * Creates a new Panel
      */
     public Panel() {
-        this.setPreferredSize(new Dimension(width, height));
+        this.setPreferredSize(new Dimension(width + sideBarWidth, height));
         this.setBackground(Color.GREEN);
         this.setDoubleBuffered(true); // improves games rendering performance
         this.addKeyListener(kh);
@@ -79,11 +73,17 @@ public class Panel extends JPanel implements Runnable {
      */
     @Override
     public void run() {
-        double drawInterval = 1_000_000_000/FPS;
+        double drawInterval = 1_000_000_000 / FPS;
+
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
         long timerCount = 0;
+
+        long delayCount = 0;
+        var delayCheck = true;
+        var startDelayTimer = false;
+        long cachedNanoTime = 0;
 
         // Game loop
         while (gameThread != null) {
@@ -91,6 +91,7 @@ public class Panel extends JPanel implements Runnable {
 
             delta += (currentTime - lastTime) / drawInterval;
             timerCount += (currentTime - lastTime);
+            delayCount += (currentTime - lastTime);
             lastTime = currentTime;
 
             if (delta >= 1) {
@@ -100,11 +101,23 @@ public class Panel extends JPanel implements Runnable {
                 delta--;
             }
 
-            if (timerCount >= 1000000000) {
-                secondsTimer += 1;
+            if (collisionChecker.delayedDamages < 0 && delayCheck) {
                 score += collisionChecker.delayedDamages;
                 collisionChecker.delayedDamages = 0;
+                delayCheck = false;
+                cachedNanoTime = delayCount;
+                startDelayTimer = true;
+            }
+
+            if (timerCount >= 1000000000) {
+                secondsTimer += 1;
                 timerCount = 0;
+            }
+
+            if ((delayCount >= 1000000000 + cachedNanoTime) && startDelayTimer) {
+                delayCheck = true;
+                collisionChecker.delayedDamages = 0;
+                startDelayTimer = false;
             }
         }
     }
@@ -125,6 +138,7 @@ public class Panel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        paintScore(g2);
 
         if (state.getGameState() == State.GameState.START) {
             paintStartMenu(g2);
@@ -138,6 +152,7 @@ public class Panel extends JPanel implements Runnable {
         else {
             // draw stuff here
             tm.drawMap(g2);
+
             // use this type of for loop to not throw exception ConcurrentModificationException
             for (int i = 0; i < entities.size(); i++) {
                 entities.get(i).draw(g2);
@@ -183,7 +198,6 @@ public class Panel extends JPanel implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        JLabel wIcon = new JLabel(new ImageIcon(image));
         g2.drawImage(image, 0, 0, this);
     }
 
@@ -198,7 +212,6 @@ public class Panel extends JPanel implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        JLabel wIcon = new JLabel(new ImageIcon(image));
         g2.drawImage(image, 0, 0, this);
     }
 
@@ -213,10 +226,23 @@ public class Panel extends JPanel implements Runnable {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        JLabel wIcon = new JLabel(new ImageIcon(image));
         g2.drawImage(image, 0, 0, this);
     }
-    
+
+    /**
+     * Paints the score on the panel
+     *
+     * @param g2 the <code>Graphics2D</code> object used to draw
+     */
+    public void paintScore(Graphics2D g2) {
+        int fontSize = 30;
+        g2.setFont(new Font("Helvetica", Font.BOLD, fontSize));
+        g2.drawString("Score:", (width + sideBarWidth / 2) - (fontSize + 20), 60);
+
+        g2.setFont(new Font("Helvetica", Font.PLAIN, fontSize));
+        g2.drawString(String.valueOf(score), width + sideBarWidth / 2 - (fontSize + 2), 100);
+    }
+
     /**
      * Removes selected zookeeper from the list of enemies
      * @param zookeeper A non-null entity
