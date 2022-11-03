@@ -17,6 +17,7 @@ public class Game {
     Panel panel;
     Monkey monkey;
     int level;
+    Sound sound;
 
     /**
      * Initializes the game
@@ -29,6 +30,9 @@ public class Game {
 
         level = 1;
         spawnEntities();
+
+        sound = new Sound();
+        playMusic(0);
     }
 
     /**
@@ -70,7 +74,6 @@ public class Game {
     public void spawnBananas() {
         panel.addEntity(new Banana(panel));
         panel.addEntity(new Banana(panel));
-        panel.addEntity(new Banana(panel));
     }
 
     /**
@@ -88,4 +91,13 @@ public class Game {
         panel.addEntity(new LionPit(panel));
         panel.addEntity(new LionPit(panel));
     }
+
+    /**
+     * Plays specified sound
+     */
+    public void playMusic(int i){
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }    
 }

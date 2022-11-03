@@ -1,7 +1,5 @@
 package com.monkeyescape.entity;
 
-import com.monkeyescape.main.Panel;
-
 /**
  * Represents a position
  * @author Henry Ruckman-Utting

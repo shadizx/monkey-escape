@@ -4,6 +4,7 @@ import com.monkeyescape.entity.fixedentity.FixedEntity;
 import com.monkeyescape.main.Panel;
 
 import javax.imageio.ImageIO;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -23,8 +24,8 @@ public class TileMap {
     Tile [] tileImages;
 
 
-    int numCols;
-    int numRows;
+    public int numCols;
+    public int numRows;
 
 
     public Tile[][] tileMap;
