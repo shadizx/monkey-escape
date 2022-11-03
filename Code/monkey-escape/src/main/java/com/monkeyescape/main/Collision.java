@@ -29,7 +29,8 @@ public class Collision {
 
     /**
      * Checks nearby tiles in the direction the entity wants to move to
-     * @param entity the entity that wants to move*/
+     * @param entity the entity that wants to move
+    */
     public void checkTile(MovingEntity entity){
         int LeftX = entity.x + entity.area.x;
         int RightX = entity.x + entity.area.x + entity.area.width;
@@ -77,10 +78,10 @@ public class Collision {
     }
 
     /**
-     * Checks the tiles that the monkey is touching for an Interacrtable object
-     * @param entity entity that wants check if their tile has an Interactable object
+     * Checks the tiles that the monkey is touching for an FixedEntity object
+     * @param entity entity that wants check if their tile has an FixedEntity object
      * */
-    public void checkInteractable(MovingEntity entity){
+    public void checkFixedEntity(MovingEntity entity){
         int LeftX = entity.x + entity.area.x;
         int RightX = entity.x + entity.area.x + entity.area.width;
         int TopY = entity.y + entity.area.y;
@@ -105,7 +106,8 @@ public class Collision {
     /**
      * Checks if an entity collides with an enemy, by checking if their areas intersect
      * @param entity the entity that is checking for an enemy
-     * @param zookeepers a list of Enemy entities*/
+     * @param zookeepers a list of Enemy entities
+     * */
     public void checkZookeeper(MovingEntity entity, List<Zookeeper> zookeepers){
 
         for (int i = 0; i < zookeepers.size(); i++) {

@@ -50,6 +50,8 @@ public abstract class FixedEntity implements Entity {
         g2.drawImage(image, x, y, panel.tileSize, panel.tileSize, null);
     }
 
+
+
     /**
      * Creates a random position
      * @param panel A <code>Panel</code>> to refer to

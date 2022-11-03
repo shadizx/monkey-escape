@@ -35,6 +35,16 @@ public class Panel extends JPanel implements Runnable {
     public int score = 0;
     public int secondsTimer = 0;
 
+    //set start tile where the cage will be to the top-left corner
+    public final int startCol = 1;
+    public final int startRow = 0;
+
+    //set end tile where the door/exit will be to the bottom-right corner
+    public final int exitCol = cols-2;
+    public final int exitRow = rows-1;
+
+
+
     public TileMap tm = new TileMap(this);
     KeyHandler kh = new KeyHandler();
     Thread gameThread;

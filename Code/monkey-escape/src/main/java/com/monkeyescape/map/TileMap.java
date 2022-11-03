@@ -7,16 +7,14 @@ import javax.imageio.ImageIO;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
 
 /**
  * holds information of all the tiles in the map and can be
  * accessed by tileMap[col][row]
  * @author Jeffrey Ramacula
- * @version 10/30/2022
+ * @version 11/02/2022
  * */
 public class TileMap {
 
@@ -29,6 +27,8 @@ public class TileMap {
 
 
     public Tile[][] tileMap;
+    int[][] randomMap;
+    MapGenerator mapGenerator;
 
     public TileMap(Panel p){
         this.p = p;
@@ -36,6 +36,8 @@ public class TileMap {
         numRows = p.rows;
         tileImages = new Tile[4];
         tileMap = new Tile[numCols][numRows];
+        mapGenerator = new MapGenerator(p);
+        randomMap = mapGenerator.generateRandomMap();
         getTiles();
         generateMap();
 
@@ -74,22 +76,17 @@ public class TileMap {
     }
 
     /**
-     * Initializes tileMap with tiles based on a map in the stored in maps as a txt file
+     * Initializes tileMap with tiles based on a int[][]randommap from MapGenerator
      * Draws the map onto the screen*/
     public void generateMap(){
-        try {
-            InputStream is = getClass().getResourceAsStream("/maps/map1.txt");
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
             int row = 0;
             int col = 0;
             int tileIndex;
 
             while(col < numCols && row < numRows){
-                String ln = br.readLine();
-                String [] tile = ln.split(" ");
                 while(col < numCols){
                     tileMap[col][row] = new Tile();
-                    tileIndex = Integer.parseInt(tile[col]);
+                    tileIndex = randomMap[col][row];
                     tileMap[col][row].image = tileImages[tileIndex].image;
                     tileMap[col][row].blocked = tileImages[tileIndex].blocked;
                     tileMap[col][row].hasFixedEntity = tileImages[tileIndex].hasFixedEntity;
@@ -99,9 +96,6 @@ public class TileMap {
                 col = 0;
                 row++;
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
 
     }
     /**
