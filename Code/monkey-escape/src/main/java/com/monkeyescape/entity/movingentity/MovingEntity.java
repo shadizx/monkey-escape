@@ -45,6 +45,7 @@ public abstract class MovingEntity implements Entity {
         this.panel = panel;
         this.kh = kh;
         direction = "down";
+
     }
 
     /**
@@ -68,6 +69,7 @@ public abstract class MovingEntity implements Entity {
 
     /**
      * Updates location of moving entity based on key input
+     * and checks for any possible collisions with other entities
      */
     public void update() {
         if(kh.isPressedUp() || kh.isPressedRight() || kh.isPressedDown() || kh.isPressedLeft()) {
@@ -87,8 +89,8 @@ public abstract class MovingEntity implements Entity {
 
             collided = false;
             panel.collisionChecker.checkTile(this);
-            panel.collisionChecker.checkInteractable(this);
-            panel.collisionChecker.checkZookeeper(this, panel.zookeepers);
+            panel.collisionChecker.checkFixedEntity(this);
+            panel.collisionChecker.checkZookeeper(this,panel.zookeepers);
 
             if (!collided) {
                 switch (direction) {
@@ -131,10 +133,10 @@ public abstract class MovingEntity implements Entity {
                 newpos = new Position(colIndex*panel.tileSize, rowIndex*panel.tileSize);
                 found = true;
             }
+
         }
         return newpos;
     }
-
     public void draw(Graphics2D g2) {
         g2.drawImage(images.get(direction + drawImageVersion), x, y, panel.tileSize, panel.tileSize, null);
     }

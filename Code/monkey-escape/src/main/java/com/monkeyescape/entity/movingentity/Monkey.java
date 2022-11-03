@@ -32,8 +32,9 @@ public class Monkey extends MovingEntity {
         area = new Rectangle(areaX, areaY, 32, 32);
 
         // start to wherever the cage is
-        x = 96;
-        y = 0;
+        x = panel.startCol * panel.tileSize;
+        y = panel.startRow * panel.tileSize;
+
         speed = 4;
     }
 }
