@@ -8,7 +8,7 @@ import com.monkeyescape.main.Panel;
  * @version 11/02/2022
  */
 public class Banana extends FixedEntity {
-    int lifecycle = 1000;
+    int lifecycle = (int) ((Math.random() * 300) + 300); //Lifecycle is random (between 5-10 seconds)
 
     /**
      * Creates a banana with random position

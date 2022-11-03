@@ -1,6 +1,7 @@
 package com.monkeyescape.main;
 
 import com.monkeyescape.entity.Entity;
+import com.monkeyescape.entity.fixedentity.Banana;
 import com.monkeyescape.entity.movingentity.Zookeeper;
 import com.monkeyescape.map.TileMap;
 
