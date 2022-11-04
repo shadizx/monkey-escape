@@ -42,6 +42,7 @@ public class Collision {
         int RowTop = TopY/ panel.tileSize;
         int RowBottom = BottomY/ panel.tileSize;
 
+
         switch (entity.direction){
             case "up":
                 //checks if top left or top right corner of entity is touching another tile
@@ -75,6 +76,17 @@ public class Collision {
                 }
                 break;
         }
+
+        //checks if the tile exit is unlocked and the monkey can enter the tile
+        if(!(panel.tm.tileMap[panel.exitCol][panel.exitRow].blocked)
+                && ((ColLeft == panel.exitCol && RowBottom == panel.exitRow)
+                || (ColRight == panel.exitCol && RowBottom == panel.exitRow))){
+            //Call a next level function here
+
+            //sets tile back to blocked so that monkey does not go past borders and ensures this only triggers once
+            panel.tm.tileMap[panel.exitCol][panel.exitRow].blocked = true;
+        }
+
     }
 
     /**
@@ -179,6 +191,7 @@ public class Collision {
                 collidedTile.hasFixedEntity = false;
             }
             else {
+
                 delayedDamages = entityCollidedWith.impact;
             }
         }

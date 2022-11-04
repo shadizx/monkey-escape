@@ -2,22 +2,29 @@ package com.monkeyescape.entity.fixedentity;
 
 import com.monkeyescape.main.Panel;
 
+
 /**
  * Represents a Key
  * @author Henry Ruckman-Utting
  * @version 10/30/2022
  */
 public class Key extends FixedEntity {
-    //Connect to a door once door is implemented
 
+
+
+    int exitCol;
+    int exitRow;
     /**
      * Creates a key with random position
      * @param panel A <code>Panel</code>> to refer to
      */
-    public Key(Panel panel) {  //Include door in constructor
+    public Key(Panel panel) {
         super(panel);
         type = "key";
         impact = 100;
+        //position of door
+        this.exitCol = panel.exitCol;
+        this.exitRow = panel.exitRow;
 
         panel.tm.addFixedEntitytoMap(y/ panel.tileSize, x/ panel.tileSize, this);
         loadImage();
@@ -29,6 +36,23 @@ public class Key extends FixedEntity {
      * Key unlocks the exit door
      */
     void useKey() {
-        //Open door that key is connected to
+        //unblocks door tile
+        panel.tm.tileMap[exitCol][exitRow].blocked = false;
+        panel.tm.tileMap[exitCol][exitRow].image = panel.tm.tileImages[0].image;
+        playSound();
     }
+
+
+    @Override
+    public void playSound() {
+        super.sound.setFile(1);
+        super.sound.play();
+    }
+
+    @Override
+    public void remove() {
+        this.useKey();
+        super.remove();
+    }
+
 }

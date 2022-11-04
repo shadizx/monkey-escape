@@ -31,10 +31,20 @@ public class Banana extends FixedEntity {
         // Banana despawns after set amount of time
         if (--lifecycle < 0) {
             var tileToRemove = panel.tm.tileMap[x / panel.tileSize][y / panel.tileSize];
-
             tileToRemove.hasFixedEntity = false;
-            tileToRemove.FixedEntityObject.remove();
-            panel.removeEntity(this);
+            super.remove();
         }
+    }
+
+    @Override
+    public void remove() {
+        playSound();
+        super.remove();
+    }
+
+    @Override
+    public void playSound() {
+        super.sound.setFile(2);
+        super.sound.play();
     }
 }

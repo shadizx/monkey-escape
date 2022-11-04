@@ -14,7 +14,7 @@ import javax.sound.sampled.FloatControl;
  */
 public class Sound {
     Clip clip;
-    URL soundURL[] = new URL[2];
+    URL soundURL[] = new URL[3];
 
     /**
      * Creates the sound and gets the resources
@@ -23,6 +23,7 @@ public class Sound {
         //Gets the sounds from the resources folder
         soundURL[0] = getClass().getResource("/sound/BackgroundMusic.wav");
         soundURL[1] = getClass().getResource("/sound/KeySoundEffect.wav");
+        soundURL[2] = getClass().getResource("/sound/BananaSoundEffect.wav");
     }
 
     /**
@@ -40,6 +41,7 @@ public class Sound {
             gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
         }
         catch(Exception e){
+
         }
     }
 
