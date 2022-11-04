@@ -1,5 +1,7 @@
 package com.monkeyescape.main;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Represents the States of the game
  * @author Kaleigh Toering
@@ -10,14 +12,21 @@ public class State {
      * Holds various game states
      */
     public enum GameState {
+        // display start menu
         START,
+        // start playing game
         PLAY,
+        // display pause menu
         PAUSE,
+        // display game over screen
+        GAMEOVER,
+        // Start game over again
+        RESTART,
+        // display exit screen, then exit game window
         EXIT
     };
 
     private GameState CurrentState;
-    private GameState PastState;
 
     /**
      * Sets the current game state.
@@ -43,32 +52,55 @@ public class State {
      * @author Kaleigh Toering
      */
     public void changeState(KeyHandler kh) {
-        GameState tempState = CurrentState;
 
         boolean enterPressed = kh.isPressedEnter();
         boolean escPressed = kh.isPressedEsc();
         boolean spacePressed = kh.isPressedSpace();
+        boolean yPressed = kh.isPressedY();
+        boolean nPressed = kh.isPressedN();
         // Start Menu --> Play Game
-        if ((tempState == GameState.START) && enterPressed) {
+        if ((CurrentState == GameState.START) && enterPressed) {
             CurrentState =  GameState.PLAY;
         }
         // Play Game --> Pause Menu
-        else if ((tempState == GameState.PLAY) && spacePressed) {
+        else if ((CurrentState == GameState.PLAY) && spacePressed) {
             CurrentState = State.GameState.PAUSE;
-            PastState = GameState.PLAY;
         }
         // Pause Menu --> Continue Playing
-        else if ((tempState == GameState.PAUSE) && enterPressed) {
+        else if ((CurrentState == GameState.PAUSE) && enterPressed) {
             CurrentState = State.GameState.PLAY;
         }
-        // Pause Menu --> Exit Screen
-        else if ((tempState == GameState.PAUSE) && escPressed) {
+        // Pause Menu --> GameOver screen
+        else if ((CurrentState == GameState.PAUSE) && escPressed) {
+            CurrentState = GameState.GAMEOVER;
+        }
+
+        // TODO: Add condition for zookeeper and monkey collision to change to gameover
+
+        // Game over screen --> Restart Game
+        else if ((CurrentState == GameState.GAMEOVER) && yPressed) {
+            CurrentState = GameState.RESTART;
+        }
+        // Game over screen --> Exit
+        else if ((CurrentState == GameState.GAMEOVER) && nPressed) {
             CurrentState = GameState.EXIT;
+        }
+        else if (CurrentState == GameState.RESTART) {
+            CurrentState = GameState.START;
+        }
+        // Exit and quit
+        else if ((CurrentState == GameState.EXIT)) {
+            try {
+                TimeUnit.SECONDS.sleep(4);
+            }
+            catch (InterruptedException e) {
+                System.out.println("EXCEPTION: " + e);
+            }
+            System.exit(0);
         }
         // Don't Change State
         else {
-            CurrentState =  tempState;
-            PastState = PastState;
+            CurrentState =  CurrentState;
         }
     }
 }

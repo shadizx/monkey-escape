@@ -87,6 +87,11 @@ public class Panel extends JPanel implements Runnable {
 
         // Game loop
         while (gameThread != null) {
+            // Create new game if in restart state
+            if (state.getGameState() == State.GameState.RESTART) {
+                state.changeState(kh);
+                new Game();
+            }
             currentTime = System.nanoTime();
 
             delta += (currentTime - lastTime) / drawInterval;
@@ -140,16 +145,19 @@ public class Panel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         paintScore(g2);
 
-        if (state.getGameState() == State.GameState.START) {
+        State.GameState checkState = state.getGameState();
+        if (checkState == State.GameState.START) {
             paintStartMenu(g2);
         }
-        else if (state.getGameState() == State.GameState.PAUSE) {
+        else if (checkState == State.GameState.PAUSE) {
             paintPauseMenu(g2);
         }
-        else if (state.getGameState() == State.GameState.EXIT) {
+        else if (checkState == State.GameState.EXIT) {
             paintExitMenu(g2);
         }
-        else {
+        else if (checkState == State.GameState.GAMEOVER) {
+            paintGameOver(g2);
+        } else {
             // draw stuff here
             tm.drawMap(g2);
 
@@ -223,6 +231,16 @@ public class Panel extends JPanel implements Runnable {
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResource("/menu/exit.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        g2.drawImage(image, 0, 0, this);
+    }
+
+    public void paintGameOver(Graphics2D g2) {
+        BufferedImage image = null;
+        try {
+            image = ImageIO.read(this.getClass().getResource("/menu/gameover.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
