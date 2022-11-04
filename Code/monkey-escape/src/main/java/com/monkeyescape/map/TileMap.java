@@ -19,7 +19,7 @@ import java.io.IOException;
 public class TileMap {
 
     Panel p;
-    Tile [] tileImages;
+    public Tile [] tileImages;
 
 
     public int numCols;

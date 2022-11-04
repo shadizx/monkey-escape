@@ -97,5 +97,5 @@ public class Game {
         sound.setFile(i);
         sound.play();
         sound.loop();
-    }    
+    }
 }

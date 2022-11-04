@@ -3,6 +3,7 @@ package com.monkeyescape.entity.fixedentity;
 import com.monkeyescape.entity.Entity;
 import com.monkeyescape.entity.Position;
 import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
@@ -24,7 +25,7 @@ public abstract class FixedEntity implements Entity {
 
     private BufferedImage image;
     public int impact;
-    public Rectangle area;
+    public Sound sound;
 
     /**
      * Creates a fixed entity
@@ -35,6 +36,7 @@ public abstract class FixedEntity implements Entity {
         Position pos = createRandomPosition(panel);
         x = pos.x;
         y = pos.y;
+        this.sound = new Sound();
     }
 
     public void loadImage() {
@@ -77,4 +79,11 @@ public abstract class FixedEntity implements Entity {
     public void remove() {
         panel.removeEntity(this);
     }
+
+
+    /**
+     * Plays the sound effect of the Fixed Entity
+     * */
+    public void playSound(){}
+
 }

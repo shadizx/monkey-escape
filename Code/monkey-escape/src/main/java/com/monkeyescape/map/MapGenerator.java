@@ -69,7 +69,7 @@ public class MapGenerator {
      * */
     public int[][] newRandomMaze(int[][] map, int col, int row) {
 
-        ArrayList<Direction> directions = new ArrayList<Direction>() {
+        ArrayList<Direction> directions = new ArrayList<>() {
             {
                 add(Direction.UP);
                 add(Direction.DOWN);
@@ -160,7 +160,7 @@ public class MapGenerator {
         while(spacesToAdd > 0){
             int randomCol = (int) (Math.random()*(numCols) +1);
             int randomRow = (int) (Math.random()*(numRows) +1);
-            if((randomRow+1 < numRows-1) && (randomCol+1 < numCols-1)){
+            if((randomRow+1 < numRows-1) && (randomCol+1 < numCols-1) && (map[randomCol][randomRow] != 0)){
                 map[randomCol][randomRow] = 0;
                 map[randomCol + 1][randomRow] = 0;
                 map[randomCol][randomRow + 1] = 0;
