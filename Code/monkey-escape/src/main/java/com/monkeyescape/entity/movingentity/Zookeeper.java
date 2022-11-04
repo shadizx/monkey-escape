@@ -34,12 +34,6 @@ public class Zookeeper extends MovingEntity {
         x = randomPosition.x;
         y = randomPosition.y;
 
-        //Checks if zookeeper is too close off of spawn
-        while(tilesToMonkey() < 15){
-            randomPosition = super.createRandomPosition(panel);
-            x = randomPosition.x;
-            y = randomPosition.y;
-        }
 
         areaX = 6;
         areaY = 14;
@@ -185,12 +179,6 @@ public class Zookeeper extends MovingEntity {
         }
     }
 
-    /**
-     * Calculates the distance from the zookeeper to the monkey
-     */
-    public int tilesToMonkey(){
-        return Math.abs(monkey.x - x)*panel.tileSize + Math.abs(monkey.y - y)*panel.tileSize;
-    }
     public boolean remove(){
         return panel.removeEntity(this);
     }
