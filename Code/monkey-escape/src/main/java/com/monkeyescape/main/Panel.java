@@ -144,6 +144,7 @@ public class Panel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         paintScore(g2);
+        paintTimer(g2);
 
         State.GameState checkState = state.getGameState();
         if (checkState == State.GameState.START) {
@@ -259,6 +260,40 @@ public class Panel extends JPanel implements Runnable {
 
         g2.setFont(new Font("Helvetica", Font.PLAIN, fontSize));
         g2.drawString(String.valueOf(score), width + sideBarWidth / 2 - (fontSize + 2), 100);
+    }
+
+    /**
+     * Paints the timer on the panel
+     *
+     * @param g2 the <code>Graphics2D</code> object used to draw
+     */
+    public void paintTimer(Graphics2D g2) {
+        int fontSize = 30;
+        g2.setFont(new Font("Helvetica", Font.BOLD, fontSize));
+        g2.drawString("Time:", (width + sideBarWidth / 2) - (fontSize + 8), height - 100);
+
+        g2.setFont(new Font("Helvetica", Font.PLAIN, fontSize));
+        g2.drawString(formatSeconds(secondsTimer), width + sideBarWidth / 2 - (fontSize + 2), height - 60);
+    }
+
+    /**
+     * Formats seconds in integer form to a string of format XX:XX
+     * @param seconds The seconds that will be formatted
+     * @return The formatted seconds in format XX:XX
+     */
+    private String formatSeconds(int seconds) {
+        String secondsHolder = "";
+        String minutesHolder = "";
+        int minute = seconds / 60;
+        int second = seconds % 60;
+
+        if (minute < 10) {
+            minutesHolder = "0";
+        }
+        if (second < 10) {
+            secondsHolder = "0";
+        }
+        return String.format("%s%d:%s%d", minutesHolder, minute, secondsHolder, second);
     }
 
     /**
