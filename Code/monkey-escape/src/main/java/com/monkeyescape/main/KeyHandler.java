@@ -1,5 +1,7 @@
 package com.monkeyescape.main;
 
+import com.monkeyescape.entity.fixedentity.Key;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -14,12 +16,11 @@ public class KeyHandler implements KeyListener {
     private boolean pressedRight;
     private boolean pressedDown;
     private boolean pressedLeft;
-
     private boolean pressedEsc;
-
     private boolean pressedEnter;
-
     private boolean pressedSpace;
+    private boolean pressedY;
+    private boolean pressedN;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -55,6 +56,12 @@ public class KeyHandler implements KeyListener {
         else if (code == KeyEvent.VK_SPACE) {
             pressedSpace = true;
         }
+        else if (code == KeyEvent.VK_Y) {
+            pressedY = true;
+        }
+        else if (code == KeyEvent.VK_N) {
+            pressedN = true;
+        }
     }
 
     /**
@@ -86,6 +93,12 @@ public class KeyHandler implements KeyListener {
         else if (code == KeyEvent.VK_SPACE) {
             pressedSpace = false;
         }
+        else if (code == KeyEvent.VK_Y) {
+            pressedY = false;
+        }
+        else if (code == KeyEvent.VK_N) {
+            pressedN = false;
+        }
     }
 
     public boolean isPressedUp() {
@@ -109,4 +122,7 @@ public class KeyHandler implements KeyListener {
     public boolean isPressedEnter() {return pressedEnter;}
 
     public boolean isPressedSpace() {return pressedSpace;}
+
+    public boolean isPressedY() {return pressedY;}
+    public boolean isPressedN() {return pressedN;}
 }
