@@ -129,7 +129,9 @@ public abstract class MovingEntity implements Entity {
             //generates random colIndex and rowIndex between 1-14 which are between boundaries of walls
             int colIndex = (int) (Math.random() * (panel.cols - 2) + 1);
             int rowIndex = (int) (Math.random() * (panel.rows - 2) + 1);
-            if(!(panel.tm.tileMap[colIndex][rowIndex].blocked) && !(panel.tm.tileMap[colIndex][rowIndex].hasFixedEntity)){
+            if(!(panel.tm.tileMap[colIndex][rowIndex].blocked) && !(panel.tm.tileMap[colIndex][rowIndex].hasFixedEntity)
+                    && (colIndex < panel.exitCol - 2 && rowIndex < panel.exitRow - 2)
+                    && (colIndex > panel.startCol + 2 && rowIndex > panel.startRow + 2)){
                 newpos = new Position(colIndex*panel.tileSize, rowIndex*panel.tileSize);
                 found = true;
             }
