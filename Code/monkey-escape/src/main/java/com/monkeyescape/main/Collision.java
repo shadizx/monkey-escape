@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 
 /**
  * Handles Collisions between background tiles and Entities
- * @author Jeffrey Ramacula
+ * @author Jeffrey Ramacula, Shadi Zoldjalali
  * @version 11/02/2022
  * */
 public class Collision {
@@ -138,33 +138,25 @@ public class Collision {
                 case "up":
                     entity.area.y -= entity.speed;
                     if(entity.area.intersects(zookeeper.area)){
-                        //remove zookeeper for now
-                        zookeeper.removeZookeeper();
-                        zookeeper.remove();
+                        panel.state.setGameState(State.GameState.GAMEOVER);
                     }
                     break;
                 case "right":
                     entity.area.x += entity.speed;
                     if(entity.area.intersects(zookeeper.area)){
-                        //remove zookeeper for now
-                        zookeeper.removeZookeeper();
-                        zookeeper.remove();
+                        panel.state.setGameState(State.GameState.GAMEOVER);
                     }
                     break;
                 case "down":
                     entity.area.y += entity.speed;
                     if(entity.area.intersects(zookeeper.area)){
-                        //remove zookeeper for now
-                        zookeeper.removeZookeeper();
-                        zookeeper.remove();
+                        panel.state.setGameState(State.GameState.GAMEOVER);
                     }
                     break;
                 case "left":
                     entity.area.x -= entity.speed;
                     if(entity.area.intersects(zookeeper.area)){
-                        //remove zookeeper for now
-                        zookeeper.removeZookeeper();
-                        zookeeper.remove();
+                        panel.state.setGameState(State.GameState.GAMEOVER);
                     }
                     break;
 
@@ -191,7 +183,6 @@ public class Collision {
                 collidedTile.hasFixedEntity = false;
             }
             else {
-
                 delayedDamages = entityCollidedWith.impact;
             }
         }
