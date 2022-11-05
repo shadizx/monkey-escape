@@ -74,9 +74,6 @@ public class State {
         else if ((CurrentState == GameState.PAUSE) && escPressed) {
             CurrentState = GameState.GAMEOVER;
         }
-
-        // TODO: Add condition for zookeeper and monkey collision to change to gameover
-
         // Game over screen --> Restart Game
         else if ((CurrentState == GameState.GAMEOVER) && yPressed) {
             CurrentState = GameState.RESTART;
@@ -97,10 +94,6 @@ public class State {
                 System.out.println("EXCEPTION: " + e);
             }
             System.exit(0);
-        }
-        // Don't Change State
-        else {
-            CurrentState =  CurrentState;
         }
     }
 }
