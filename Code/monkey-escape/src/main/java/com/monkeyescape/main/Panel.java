@@ -10,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Represents a JPanel panel that is used for interaction
@@ -19,6 +18,7 @@ import java.util.Random;
  * @version 11/04/2022
  */
 public class Panel extends JPanel implements Runnable {
+    private final Game game;
     public final int tileSize = 48;
     public final int rows = 16;
     public final int cols = 16;
@@ -59,6 +59,7 @@ public class Panel extends JPanel implements Runnable {
         this.addKeyListener(kh);
         this.setFocusable(true); // Game panel is "focused" to receive key input
         collisionChecker = new Collision(this, game);
+        this.game = game;
     }
 
     /**
@@ -91,7 +92,7 @@ public class Panel extends JPanel implements Runnable {
             // Create new game if in restart state
             if (state.getGameState() == State.GameState.RESTART) {
                 state.changeState(kh);
-                new Game();
+                game.restart();
             }
             currentTime = System.nanoTime();
 
@@ -204,6 +205,17 @@ public class Panel extends JPanel implements Runnable {
         return zookeepers.remove(zookeeper);
     }
 
+    /**
+     * Restarts the game by resetting the game progress
+     */
+    public void restartGame() {
+        entities.clear();
+        zookeepers.clear();
+        score = 0;
+        secondsTimer = 0;
+
+        tm.makeNewMap();
+    }
 
     /**
      * Resets the list of entities and zookeepers for the next level to be played and generates a new map
@@ -211,7 +223,7 @@ public class Panel extends JPanel implements Runnable {
     public void nextLevel(){
         entities.clear();
         zookeepers.clear();
-        
+
         tm.makeNewMap();
     }
 }

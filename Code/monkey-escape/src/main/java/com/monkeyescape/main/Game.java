@@ -92,13 +92,25 @@ public class Game {
 
     /**
      * Plays specified sound
+     *
+     * # TODO add @param for i
      */
     public void playMusic(int i){
         sound.setFile(i);
         sound.play();
         sound.loop();
-    }    
-    
+    }
+
+    /**
+     * Restarts the game and respawns the entities
+     */
+    public void restart() {
+        level = 1;
+
+        panel.restartGame();
+        spawnEntities();
+    }
+
     /**
      * Moves the game to the next using
      */
@@ -106,7 +118,6 @@ public class Game {
         Game.level++;
 
         panel.nextLevel();
-
         spawnEntities();
     }
 }

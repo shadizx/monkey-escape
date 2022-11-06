@@ -1,11 +1,10 @@
 package com.monkeyescape.main;
 
-import java.net.URL;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+import java.net.URL;
 
 /**
  * Represents a sound that plays music of sound effect
@@ -29,6 +28,8 @@ public class Sound {
 
     /**
      * Sets the file to the players and lowers the volume
+     *
+     * # TODO add @param for i
      */
     public void setFile(int i){
         try{
