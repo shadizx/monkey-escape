@@ -16,7 +16,7 @@ public class Game {
     Window window;
     Panel panel;
     Monkey monkey;
-    int level;
+    static int level;
     Sound sound;
 
     /**
@@ -24,7 +24,7 @@ public class Game {
      */
     public Game() {
         window = new Window();
-        panel = new Panel();
+        panel = new Panel(this);
         window.addPanel(panel);
         panel.startGameThread();
 
@@ -97,5 +97,16 @@ public class Game {
         sound.setFile(i);
         sound.play();
         sound.loop();
+    }    
+    
+    /**
+     * Moves the game to the next using
+     */
+    public void nextLevel(){
+        Game.level++;
+
+        panel.nextLevel();
+
+        spawnEntities();
     }
 }

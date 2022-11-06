@@ -14,7 +14,7 @@ import javax.sound.sampled.FloatControl;
  */
 public class Sound {
     Clip clip;
-    URL soundURL[] = new URL[3];
+    URL soundURL[] = new URL[4];
 
     /**
      * Creates the sound and gets the resources
@@ -24,6 +24,7 @@ public class Sound {
         soundURL[0] = getClass().getResource("/sound/BackgroundMusic.wav");
         soundURL[1] = getClass().getResource("/sound/KeySoundEffect.wav");
         soundURL[2] = getClass().getResource("/sound/BananaSoundEffect.wav");
+        soundURL[3] = getClass().getResource("/sound/LionPitSoundEffect.wav");
     }
 
     /**

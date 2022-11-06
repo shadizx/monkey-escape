@@ -1,6 +1,7 @@
 package com.monkeyescape.main;
 
 import com.monkeyescape.entity.fixedentity.FixedEntity;
+import com.monkeyescape.entity.movingentity.Monkey;
 import com.monkeyescape.entity.movingentity.MovingEntity;
 import com.monkeyescape.entity.movingentity.Zookeeper;
 import com.monkeyescape.map.Tile;
@@ -17,14 +18,16 @@ import java.util.stream.Stream;
  * */
 public class Collision {
     Panel panel;
+    Game game;
 
     public long delayedDamages = 0;
 
     /**
      * Initializes a Collision Checker to the panel
      * @param panel the panel to where the map is drawn on */
-    public Collision(Panel panel){
+    public Collision(Panel panel, Game game){
         this.panel = panel;
+        this.game = game;
     }
 
     /**
@@ -81,8 +84,8 @@ public class Collision {
         if(!(panel.tm.tileMap[panel.exitCol][panel.exitRow].blocked)
                 && ((ColLeft == panel.exitCol && RowBottom == panel.exitRow)
                 || (ColRight == panel.exitCol && RowBottom == panel.exitRow))){
-            //Call a next level function here
-
+            //Calls next level function here
+            game.nextLevel();
             //sets tile back to blocked so that monkey does not go past borders and ensures this only triggers once
             panel.tm.tileMap[panel.exitCol][panel.exitRow].blocked = true;
         }
@@ -112,7 +115,7 @@ public class Collision {
             .filter(tile -> tile.FixedEntityObject != null)
             .collect(Collectors.toList());
 
-        processCollision(panel, potentialCollisions);
+        processCollision(panel, potentialCollisions, entity);
     }
 
     /**
@@ -169,7 +172,7 @@ public class Collision {
         }
     }
 
-    public void processCollision(Panel panel, List<Tile> potentialCollisions) {
+    public void processCollision(Panel panel, List<Tile> potentialCollisions, MovingEntity entity) {
         if (potentialCollisions.size() == 0) return;
 
         Tile collidedTile = potentialCollisions.get(0);
@@ -182,8 +185,12 @@ public class Collision {
                 entityCollidedWith.remove();
                 collidedTile.hasFixedEntity = false;
             }
-            else {
-                delayedDamages = entityCollidedWith.impact;
+            else if(entity.type.equals("monkey") && !Monkey.inLionPit && Monkey.lionPitInvincibility <= 0){ //If monkey is colliding with lion pit
+                if(Math.abs(entity.x - collidedTile.FixedEntityObject.x) < 16 && Math.abs(entity.y - collidedTile.FixedEntityObject.y) < 16){
+                    //Checks that monkey is directly on the tile to avoid being stuck in lion pit when just going near it
+                    delayedDamages = entityCollidedWith.impact;
+                    Monkey.inLionPit = true;    
+                }
             }
         }
     }
