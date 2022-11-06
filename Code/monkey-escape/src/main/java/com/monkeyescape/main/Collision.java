@@ -162,7 +162,10 @@ public class Collision {
                         panel.state.setGameState(State.GameState.GAMEOVER);
                     }
                     break;
-
+                default:
+                    if(entity.area.intersects(zookeeper.area)){
+                        panel.state.setGameState(State.GameState.GAMEOVER);
+                    }
             }
 
             entity.area.x = entity.areaX;
