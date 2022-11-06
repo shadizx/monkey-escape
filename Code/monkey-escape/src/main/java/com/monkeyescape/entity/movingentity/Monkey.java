@@ -16,7 +16,8 @@ public class Monkey extends MovingEntity {
     public static boolean inLionPit = false;
     public static int lionPitInvincibility;
     int timeInLionPit;
-    
+
+    boolean isMoving = false;
     /**
      * Creates a Monkey
      * @param panel A <code>Panel</code>> to refer to
@@ -54,41 +55,48 @@ public class Monkey extends MovingEntity {
         if(kh.isPressedUp() || kh.isPressedRight() || kh.isPressedDown() || kh.isPressedLeft()) {
             if (Monkey.inLionPit){
                 direction = "jump";
+                isMoving = true;
             } else if (kh.isPressedUp()) {
                 direction = "up";
+                isMoving = true;
 
             } else if (kh.isPressedRight()) {
                 direction = "right";
+                isMoving = true;
 
             } else if (kh.isPressedDown()) {
                 direction = "down";
+                isMoving = true;
 
             } else if (kh.isPressedLeft()) {
                 direction = "left";
+                isMoving = true;
             } 
 
-            collided = false;
-            panel.collisionChecker.checkTile(this);
-            panel.collisionChecker.checkFixedEntity(this);
-            panel.collisionChecker.checkZookeeper(this,panel.zookeepers);
+        }
 
-            if (!collided && !Monkey.inLionPit) {
-                switch (direction) {
-                    case "up":
-                        y -= speed;
-                        break;
-                    case "right":
-                        x += speed;
-                        break;
-                    case "down":
-                        y += speed;
-                        break;
-                    case "left":
-                        x -= speed;
-                        break;
-                }
+        collided = false;
+        panel.collisionChecker.checkTile(this);
+        panel.collisionChecker.checkFixedEntity(this);
+        panel.collisionChecker.checkZookeeper(this,panel.zookeepers);
+
+        if (!collided && !Monkey.inLionPit && isMoving) {
+            switch (direction) {
+                case "up":
+                    y -= speed;
+                    break;
+                case "right":
+                    x += speed;
+                    break;
+                case "down":
+                    y += speed;
+                    break;
+                case "left":
+                    x -= speed;
+                    break;
             }
         }
+        isMoving = false;
 
         //Keeps track of how long the monkey has been in the lion pit
         if(Monkey.inLionPit){
