@@ -182,6 +182,10 @@ public class Zookeeper extends MovingEntity {
     public boolean remove(){
         return panel.removeEntity(this);
     }
+
+    /**
+     * Removes the zookeeper from the panel's zookeeper list
+     */
     public boolean removeZookeeper(){
         return panel.removeZookeeper(this);
     }

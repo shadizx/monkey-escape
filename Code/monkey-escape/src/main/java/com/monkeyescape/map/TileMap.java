@@ -76,6 +76,15 @@ public class TileMap {
     }
 
     /**
+     * Generates a new map
+     */
+    public void makeNewMap(){
+        randomMap = mapGenerator.generateRandomMap();
+        generateMap();
+
+    }
+    
+    /**
      * Initializes tileMap with tiles based on a int[][]randommap from MapGenerator
      * Draws the map onto the screen*/
     public void generateMap(){

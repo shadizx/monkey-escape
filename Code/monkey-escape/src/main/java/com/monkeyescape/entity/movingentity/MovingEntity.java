@@ -4,6 +4,7 @@ import com.monkeyescape.entity.Entity;
 import com.monkeyescape.entity.Position;
 import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.State;
 
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
@@ -32,8 +33,8 @@ public abstract class MovingEntity implements Entity {
     public Rectangle area;
     public int areaX;
     public int areaY;
-    private int drawImageDelay = 0;
-    private int drawImageVersion = 1;
+    protected int drawImageDelay = 0;
+    protected int drawImageVersion = 1;
 
     public boolean collided = false;
     /**
@@ -61,6 +62,10 @@ public abstract class MovingEntity implements Entity {
             images.put("down2", ImageIO.read(getClass().getClassLoader().getResourceAsStream(String.format("%s/down2.png", this.type))));
             images.put("left1", ImageIO.read(getClass().getClassLoader().getResourceAsStream(String.format("%s/left1.png", this.type))));
             images.put("left2", ImageIO.read(getClass().getClassLoader().getResourceAsStream(String.format("%s/left2.png", this.type))));
+            if(type.equals("monkey")){
+                images.put("jump1", ImageIO.read(getClass().getClassLoader().getResourceAsStream(String.format("%s/jump.png", this.type))));  
+                images.put("jump2", ImageIO.read(getClass().getClassLoader().getResourceAsStream(String.format("%s/jump.png", this.type))));    
+            }
         } catch (Exception ex) {
             System.out.printf("Error %s occurred while getting images for %s%n", ex, this.type);
             ex.printStackTrace();
@@ -72,6 +77,9 @@ public abstract class MovingEntity implements Entity {
      * and checks for any possible collisions with other entities
      */
     public void update() {
+        //No movement if game is paused
+        if(panel.state.getGameState() == State.GameState.PAUSE) return;
+        
         if(kh.isPressedUp() || kh.isPressedRight() || kh.isPressedDown() || kh.isPressedLeft()) {
             if (kh.isPressedUp()) {
                 direction = "up";
@@ -84,8 +92,7 @@ public abstract class MovingEntity implements Entity {
 
             } else if (kh.isPressedLeft()) {
                 direction = "left";
-
-            }
+            } 
 
             collided = false;
             panel.collisionChecker.checkTile(this);
