@@ -4,6 +4,7 @@ import com.monkeyescape.entity.Position;
 import com.monkeyescape.entity.movingentity.Pathfinding.Pathfinding;
 import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.State;
 
 import java.awt.*;
 
@@ -52,7 +53,10 @@ public class Zookeeper extends MovingEntity {
     /**
      * Moves the zookeeper towards the monkey
      */
-    public void update(){ //Can create better pashfinding once walls are implemented
+    public void update(){
+        
+        //No movement if game is not in play
+        if(panel.state.getGameState() != State.GameState.PLAY) return;
         
         //If the Zookeeper is fully on a tile, it gets the next tile to move to
         if(x % panel.tileSize == 0 && y % panel.tileSize == 0){

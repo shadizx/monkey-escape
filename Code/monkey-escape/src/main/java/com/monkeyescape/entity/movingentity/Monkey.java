@@ -48,8 +48,8 @@ public class Monkey extends MovingEntity {
      * and checks for any possible collisions with other entities
      */
     public void update() {
-        //No movement if game is paused
-        if(panel.state.getGameState() == State.GameState.PAUSE) return;
+        //No movement if game is not in play
+        if(panel.state.getGameState() != State.GameState.PLAY) return;
         
         if(kh.isPressedUp() || kh.isPressedRight() || kh.isPressedDown() || kh.isPressedLeft()) {
             if (Monkey.inLionPit){
