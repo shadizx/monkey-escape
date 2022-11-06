@@ -1,5 +1,6 @@
 package com.monkeyescape.painter;
 
+import com.monkeyescape.main.Game;
 import com.monkeyescape.main.Panel;
 
 import javax.imageio.ImageIO;
@@ -86,5 +87,19 @@ public class Painter {
             secondsHolder = "0";
         }
         return String.format("%s%d:%s%d", minutesHolder, minute, secondsHolder, second);
+    }
+
+     /**
+     * Paints the level on the panel
+     *
+     * @param g2 the <code>Graphics2D</code> object used to draw
+     */
+    public void paintLevel(Graphics2D g2) {
+        int fontSize = 30;
+        g2.setFont(new Font("Helvetica", Font.BOLD, fontSize));
+        g2.drawString("Level:", (panel.width + panel.sideBarWidth / 2) - (fontSize + 20), panel.height/2);
+
+        g2.setFont(new Font("Helvetica", Font.PLAIN, fontSize));
+        g2.drawString(String.valueOf(Game.level), panel.width + panel.sideBarWidth / 2 - (fontSize + 2), (panel.height/2) + 40);
     }
 }

@@ -154,6 +154,7 @@ public class Panel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         painter.paintScore(g2);
         painter.paintTimer(g2);
+        painter.paintLevel(g2);
 
         State.GameState gameState = state.getGameState();
         if (gameState != State.GameState.PLAY) {
