@@ -16,7 +16,7 @@ public class Game {
     Window window;
     Panel panel;
     Monkey monkey;
-    static int level;
+    public static int level;
     Sound sound;
 
     /**
