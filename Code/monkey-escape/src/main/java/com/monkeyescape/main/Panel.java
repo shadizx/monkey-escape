@@ -145,6 +145,11 @@ public class Panel extends JPanel implements Runnable {
         if(((int) (Math.random() * 900)) == 1){
             addEntity(new Banana(this));
         }
+
+        if (score < 0) {
+            state.setGameState(State.GameState.GAMEOVER);
+            state.changeState(kh);
+        }
     }
 
     /**
