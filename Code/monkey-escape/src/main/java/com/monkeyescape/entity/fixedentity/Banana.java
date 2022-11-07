@@ -4,6 +4,7 @@ import com.monkeyescape.main.Panel;
 
 /**
  * Represents a banana
+ *
  * @author Henry Ruckman-Utting
  * @version 11/02/2022
  */

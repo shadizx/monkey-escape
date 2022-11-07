@@ -8,11 +8,11 @@ import com.monkeyescape.entity.movingentity.Zookeeper;
 
 /**
  * Represents the game
+ *
  * @author Shadi Zoldjalali
  * @version 10/30/2022
  */
 public class Game {
-
     Window window;
     Panel panel;
     Monkey monkey;
@@ -81,7 +81,6 @@ public class Game {
         panel.addEntity(new Key(panel));
     }
 
-
     /**
      * Spawns lion pits
      */
@@ -93,7 +92,7 @@ public class Game {
     /**
      * Plays specified sound
      *
-     * # TODO add @param for i
+     * @param i index for the sound file
      */
     public void playMusic(int i){
         sound.setFile(i);

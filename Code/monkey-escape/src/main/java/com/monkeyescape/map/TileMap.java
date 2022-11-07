@@ -4,32 +4,34 @@ import com.monkeyescape.entity.fixedentity.FixedEntity;
 import com.monkeyescape.main.Panel;
 
 import javax.imageio.ImageIO;
-
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 
 /**
- * holds information of all the tiles in the map and can be
+ * Holds information of all the tiles in the map and can be
  * accessed by tileMap[col][row]
+ *
  * @author Jeffrey Ramacula
  * @version 11/02/2022
  * */
 public class TileMap {
-
     Panel p;
     public Tile [] tileImages;
 
-
     public int numCols;
     public int numRows;
-
 
     public Tile[][] tileMap;
     int[][] randomMap;
     MapGenerator mapGenerator;
 
+    /**
+     * Creates a new tile map
+     *
+     * @param p a <code>Panel</code> to refer to
+     */
     public TileMap(Panel p){
         this.p = p;
         numCols = p.cols;
@@ -40,14 +42,12 @@ public class TileMap {
         randomMap = mapGenerator.generateRandomMap();
         getTiles();
         generateMap();
-
     }
 
     /**
      * Gets tiles from resources and stores them in tileImages array
-     * */
+     */
     public void getTiles(){
-
         try {
             //path tile
             tileImages[0] = new Tile();
@@ -58,7 +58,6 @@ public class TileMap {
             tileImages[1].image = ImageIO.read(getClass().getResourceAsStream("/background/wall.png"));
             tileImages[1].blocked = true;
 
-            //TODO change image to door once we have a door
             //door tile
             tileImages[2] = new Tile();
             tileImages[2].image = ImageIO.read(getClass().getResourceAsStream("/background/cage.png"));
@@ -72,7 +71,6 @@ public class TileMap {
         }catch (IOException e){
             e.printStackTrace();
         }
-
     }
 
     /**
@@ -85,7 +83,7 @@ public class TileMap {
     }
     
     /**
-     * Initializes tileMap with tiles based on a int[][]randommap from MapGenerator
+     * Initializes tileMap with tiles based on a random map from MapGenerator
      * Draws the map onto the screen*/
     public void generateMap(){
             int row = 0;
@@ -105,10 +103,11 @@ public class TileMap {
                 col = 0;
                 row++;
             }
-
     }
+
     /**
      * Adds fixedEntity to tileMap
+     *
      * @param column column on map to add fixedEntity
      * @param row row on map to add fixedEntity
      * @param fixedEntity fixedEntity object to add to map
@@ -119,7 +118,10 @@ public class TileMap {
     }
 
     /**
-     * Draws the map to the screen*/
+     * Draws the map to the screen
+     *
+     * @param g2 the <code>Graphics2D</code> object used to draw
+     */
     public void drawMap(Graphics2D g2){
         int row = 0;
         int col = 0;
@@ -132,8 +134,11 @@ public class TileMap {
             row++;
         }
     }
+
     /**
      * Draws a tile on the screen
+     *
+     * @param g2 the <code>Graphics2D</code> object used to draw
      * @param tileImage the image of the tile to draw
      * @param col the column where the tile is to be drawn
      * @param row the row where the tile is to be drawn
@@ -141,6 +146,4 @@ public class TileMap {
     public void drawTile(Graphics2D g2, BufferedImage tileImage, int col, int row){
         g2.drawImage(tileImage, col, row, p.tileSize, p.tileSize, null);
     }
-
-
 }

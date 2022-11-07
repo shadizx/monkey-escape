@@ -2,20 +2,19 @@ package com.monkeyescape.entity.fixedentity;
 
 import com.monkeyescape.main.Panel;
 
-
 /**
  * Represents a Key
+ *
  * @author Henry Ruckman-Utting
  * @version 10/30/2022
  */
 public class Key extends FixedEntity {
-
-
-
     int exitCol;
     int exitRow;
+
     /**
      * Creates a key with random position
+     *
      * @param panel A <code>Panel</code>> to refer to
      */
     public Key(Panel panel) {
@@ -33,7 +32,7 @@ public class Key extends FixedEntity {
     public void update() {}
 
     /**
-     * Key unlocks the exit door
+     * Uses the key to unlock the door
      */
     void useKey() {
         //unblocks door tile
@@ -41,7 +40,6 @@ public class Key extends FixedEntity {
         panel.tm.tileMap[exitCol][exitRow].image = panel.tm.tileImages[0].image;
         playSound();
     }
-
 
     @Override
     public void playSound() {
@@ -54,5 +52,4 @@ public class Key extends FixedEntity {
         this.useKey();
         super.remove();
     }
-
 }

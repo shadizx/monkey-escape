@@ -2,6 +2,7 @@ package com.monkeyescape.entity;
 
 /**
  * Represents a position
+ *
  * @author Henry Ruckman-Utting
  * @version 10/30/2022
  */
@@ -16,5 +17,4 @@ public class Position {
         this.x = x;
         this.y = y;
     }
-
 }

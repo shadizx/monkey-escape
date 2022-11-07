@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Represents the States of the game
+ *
  * @author Kaleigh Toering
  * @version 10/31/2022
  */
@@ -28,33 +29,22 @@ public class State {
     };
 
     private GameState CurrentState;
-    private boolean wait;
 
     /**
-     * Sets the current game state.
+     * Creates a new state with default <code>START</code>
      */
     public State() { CurrentState = GameState.START;}
 
-    /**
-     * Gets the current game state.
-     * @return CurrentState
-     */
     public GameState getGameState() { return CurrentState;}
 
-    /**
-     * Updates the game state to a new state.
-     * @param newState
-     */
     public void setGameState(GameState newState) { CurrentState = newState;}
 
     /**
-     * Returns updated state based on given state and keypresses
-     * @param kh
-     * @return GameState
-     * @author Kaleigh Toering
+     * Returns updated state based on given state and key presses
+     *
+     * @param kh a <code>KeyHandler</code> to refer to
      */
     public void changeState(KeyHandler kh) {
-
         boolean enterPressed = kh.isPressedEnter();
         boolean escPressed = kh.isPressedEsc();
         boolean spacePressed = kh.isPressedSpace();

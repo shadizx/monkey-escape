@@ -6,10 +6,11 @@ import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.Panel;
 import com.monkeyescape.main.State;
 
-import java.awt.*;
+import java.awt.Rectangle;
 
 /**
  * Represents the zookeeper
+ *
  * @author Henry Ruckman-Utting
  * @version 10/30/2022
  */
@@ -19,6 +20,7 @@ public class Zookeeper extends MovingEntity {
     
     /**
      * Initializes a zookeeper with random position and connected to the monkey
+     *
      * @param panel A <code>Panel</code>> to refer to
      * @param kh a <code>KeyHandler</code> for handling key inputs
      * @param monkey a <code>Monkey</code> to refer to
@@ -34,7 +36,6 @@ public class Zookeeper extends MovingEntity {
         Position randomPosition = super.createRandomPosition(panel);
         x = randomPosition.x;
         y = randomPosition.y;
-
 
         areaX = 6;
         areaY = 14;
@@ -54,7 +55,6 @@ public class Zookeeper extends MovingEntity {
      * Moves the zookeeper towards the monkey
      */
     public void update(){
-        
         //No movement if game is not in play
         if(panel.state.getGameState() != State.GameState.PLAY) return;
         
@@ -83,12 +83,12 @@ public class Zookeeper extends MovingEntity {
                     break;
             }
         }
-
     }
 
     /**
      * Search for the best path to the goal position and then updates direction
-     * @param goalCol the colomn that the zookeeper needs to move to
+     *
+     * @param goalCol the column that the zookeeper needs to move to
      * @param goalRow the row that the zookeeper needs to move to
      */
     public void searchPath(int goalCol, int goalRow){
@@ -99,7 +99,7 @@ public class Zookeeper extends MovingEntity {
         //Updates the pathfinders nodes for new goal and start positions
         pathfinder.setNodes(startCol, startRow, goalCol, goalRow);
 
-        if(pathfinder.search() == true){
+        if(pathfinder.search()){
             //Only runs if pathfinder was able to find a path
 
             //Get the x and y of the next tile
@@ -112,8 +112,7 @@ public class Zookeeper extends MovingEntity {
             int enTopY = y + areaY;
             int enBottomY = y;
 
-
-            //If statements to decide best movement to the next tile while avoiding collisions
+            //If statements to decide the best movement to the next tile while avoiding collisions
     
             if(enTopY > nextY && enLeftX >= nextX && enRightX < nextX + panel.tileSize){
                 //Zookeeper is directly under the next tile
@@ -182,16 +181,4 @@ public class Zookeeper extends MovingEntity {
             }
         }
     }
-
-    public boolean remove(){
-        return panel.removeEntity(this);
-    }
-
-    /**
-     * Removes the zookeeper from the panel's zookeeper list
-     */
-    public boolean removeZookeeper(){
-        return panel.removeZookeeper(this);
-    }
 }
-

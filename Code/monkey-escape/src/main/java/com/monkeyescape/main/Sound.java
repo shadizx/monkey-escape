@@ -7,13 +7,14 @@ import javax.sound.sampled.FloatControl;
 import java.net.URL;
 
 /**
- * Represents a sound that plays music of sound effect
+ * Represents a sound that plays music for sound effect
+ *
  * @author Henry Ruckman-Utting
  * @version 10/31/2022
  */
 public class Sound {
     Clip clip;
-    URL soundURL[] = new URL[4];
+    URL[] soundURL = new URL[4];
 
     /**
      * Creates the sound and gets the resources
@@ -29,7 +30,7 @@ public class Sound {
     /**
      * Sets the file to the players and lowers the volume
      *
-     * # TODO add @param for i
+     * @param i index for the sound file
      */
     public void setFile(int i){
         try{
@@ -42,8 +43,7 @@ public class Sound {
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
         }
-        catch(Exception e){
-
+        catch(Exception ignored){
         }
     }
 

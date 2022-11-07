@@ -4,31 +4,31 @@ import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.Panel;
 import com.monkeyescape.main.State;
 
-import java.awt.*;
+import java.awt.Rectangle;
 
 /**
  * Represents a monkey
+ *
  * @author Shadi Zoldjalali
  * @version 10/30/2022
  */
 public class Monkey extends MovingEntity {
-    //Well monkey falls into lion pit
     public static boolean inLionPit = false;
     public static int lionPitInvincibility;
     int timeInLionPit;
 
     boolean isMoving = false;
+
     /**
      * Creates a Monkey
+     *
      * @param panel A <code>Panel</code>> to refer to
      * @param kh a <code>KeyHandler</code> for handling key inputs
      */
     public Monkey(Panel panel, KeyHandler kh) {
-
         super(panel, kh);
         type = "monkey";
         loadImage();
-
 
         this.type = "monkey";
 
@@ -45,8 +45,7 @@ public class Monkey extends MovingEntity {
     }
 
     /**
-     * Updates location of moving entity based on key input
-     * and checks for any possible collisions with other entities
+     * Updates monkey information
      */
     public void update() {
         //No movement if game is not in play
@@ -72,7 +71,6 @@ public class Monkey extends MovingEntity {
                 direction = "left";
                 isMoving = true;
             } 
-
         }
 
         collided = false;

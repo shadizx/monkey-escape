@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 
 /**
  * Represents an Entity
+ *
  * @author Shadi Zoldjalali
  * @version 10/30/2022
  */
@@ -30,5 +31,4 @@ public interface Entity {
      * Creates a random  valid Position within the map
      * */
      Position createRandomPosition(Panel panel);
-
 }
