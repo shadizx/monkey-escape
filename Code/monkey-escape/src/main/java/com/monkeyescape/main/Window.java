@@ -4,11 +4,11 @@ import javax.swing.JFrame;
 
 /**
  * Represents a JFrame window
+ *
  * @author Shadi Zoldjalali
  * @version 10/30/2022
  */
 public class Window {
-
     public static JFrame window;
 
     /**
@@ -23,6 +23,7 @@ public class Window {
 
     /**
      * Adds a panel to the window
+     *
      * @param panel A <code>Panel</code>> to refer to
      */
     public void addPanel(Panel panel) {

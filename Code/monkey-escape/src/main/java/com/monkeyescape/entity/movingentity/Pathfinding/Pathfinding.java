@@ -1,11 +1,12 @@
 package com.monkeyescape.entity.movingentity.Pathfinding;
 
-import java.util.ArrayList;
-
 import com.monkeyescape.main.Panel;
+
+import java.util.ArrayList;
 
 /**
  * Represents the pathfinding algorithm that is used by entities
+ *
  * @author Henry Ruckman-Utting
  * @version 11/01/2022
  */
@@ -18,12 +19,15 @@ public class Pathfinding {
     //A list of nodes in the path to the goal
     public ArrayList<Node> pathList = new ArrayList<>();
 
-    Node startNode, goalNode, currentNode;
+    Node startNode;
+    Node goalNode;
+    Node currentNode;
     boolean goalReached = false;
     int step = 0;
 
     /**
      * Initializes the pathfinder and creates the new nodes
+     *
      * @param panel A <code>Panel</code>> to refer to
      */
     public Pathfinding(Panel panel){
@@ -79,16 +83,15 @@ public class Pathfinding {
         step = 0;
     }
 
-    
     /**
      * Sets up the nodes for pathfinding using the inputs for starting and ending positions
-     * @param startCol the colomn when the search begins
-     * @param startRow the row when the search begins
-     * @param goalCol the colomn the we are searching to get to
-     * @param goalRow the row the we are searching to get to
+     *
+     * @param startCol the column the search begins at
+     * @param startRow the row the search begins at
+     * @param goalCol the column we are searching to get to
+     * @param goalRow the row we are searching to get to
      */
     public void setNodes(int startCol, int startRow, int goalCol, int goalRow){
-
         //Resets the nodes before setting them again
         resetNodes();
 
@@ -110,9 +113,8 @@ public class Pathfinding {
             col = 0;
             row++;
         }
-        //Set monkeys tile to not solid incase it is the cage tile
+        //Set monkeys tile to not solid in case it is the cage tile
         node[goalCol][goalRow].solid = false;
-
 
         //Gets the cost of the nodes
         col = 0;
@@ -128,9 +130,9 @@ public class Pathfinding {
         }
     }
 
-    
     /**
      * Gets the cost of that node by its position relative to the start and end position
+     *
      * @param node the node that we are getting the cost of 
      */
     public void getCost(Node node){
@@ -149,14 +151,14 @@ public class Pathfinding {
      * Performs the search using the A* algorithm
      */
     public boolean search(){
-        while(goalReached == false && step < 500){
+        while(!goalReached && step < 500){
             int col = currentNode.col;
             int row = currentNode.row;
 
             currentNode.checked = true;
             openList.remove(currentNode);
 
-            //Opens the nodes adjacent to currentnode
+            //Opens the nodes adjacent to current node
             if(row - 1 >= 0){
                 openNode(node[col][row-1]);
             }
@@ -203,20 +205,19 @@ public class Pathfinding {
         return goalReached;
     }
 
-    
     /**
      * Opens up the specified node for search if it meets the parameters
+     *
      * @param node the node to open up
      */
     public void openNode(Node node){
-        if(node.open == false && node.checked == false && node.solid == false){
+        if(!node.open && !node.checked && !node.solid){
             node.open = true;
             node.parent = currentNode;
             openList.add(node);
         }
     }
 
-    
     /**
      * Once the goal node has been found we retrace our steps to find the path to that node
      */

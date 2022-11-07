@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 
 /**
  * Handles Collisions between background tiles and Entities
+ *
  * @author Jeffrey Ramacula, Shadi Zoldjalali
  * @version 11/02/2022
  * */
@@ -24,7 +25,10 @@ public class Collision {
 
     /**
      * Initializes a Collision Checker to the panel
-     * @param panel the panel to where the map is drawn on */
+     *
+     * @param panel the panel to where the map is drawn on
+     * @param game a <code>Game</code> to refer to
+     */
     public Collision(Panel panel, Game game){
         this.panel = panel;
         this.game = game;
@@ -32,6 +36,7 @@ public class Collision {
 
     /**
      * Checks nearby tiles in the direction the entity wants to move to
+     *
      * @param entity the entity that wants to move
     */
     public void checkTile(MovingEntity entity){
@@ -44,7 +49,6 @@ public class Collision {
         int ColRight = RightX/ panel.tileSize;
         int RowTop = TopY/ panel.tileSize;
         int RowBottom = BottomY/ panel.tileSize;
-
 
         switch (entity.direction){
             case "up":
@@ -89,11 +93,11 @@ public class Collision {
             //sets tile back to blocked so that monkey does not go past borders and ensures this only triggers once
             panel.tm.tileMap[panel.exitCol][panel.exitRow].blocked = true;
         }
-
     }
 
     /**
      * Checks the tiles that the monkey is touching for an FixedEntity object
+     *
      * @param entity entity that wants check if their tile has an FixedEntity object
      * */
     public void checkFixedEntity(MovingEntity entity){
@@ -120,11 +124,11 @@ public class Collision {
 
     /**
      * Checks if an entity collides with an enemy, by checking if their areas intersect
+     *
      * @param entity the entity that is checking for an enemy
      * @param zookeepers a list of Enemy entities
      * */
     public void checkZookeeper(MovingEntity entity, List<Zookeeper> zookeepers){
-
         for (int i = 0; i < zookeepers.size(); i++) {
             Zookeeper zookeeper = zookeepers.get(i);
 
@@ -175,6 +179,13 @@ public class Collision {
         }
     }
 
+    /**
+     * Updates game information based on collision occurred
+     *
+     * @param panel a <code>Panel</code> to refer to
+     * @param potentialCollisions a list of potential tile collisions
+     * @param entity the <code>MovingEntity</code> that is being collided with
+     */
     public void processCollision(Panel panel, List<Tile> potentialCollisions, MovingEntity entity) {
         if (potentialCollisions.size() == 0) return;
 

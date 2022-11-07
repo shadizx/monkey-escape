@@ -4,10 +4,10 @@ import com.monkeyescape.main.Game;
 import com.monkeyescape.main.Panel;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Represents a Painter class used for painting UI components
@@ -20,6 +20,7 @@ public class Painter {
 
     /**
      * Creates a Painter object
+     *
      * @param panel a <code>Panel</code> to refer to
      */
     public Painter(Panel panel) {
@@ -28,7 +29,8 @@ public class Painter {
 
     /**
      * Paints a menu on the screen
-     * @param g2 graphics item
+     *
+     * @param g2 the <code>Graphics2D</code> object used to draw
      * @param menuType the menu type to be displayed
      */
     public void paintMenu(Graphics2D g2, String menuType) {

@@ -9,14 +9,12 @@ import java.util.Random;
 
 /**
  * Generates a random maze-like map
+ *
  * @author Jeffrey Ramacula
  * @version 11/02/2022
  * */
 public class MapGenerator {
-
-
     enum Direction {UP, DOWN, LEFT, RIGHT}
-
 
     int numRows;
     int numCols;
@@ -24,11 +22,15 @@ public class MapGenerator {
     int startCol, startRow;
     int exitCol, exitRow;
 
-
     int[][] map;
     int col;
     int row;
 
+    /**
+     * Creates a new map generator
+     *
+     * @param panel a <code>Panel</code> to refer to
+     */
     public MapGenerator(Panel panel) {
         this.numRows = panel.rows;
         this.numCols = panel.cols;
@@ -45,13 +47,14 @@ public class MapGenerator {
         //ending position of the door/exit around boundary
         exitCol = panel.exitCol;
         exitRow = panel.exitRow;
-
     }
 
     /**Initializes the starting map to all walls,
      *  and calls {@link #newRandomMaze(int[][], int, int) newRandomMaze} on it,
      *  and adds spaces using {@link #addSpaces(int[][]) addSpaces}
-     * */
+     *
+     * @return the generated random map
+     */
     public int[][] generateRandomMap() {
         Arrays.stream(map).forEach(tile -> Arrays.fill(tile, 1));
         int[][] randomMap = newRandomMaze(map, startCol, startRow);
@@ -63,12 +66,13 @@ public class MapGenerator {
      * Recursively generates a perfect solvable maze
      * col and row are currently set to be in front of the starting position.
      * The initial map is assumed to be initialized with all walls
+     *
      * @param map the map to put the maze on
      * @param col seed column for the generation of maze
      * @param row seed row for the generation of maze
-     * */
+     * @return a perfect random maze
+     */
     public int[][] newRandomMaze(int[][] map, int col, int row) {
-
         ArrayList<Direction> directions = new ArrayList<>() {
             {
                 add(Direction.UP);
@@ -118,18 +122,16 @@ public class MapGenerator {
                     newRandomMaze(map, nextCol, nextRow);
                 }
             }
-
         }
         return map;
     }
     /**
      *This method takes a perfect Maze and deletes some walls to
      * introduce cycles and empty space in the map
+     *
      * @param map a perfect maze generated from {@link #newRandomMaze(int[][], int, int) newRandomMaze} method
-     * */
+     */
     public void addSpaces(int[][] map){
-
-
         int spacesToAdd = 15;
         //clear corners
         //Top-Left Corner
@@ -167,16 +169,9 @@ public class MapGenerator {
                 map[randomCol + 1][randomRow + 1] = 0;
                 spacesToAdd--;
             }
-
         }
         //add start and exit tiles
         map[startCol][startRow] = 3;
         map[exitCol][exitRow] = 2;
-
-
-
-
     }
 }
-
-

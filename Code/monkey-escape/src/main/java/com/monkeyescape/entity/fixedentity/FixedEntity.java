@@ -7,11 +7,11 @@ import com.monkeyescape.main.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 /**
  * Represents a fixed entity
+ *
  * @author Henry Ruckman-Utting
  * @version 11/02/2022
  */
@@ -29,6 +29,7 @@ public abstract class FixedEntity implements Entity {
 
     /**
      * Creates a fixed entity
+     *
      * @param panel A <code>Panel</code>> to refer to
      */
     public FixedEntity(Panel panel) {
@@ -52,10 +53,9 @@ public abstract class FixedEntity implements Entity {
         g2.drawImage(image, x, y, panel.tileSize, panel.tileSize, null);
     }
 
-
-
     /**
      * Creates a random position
+     *
      * @param panel A <code>Panel</code>> to refer to
      */
     public Position createRandomPosition(Panel panel){
@@ -86,7 +86,6 @@ public abstract class FixedEntity implements Entity {
 
     /**
      * Plays the sound effect of the Fixed Entity
-     * */
+     */
     public void playSound(){}
-
 }

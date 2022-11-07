@@ -1,17 +1,15 @@
 package com.monkeyescape.main;
 
-import com.monkeyescape.entity.fixedentity.Key;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 /**
  * Handles key input
+ *
  * @author Shadi Zoldjalali & Kaleigh Toering
  * @version 10/26/2022
  */
 public class KeyHandler implements KeyListener {
-
     private boolean pressedUp;
     private boolean pressedRight;
     private boolean pressedDown;
@@ -23,12 +21,11 @@ public class KeyHandler implements KeyListener {
     private boolean pressedN;
 
     @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
+    public void keyTyped(KeyEvent e) {}
 
     /**
      * Updates which key has been pressed
+     *
      * @param e the event to be processed
      */
     @Override
@@ -66,6 +63,7 @@ public class KeyHandler implements KeyListener {
 
     /**
      * Updates which key has been released
+     *
      * @param e the event to be processed
      */
     @Override

@@ -4,12 +4,15 @@ import com.monkeyescape.main.Panel;
 
 /**
  * Represents a lion pit
+ *
  * @author Henry Ruckman-Utting
  * @version 10/30/2022
  */
 public class LionPit extends FixedEntity {
     /**
      * Initializes a lion pit
+     *
+     * @param panel a <code>Panel</code> to refer to
      */
     public LionPit(Panel panel) {
         super(panel);

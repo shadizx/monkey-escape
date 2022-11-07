@@ -6,8 +6,11 @@ import com.monkeyescape.entity.movingentity.Zookeeper;
 import com.monkeyescape.map.TileMap;
 import com.monkeyescape.painter.Painter;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +54,8 @@ public class Panel extends JPanel implements Runnable {
 
     /**Ï
      * Creates a new Panel
+     *
+     * @param game a <code>Game</code> to refer to
      */
     public Panel(Game game) {
         this.setPreferredSize(new Dimension(width + sideBarWidth, height));
@@ -181,6 +186,7 @@ public class Panel extends JPanel implements Runnable {
 
     /**
      * Adds an entity into the panel
+     *
      * @param entity A non-null entity
      */
     public void addEntity(Entity entity) {
@@ -189,6 +195,7 @@ public class Panel extends JPanel implements Runnable {
 
     /**
      * Adds an zookeeper to a list of enemies
+     *
      * @param zookeeper A non-null entity
      */
     public void addZookeeper(Zookeeper zookeeper) {
@@ -197,6 +204,7 @@ public class Panel extends JPanel implements Runnable {
 
     /**
      * Removes selected entity from the panel
+     *
      * @param entity A non-null entity
      */
     public boolean removeEntity(Entity entity) {
@@ -205,6 +213,7 @@ public class Panel extends JPanel implements Runnable {
 
     /**
      * Removes selected zookeeper from the list of enemies
+     *
      * @param zookeeper A non-null entity
      */
     public boolean removeZookeeper(Zookeeper zookeeper) {

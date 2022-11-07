@@ -14,6 +14,7 @@ import java.util.HashMap;
 
 /**
  * Represents a moving entity
+ *
  * @author Shadi Zoldjalali
  * @version 10/30/2022
  */
@@ -37,8 +38,10 @@ public abstract class MovingEntity implements Entity {
     protected int drawImageVersion = 1;
 
     public boolean collided = false;
+
     /**
      * Creates a moving entity
+     *
      * @param panel A <code>Panel</code>> to refer to
      * @param kh a <code>KeyHandler</code> for handling key inputs
      */
@@ -46,7 +49,6 @@ public abstract class MovingEntity implements Entity {
         this.panel = panel;
         this.kh = kh;
         direction = "down";
-
     }
 
     /**
@@ -73,8 +75,7 @@ public abstract class MovingEntity implements Entity {
     }
 
     /**
-     * Updates location of moving entity based on key input
-     * and checks for any possible collisions with other entities
+     * Updates moving entity information
      */
     public void update() {
         //No movement if game is not in play
@@ -127,6 +128,7 @@ public abstract class MovingEntity implements Entity {
 
     /**
      * Creates a random position
+     *
      * @param panel A <code>Panel</code>> to refer to
      */
     public Position createRandomPosition(Panel panel){
@@ -146,6 +148,7 @@ public abstract class MovingEntity implements Entity {
         }
         return newpos;
     }
+
     public void draw(Graphics2D g2) {
         g2.drawImage(images.get(direction + drawImageVersion), x, y, panel.tileSize, panel.tileSize, null);
     }
