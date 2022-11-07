@@ -14,6 +14,7 @@ public class State {
     public enum GameState {
         // display start menu
         START,
+        INSTRUCTIONS,
         // start playing game
         PLAY,
         // display pause menu
@@ -27,6 +28,7 @@ public class State {
     };
 
     private GameState CurrentState;
+    private boolean wait;
 
     /**
      * Sets the current game state.
@@ -60,7 +62,16 @@ public class State {
         boolean nPressed = kh.isPressedN();
         // Start Menu --> Play Game
         if ((CurrentState == GameState.START) && enterPressed) {
-            CurrentState =  GameState.PLAY;
+            CurrentState = GameState.INSTRUCTIONS;
+        }
+        else if (CurrentState == GameState.INSTRUCTIONS) {
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            }
+            catch (InterruptedException e) {
+                System.out.println("EXCEPTION: " + e);
+            }
+            CurrentState = GameState.PLAY;
         }
         // Play Game --> Pause Menu
         else if ((CurrentState == GameState.PLAY) && spacePressed) {
