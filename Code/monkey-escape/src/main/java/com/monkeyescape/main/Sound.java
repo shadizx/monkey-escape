@@ -34,6 +34,13 @@ public class Sound {
      */
     public void setFile(int i){
         try{
+            // Check for invalid index
+            if (i < 0 || i >= soundURL.length) {
+                System.out.printf("Invalid index %d for sound file%n", i);
+                clip = AudioSystem.getClip();
+                return;
+            }
+
             //Get the file
             AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
             clip = AudioSystem.getClip();
@@ -59,12 +66,5 @@ public class Sound {
      */
     public void loop(){
         clip.loop(Clip.LOOP_CONTINUOUSLY);
-    }
-
-    /**
-     * Stops playing the sound
-     */
-    public void stop(){
-        clip.stop();
     }
 }
