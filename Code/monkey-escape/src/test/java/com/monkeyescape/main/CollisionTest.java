@@ -1,27 +1,26 @@
 package com.monkeyescape.main;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import com.monkeyescape.entity.fixedentity.Key;
 import com.monkeyescape.entity.fixedentity.LionPit;
 import com.monkeyescape.entity.movingentity.Monkey;
 import com.monkeyescape.entity.movingentity.Zookeeper;
 import com.monkeyescape.map.Tile;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class CollisionTest {
     private Collision collision;
 
     private Panel panel;
-    private Game game = new Game();
+    private Game game = new Game(false, false);
     Monkey entity;
 
     @BeforeEach
