@@ -9,9 +9,10 @@ package com.monkeyescape.main;
 public class Main {
     /**
      * Initializes a new game
+     *
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
-        new Game();
+        new Game(true, true);
     }
 }
