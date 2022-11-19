@@ -21,18 +21,27 @@ public class Game {
 
     /**
      * Initializes the game
+     *
+     * @param playSound  true to play sound, otherwise false
+     * @param showWindow true to show the window, otherwise false
      */
-    public Game() {
-        window = new Window();
+    public Game(boolean playSound, boolean showWindow) {
         panel = new Panel(this);
-        window.addPanel(panel);
         panel.startGameThread();
 
         level = 1;
         spawnEntities();
 
         sound = new Sound();
-        playMusic(0);
+
+        if (showWindow) {
+            window = new Window();
+            window.addPanel(panel);
+        }
+
+        if (playSound) {
+            playMusic(0);
+        }
     }
 
     /**
