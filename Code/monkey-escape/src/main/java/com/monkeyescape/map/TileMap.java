@@ -113,6 +113,11 @@ public class TileMap {
      * @param fixedEntity fixedEntity object to add to map
      * */
     public void addFixedEntitytoMap(int column, int row, FixedEntity fixedEntity){
+        if(column < 0 || column >= p.cols || row < 0 || row >= p.rows){
+            System.out.printf("(%d,%d) is an invalid position", column,row);
+            return;
+        }
+        
         this.tileMap[row][column].FixedEntityObject = fixedEntity;
         this.tileMap[row][column].hasFixedEntity = true;
     }

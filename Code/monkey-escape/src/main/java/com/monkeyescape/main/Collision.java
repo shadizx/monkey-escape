@@ -50,6 +50,32 @@ public class Collision {
         int RowTop = TopY/ panel.tileSize;
         int RowBottom = BottomY/ panel.tileSize;
 
+        // Check that tile is in map
+        if (ColLeft < 0 || ColRight >= panel.cols || RowTop < 0 || RowBottom >= panel.rows) {
+            switch (entity.direction){
+                case "up":
+                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", entity.x/panel.tileSize,RowTop);
+                    break;
+
+                case "right":
+                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", ColRight,entity.y/panel.tileSize);
+                    break;
+                    
+                case "down":
+                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", entity.x/panel.tileSize,RowBottom);
+                    break;
+                
+                case "left":
+                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", ColLeft,entity.y/panel.tileSize);
+                    break;
+            }
+
+            //Set that entity is collided so it cannot continue to move
+            entity.collided = true;
+            
+            return;
+        }
+
         switch (entity.direction){
             case "up":
                 //checks if top left or top right corner of entity is touching another tile
@@ -99,8 +125,9 @@ public class Collision {
      * Checks the tiles that the monkey is touching for an FixedEntity object
      *
      * @param entity entity that wants check if their tile has an FixedEntity object
+     * @return Returns true is there was a fixed entity on that tile, false if not.
      * */
-    public void checkFixedEntity(MovingEntity entity){
+    public boolean checkFixedEntity(MovingEntity entity){
         int LeftX = entity.x + entity.area.x;
         int RightX = entity.x + entity.area.x + entity.area.width;
         int TopY = entity.y + entity.area.y;
@@ -111,6 +138,28 @@ public class Collision {
         int rowTop = TopY/ panel.tileSize;
         int rowBottom = BottomY/ panel.tileSize;
 
+        // Check that tile is in map
+        if (colLeft < 0 || colRight >= panel.cols || rowTop < 0 || rowBottom >= panel.rows) {
+            switch (entity.direction){
+                case "up":
+                    System.out.printf("The tile (%d,%d) is not on the map", entity.x/panel.tileSize,rowTop);
+                    break;
+
+                case "right":
+                    System.out.printf("The tile (%d,%d) is not on the map", colRight,entity.y/panel.tileSize);
+                    break;
+                    
+                case "down":
+                    System.out.printf("The tile (%d,%d) is not on the map", entity.x/panel.tileSize,rowBottom);
+                    break;
+                
+                case "left":
+                    System.out.printf("The tile (%d,%d) is not on the map", colLeft,entity.y/panel.tileSize);
+                    break;
+            }
+            return false;
+        }
+
         List<Tile> potentialCollisions = Stream.of(
             panel.tm.tileMap[colLeft][rowTop],
             panel.tm.tileMap[colRight][rowTop],
@@ -120,6 +169,8 @@ public class Collision {
             .collect(Collectors.toList());
 
         processCollision(panel, potentialCollisions, entity);
+
+        return (potentialCollisions.size()>0);
     }
 
     /**
@@ -128,7 +179,13 @@ public class Collision {
      * @param entity the entity that is checking for an enemy
      * @param zookeepers a list of Enemy entities
      * */
-    public void checkZookeeper(MovingEntity entity, List<Zookeeper> zookeepers){
+    public boolean checkZookeeper(MovingEntity entity, List<Zookeeper> zookeepers){
+        // Check that tile is in map
+        if (entity.x < 0 || entity.x >= panel.width || entity.y < 0 || entity.y >= panel.height) {
+            System.out.println("The entity is not on the map");
+            return false;
+        }
+
         for (int i = 0; i < zookeepers.size(); i++) {
             Zookeeper zookeeper = zookeepers.get(i);
 
@@ -177,6 +234,8 @@ public class Collision {
             zookeeper.area.x = zookeeper.areaX;
             zookeeper.area.y = zookeeper.areaY;
         }
+
+        return (panel.state.getGameState() == State.GameState.GAMEOVER); //Returns if the entity collided with a zookeeper
     }
 
     /**
