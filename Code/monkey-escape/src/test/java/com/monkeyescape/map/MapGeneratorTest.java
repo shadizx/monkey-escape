@@ -17,7 +17,7 @@ class MapGeneratorTest {
     private MapGenerator mapGenerator;
 
     private Panel panel;
-    private Game game = new Game();
+    private Game game = new Game(false, false);
 
     @BeforeEach
     void setup() {

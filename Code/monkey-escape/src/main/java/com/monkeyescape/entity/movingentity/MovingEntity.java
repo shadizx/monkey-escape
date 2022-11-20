@@ -53,8 +53,9 @@ public abstract class MovingEntity implements Entity {
 
     /**
      * Loads the images and places them in the <code>images</code> hashmap
+     * @return true if sucessful, false if exception occured
      */
-    public void loadImage() {
+    public boolean loadImage() {
         try {
             images.put("up1", ImageIO.read(getClass().getClassLoader().getResourceAsStream(String.format("%s/up1.png", this.type))));
             images.put("up2", ImageIO.read(getClass().getClassLoader().getResourceAsStream(String.format("%s/up2.png", this.type))));
@@ -71,7 +72,9 @@ public abstract class MovingEntity implements Entity {
         } catch (Exception ex) {
             System.out.printf("Error %s occurred while getting images for %s%n", ex, this.type);
             ex.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     /**

@@ -24,6 +24,20 @@ public class Banana extends FixedEntity {
 
         loadImage();
     }
+    /**
+     * Returns the lifecycle of Banana
+     */
+    public int getLifecycle() {
+        return lifecycle;
+    }
+
+    /**
+     * Sets the lifecycle of Banana to new value
+     * @param newLifecycle  a <code>integer</code> number for the lifecycle
+     */
+    public void setLifecycle(int newLifecycle) {
+        lifecycle = newLifecycle;
+    }
 
     /**
      * Updates the number of ticks the banana has left

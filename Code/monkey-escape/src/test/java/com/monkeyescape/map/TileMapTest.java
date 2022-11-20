@@ -17,7 +17,7 @@ class TileMapTest {
     private TileMap tileMap;
 
     private Panel panel;
-    private Game game = new Game();
+    private Game game = new Game(false, false);
 
     @BeforeEach
     void setup() {

@@ -21,7 +21,7 @@ class CollisionTest {
     private Collision collision;
 
     private Panel panel;
-    private Game game = new Game();
+    private Game game = new Game(false, false);
     Monkey entity;
 
     @BeforeEach
