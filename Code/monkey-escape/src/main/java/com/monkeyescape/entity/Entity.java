@@ -14,7 +14,7 @@ public interface Entity {
     /**
      * Loads the image for this entity
      */
-     void loadImage();
+     boolean loadImage();
 
     /**
      * Updates the location of this entity based on game input

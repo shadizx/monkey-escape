@@ -40,13 +40,15 @@ public abstract class FixedEntity implements Entity {
         this.sound = new Sound();
     }
 
-    public void loadImage() {
+    public boolean loadImage() {
         try {
             image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(String.format("%s/%s.png", this.type, this.type)));
         } catch (Exception ex) {
             System.out.printf("Error %s occurred while getting images for %s%n", ex.toString(), this.type);
             ex.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     public void draw(Graphics2D g2) {
