@@ -149,6 +149,8 @@ public class Pathfinding {
 
     /**
      * Performs the search using the A* algorithm
+     *
+     * @return true whether the goal can be reached, false otherwise
      */
     public boolean search(){
         while(!goalReached && step < 500){
@@ -225,7 +227,7 @@ public class Pathfinding {
         Node current = goalNode;
 
         //Cycles back to the start node using current.parent to retrace steps
-        while(current != startNode){
+        while(current != startNode && current != null){
             pathList.add(0,current);
             current.path = true;
             current = current.parent;
