@@ -182,7 +182,6 @@ public class Collision {
     public boolean checkZookeeper(MovingEntity entity, List<Zookeeper> zookeepers){
         // Check that tile is in map
         if (entity.x < 0 || entity.x >= panel.width || entity.y < 0 || entity.y >= panel.height) {
-            System.out.println("The entity is not on the map");
             return false;
         }
 
@@ -258,7 +257,7 @@ public class Collision {
                 entityCollidedWith.remove();
                 collidedTile.hasFixedEntity = false;
             }
-            else if(entity.type.equals("monkey") && !Monkey.inLionPit && Monkey.lionPitInvincibility <= 0){ //If monkey is colliding with lion pit
+            else if(entity.type.equals("monkey") && !Monkey.inLionPit && Monkey.lionPitInvincibility <= 0) { //If monkey is colliding with lion pit
                 if(Math.abs(entity.x - collidedTile.FixedEntityObject.x) < 16 && Math.abs(entity.y - collidedTile.FixedEntityObject.y) < 16){
                     //Checks that monkey is directly on the tile to avoid being stuck in lion pit when just going near it
                     delayedDamages = entityCollidedWith.impact;

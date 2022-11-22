@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WindowTest {
     private Window window;
@@ -20,5 +21,6 @@ class WindowTest {
         int count = Window.window.getComponentCount();
         window.addPanel(new Panel(new Game(false, false)));
         assertEquals(count, Window.window.getComponentCount());
+        assertTrue(Window.window.isVisible());
     }
 }
