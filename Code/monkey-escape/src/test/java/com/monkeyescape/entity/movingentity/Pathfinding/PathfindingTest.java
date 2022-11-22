@@ -34,10 +34,10 @@ class PathfindingTest {
     void resetNodes() {
         for (int i = 0; i < pf.panel.rows; i++) {
             for (int j = 0; j < pf.panel.cols; j++) {
-                assertFalse(pf.node[i][j].open);
-                assertFalse(pf.node[i][j].checked);
-                assertFalse(pf.node[i][j].solid);
-                assertFalse(pf.node[i][j].path);
+                assertFalse(pf.node[j][i].open);
+                assertFalse(pf.node[j][i].checked);
+                assertFalse(pf.node[j][i].solid);
+                assertFalse(pf.node[j][i].path);
             }
         }
 
@@ -50,22 +50,24 @@ class PathfindingTest {
     @Test
     @DisplayName("Running setNodes test")
     void setNodes() {
+        pf.resetNodes();
+        pf.instantiateNodes();
         panel.tm.getTiles();
         panel.tm.generateMap();
 
         pf.setNodes(0, 0, 10, 10);
         for (int i = 0; i < pf.panel.rows; i++) {
             for (int j = 0; j < pf.panel.cols; j++) {
-                assertEquals(pf.node[i][j].solid, panel.tm.tileMap[i][j].blocked);
+                assertEquals(pf.node[j][i].solid, panel.tm.tileMap[j][i].blocked);
             }
         }
 
         assertFalse(pf.node[10][10].solid);
         for (int i = 0; i < pf.panel.rows; i++) {
             for (int j = 0; j < pf.panel.cols; j++) {
-                assertEquals(pf.node[i][j].gCost, Math.abs(pf.node[i][j].col - pf.startNode.col) + Math.abs(pf.node[i][j].row - pf.startNode.row));
-                assertEquals(pf.node[i][j].hCost, Math.abs(pf.node[i][j].col - pf.goalNode.col) + Math.abs(pf.node[i][j].row - pf.goalNode.row));
-                assertEquals(pf.node[i][j].fCost, pf.node[i][j].gCost + pf.node[i][j].hCost);
+                assertEquals(pf.node[j][i].gCost, Math.abs(pf.node[j][i].col - pf.startNode.col) + Math.abs(pf.node[j][i].row - pf.startNode.row));
+                assertEquals(pf.node[j][i].hCost, Math.abs(pf.node[j][i].col - pf.goalNode.col) + Math.abs(pf.node[j][i].row - pf.goalNode.row));
+                assertEquals(pf.node[j][i].fCost, pf.node[j][i].gCost + pf.node[j][i].hCost);
             }
         }
     }
@@ -87,6 +89,7 @@ class PathfindingTest {
     void search() {
         pf.currentNode = new Node(10, 1);
         pf.goalNode = new Node(13, 4);
+        pf.resetNodes();
         pf.instantiateNodes();
         pf.setNodes(10, 1, 13, 4);
         assertTrue(pf.search());
@@ -109,9 +112,6 @@ class PathfindingTest {
         node.solid = false;
         pf.openNode(node);
         assertEquals(pf.openList.size(), 1);
-
-        // check if at least one of node.open, node.checked, node.solid is true then
-        // if statement should be false
 
         pf.openList.clear();
         node.open = true;

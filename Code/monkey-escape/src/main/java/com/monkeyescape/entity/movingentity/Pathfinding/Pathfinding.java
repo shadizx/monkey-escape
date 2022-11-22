@@ -42,16 +42,9 @@ public class Pathfinding {
     public void instantiateNodes(){
         node = new Node[panel.cols][panel.rows];
 
-        int col = 0;
-        int row = 0;
-
-        while(col < panel.cols && row < panel.rows){
-            node[col][row] = new Node(col,row);
-
-            col++;
-            if(col == panel.cols){
-                col = 0;
-                row++;
+        for (int row = 0; row < panel.rows; row++) {
+            for (int col = 0; col < panel.cols; col++) {
+                node[col][row] = new Node(col,row);
             }
         }
     }
@@ -101,31 +94,20 @@ public class Pathfinding {
         goalNode = node[goalCol][goalRow];
         openList.add(currentNode);
 
-        int col = 0;
-        int row = 0;
-
         //Set which tiles are blocked/solid
-        while(col < panel.cols && row < panel.rows){
-            while(col < panel.rows){
+        for (int row = 0; row < panel.rows; row++) {
+            for (int col = 0; col < panel.cols; col++) {
                 node[col][row].solid = panel.tm.tileMap[col][row].blocked;
-                col++;
             }
-            col = 0;
-            row++;
         }
+
         //Set monkeys tile to not solid in case it is the cage tile
         node[goalCol][goalRow].solid = false;
 
         //Gets the cost of the nodes
-        col = 0;
-        row = 0;
-        while(col < panel.cols && row < panel.rows){                
-            getCost(node[col][row]);
-    
-            col++;
-            if(col == panel.cols){
-                col = 0;
-                row++;
+        for (int row = 0; row < panel.rows; row++) {
+            for (int col = 0; col < panel.cols; col++) {
+                getCost(node[col][row]);
             }
         }
     }
