@@ -10,6 +10,8 @@ import com.monkeyescape.main.State;
 import com.monkeyescape.map.Tile;
 import com.monkeyescape.main.Panel;
 
+import java.awt.event.KeyEvent;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MonkeyTest {
