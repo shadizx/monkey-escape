@@ -18,7 +18,7 @@ import java.util.List;
  * Represents a JPanel panel that is used for interaction
  *
  * @author Shadi Zoldjalali & Kaleigh Toering
- * @version 11/04/2022
+ * @version 11/21/2022
  */
 public class Panel extends JPanel implements Runnable {
     private final Game game;
@@ -94,22 +94,14 @@ public class Panel extends JPanel implements Runnable {
 
         // Game loop
         while (gameThread != null) {
-            // Create new game if in restart state
-            if (state.getGameState() == State.GameState.RESTART) {
-                state.changeState(kh);
-                game.restart();
-            }
+
             currentTime = System.nanoTime();
 
             delta += (currentTime - lastTime) / drawInterval;
 
-            if (state.getGameState() == State.GameState.PLAY) {
-                timerCount += (currentTime - lastTime);
-                if (timerCount >= 1000000000) {
-                    secondsTimer += 1;
-                    timerCount = 0;
-                }
-            }
+
+            timerCount += (currentTime - lastTime);
+            timerCount = addSeconds(timerCount);
 
             delayCount += (currentTime - lastTime);
             lastTime = currentTime;
@@ -138,22 +130,45 @@ public class Panel extends JPanel implements Runnable {
     }
 
     /**
+     * Adds 1 second to timer every 1000000000 nanoseconds
+     *
+     * @param timerCount time elapsed in nanoseconds
+     */
+    public long addSeconds(long timerCount) {
+        if (state.getGameState() == State.GameState.PLAY) {
+            if (timerCount >= 1000000000) {
+                secondsTimer += 1;
+                timerCount = 0;
+            }
+        }
+        return timerCount;
+    }
+
+    /**
      * Updates game information
      */
     public void update() {
         state.changeState(kh);
-        for (int i = 0; i < entities.size(); i++) {
-            entities.get(i).update();
-        }
 
-        //Spawns a new banana on average every 15 seconds
-        if(((int) (Math.random() * 900)) == 1){
-            addEntity(new Banana(this));
-        }
-
-        if (score < 0) {
-            state.setGameState(State.GameState.GAMEOVER);
+        // Create new game if in restart state
+        if (state.getGameState() == State.GameState.RESTART) {
+            game.restart();
             state.changeState(kh);
+        }
+        if(state.getGameState() == State.GameState.PLAY) {
+            for (int i = 0; i < entities.size(); i++) {
+                entities.get(i).update();
+            }
+
+            //Spawns a new banana on average every 15 seconds
+            if (((int) (Math.random() * 900)) == 1) {
+                addEntity(new Banana(this));
+            }
+
+            if (score < 0) {
+                state.setGameState(State.GameState.GAMEOVER);
+                state.changeState(kh);
+            }
         }
     }
 
@@ -183,6 +198,16 @@ public class Panel extends JPanel implements Runnable {
             g2.dispose(); // good practice to save memory
         }
     }
+    /**
+     * Gets the List of Entities
+     *
+     * @return List of Entity objects
+     */
+    public List<Entity> getEntities(){
+        return entities;
+    }
+
+
 
     /**
      * Adds an entity into the panel
@@ -190,7 +215,7 @@ public class Panel extends JPanel implements Runnable {
      * @param entity A non-null entity
      */
     public void addEntity(Entity entity) {
-        entities.add(entity);
+        entities.add(0,entity);
     }
 
     /**
