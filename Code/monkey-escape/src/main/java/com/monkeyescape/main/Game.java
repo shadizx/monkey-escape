@@ -10,7 +10,7 @@ import com.monkeyescape.entity.movingentity.Zookeeper;
  * Represents the game
  *
  * @author Shadi Zoldjalali
- * @version 10/30/2022
+ * @version 11/21/2022
  */
 public class Game {
     Window window;
@@ -30,7 +30,7 @@ public class Game {
         panel.startGameThread();
 
         level = 1;
-        spawnEntities();
+        spawnInitialEntities();
 
         sound = new Sound();
 
@@ -45,22 +45,40 @@ public class Game {
     }
 
     /**
+     * Sets the level
+     *
+     * @param lvl integer to set the level to
+     * */
+    public void setLevel(int lvl){
+        Game.level = lvl;
+    }
+
+    /**
+     * Gets the level
+     *
+     * @return the current level
+     * */
+    public int getLevel(){
+        return Game.level;
+    }
+
+    /**
      * Spawns the Entities
      */
-    public void spawnEntities() {
-        monkey = new Monkey(panel, panel.kh);
+    public void spawnInitialEntities() {
 
+        spawnMonkey();
+        spawnZookeepers();
         spawnBananas();
         spawnKeys();
         spawnLionPits();
-        spawnZookeepers();
-        spawnMonkey();
     }
 
     /**
      * Spawns the Monkey
      */
     public void spawnMonkey() {
+        monkey = new Monkey(panel, panel.kh);
         panel.addEntity(monkey);
     }
 
@@ -116,7 +134,7 @@ public class Game {
         level = 1;
 
         panel.restartGame();
-        spawnEntities();
+        spawnInitialEntities();
     }
 
     /**
@@ -126,6 +144,6 @@ public class Game {
         Game.level++;
 
         panel.nextLevel();
-        spawnEntities();
+        spawnInitialEntities();
     }
 }

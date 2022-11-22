@@ -7,13 +7,12 @@ import javax.imageio.ImageIO;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * Represents a Painter class used for painting UI components
  *
  * @author Kaleigh Toering & Shadi Zoldjalali
- * @version 11/04/2022
+ * @version 11/21/2022
  */
 public class Painter {
     private final Panel panel;
@@ -34,13 +33,25 @@ public class Painter {
      * @param menuType the menu type to be displayed
      */
     public void paintMenu(Graphics2D g2, String menuType) {
+        BufferedImage image = getImage(menuType);
+        g2.drawImage(image, 0, 0, panel);
+    }
+
+    /**
+     * Gets the Image of then menu to be displayed
+     *
+     * @param menuType the menu type to be displayed
+     * @return The image of the selected menutype
+     * */
+    public BufferedImage getImage(String menuType) {
         BufferedImage image = null;
         try {
             image = ImageIO.read(this.getClass().getResource(String.format("/menu/%s.png", menuType)));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.out.printf("Error %s occurred while getting images for %s%n", e, menuType);
+            e.printStackTrace();
         }
-        g2.drawImage(image, 0, 0, panel);
+        return image;
     }
 
     /**
