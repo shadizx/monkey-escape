@@ -51,11 +51,11 @@ public class Monkey extends MovingEntity {
         //No movement if game is not in play
         if(panel.state.getGameState() != State.GameState.PLAY) return;
         
-        if(kh.isPressedUp() || kh.isPressedRight() || kh.isPressedDown() || kh.isPressedLeft()) {
-            if (Monkey.inLionPit){
-                direction = "jump";
-                isMoving = true;
-            } else if (kh.isPressedUp()) {
+        if (Monkey.inLionPit){
+            direction = "jump";
+            isMoving = true;
+        } else if(kh.isPressedUp() || kh.isPressedRight() || kh.isPressedDown() || kh.isPressedLeft()) {
+            if (kh.isPressedUp()) {
                 direction = "up";
                 isMoving = true;
 
