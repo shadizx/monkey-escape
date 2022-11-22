@@ -59,32 +59,40 @@ class MonkeyTest {
         assertEquals(beforeY, monkey.y);
 
         //Left
+        keyHandler.keyPressed(new KeyEvent(panel, KeyEvent.KEY_PRESSED,System.currentTimeMillis(),0,KeyEvent.VK_LEFT,KeyEvent.CHAR_UNDEFINED));
         if(keyHandler.isPressedLeft()){
             beforeX = monkey.x;
             monkey.update();
             assertEquals(beforeX-monkey.speed, monkey.x);
         }
+        keyHandler.keyReleased(new KeyEvent(panel, KeyEvent.KEY_RELEASED,System.currentTimeMillis(),0,KeyEvent.VK_LEFT,KeyEvent.CHAR_UNDEFINED));
 
         //Right
+        keyHandler.keyPressed(new KeyEvent(panel, KeyEvent.KEY_PRESSED,System.currentTimeMillis(),0,KeyEvent.VK_RIGHT,KeyEvent.CHAR_UNDEFINED));
         if(keyHandler.isPressedRight()){
             beforeX = monkey.x;
             monkey.update();
             assertEquals(beforeX+monkey.speed, monkey.x);
         }
+        keyHandler.keyReleased(new KeyEvent(panel, KeyEvent.KEY_RELEASED,System.currentTimeMillis(),0,KeyEvent.VK_RIGHT,KeyEvent.CHAR_UNDEFINED));
 
         //Up
+        keyHandler.keyPressed(new KeyEvent(panel, KeyEvent.KEY_PRESSED,System.currentTimeMillis(),0,KeyEvent.VK_UP,KeyEvent.CHAR_UNDEFINED));
         if(keyHandler.isPressedUp()){
             beforeY = monkey.y;
             monkey.update();
             assertEquals(beforeY-monkey.speed, monkey.y);
         }
+        keyHandler.keyReleased(new KeyEvent(panel, KeyEvent.KEY_RELEASED,System.currentTimeMillis(),0,KeyEvent.VK_UP,KeyEvent.CHAR_UNDEFINED));
 
         //Down
+        keyHandler.keyPressed(new KeyEvent(panel, KeyEvent.KEY_PRESSED,System.currentTimeMillis(),0,KeyEvent.VK_DOWN,KeyEvent.CHAR_UNDEFINED));
         if(keyHandler.isPressedDown()){
             beforeY = monkey.y;
             monkey.update();
             assertEquals(beforeY+monkey.speed, monkey.y);
         }
+        keyHandler.keyReleased(new KeyEvent(panel, KeyEvent.KEY_RELEASED,System.currentTimeMillis(),0,KeyEvent.VK_DOWN,KeyEvent.CHAR_UNDEFINED));
 
 
         //Test MonkeyInLionPit functionality
