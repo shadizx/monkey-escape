@@ -58,9 +58,12 @@ class PathfindingTest {
         pf.setNodes(0, 0, 10, 10);
         for (int i = 0; i < pf.panel.rows; i++) {
             for (int j = 0; j < pf.panel.cols; j++) {
-                assertEquals(pf.node[j][i].solid, panel.tm.tileMap[j][i].blocked);
+                if(j != 10 && i != 10){ //Check only none goal tiles
+                    assertEquals(pf.node[j][i].solid, panel.tm.tileMap[j][i].blocked);
+                }
             }
         }
+        assertFalse(pf.node[10][10].solid); //Check that goal tile is not solid
 
         assertFalse(pf.node[10][10].solid);
         for (int i = 0; i < pf.panel.rows; i++) {
