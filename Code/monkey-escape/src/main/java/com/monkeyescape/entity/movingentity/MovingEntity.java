@@ -53,7 +53,7 @@ public abstract class MovingEntity implements Entity {
 
     /**
      * Loads the images and places them in the <code>images</code> hashmap
-     * @return true if sucessful, false if exception occured
+     * @return true if successful, false if exception occurred
      */
     public boolean loadImage() {
         try {
@@ -135,8 +135,12 @@ public abstract class MovingEntity implements Entity {
      * @param panel A <code>Panel</code>> to refer to
      */
     public Position createRandomPosition(Panel panel){
+        return getPosition(panel);
+    }
+
+    public static Position getPosition(Panel panel) {
         boolean found = false;
-        Position newpos = null;
+        Position newPos = null;
         while(!found) {
             //generates random colIndex and rowIndex between 1-14 which are between boundaries of walls
             int colIndex = (int) (Math.random() * (panel.cols - 2) + 1);
@@ -144,12 +148,12 @@ public abstract class MovingEntity implements Entity {
             if(!(panel.tm.tileMap[colIndex][rowIndex].blocked) && !(panel.tm.tileMap[colIndex][rowIndex].hasFixedEntity)
                     && (colIndex < panel.exitCol - 2 && rowIndex < panel.exitRow - 2)
                     && (colIndex > panel.startCol + 2 && rowIndex > panel.startRow + 2)){
-                newpos = new Position(colIndex*panel.tileSize, rowIndex*panel.tileSize);
+                newPos = new Position(colIndex*panel.tileSize, rowIndex*panel.tileSize);
                 found = true;
             }
 
         }
-        return newpos;
+        return newPos;
     }
 
     public void draw(Graphics2D g2) {

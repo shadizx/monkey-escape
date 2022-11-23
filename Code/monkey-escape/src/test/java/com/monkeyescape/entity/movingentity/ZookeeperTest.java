@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ZookeeperTest {
@@ -30,7 +33,17 @@ class ZookeeperTest {
     }
 
     @Test
-    @DisplayName("Running update for zookeeper when game is not in play mode")
+    @DisplayName("Running loadImage test for zookeeper")
+    void loadImageTest() {
+        assertEquals("zookeeper", zookeeper.type);
+        assertTrue(zookeeper.loadImage());
+        zookeeper.type = "";
+        assertNotEquals("zookeeper", zookeeper.type);
+        assertFalse(zookeeper.loadImage());
+    }
+
+    @Test
+    @DisplayName("Running update test for zookeeper when game is not in play mode")
     void updateNotInPlayTest() {
         // Assert that zookeeper is not moving when game is not in play mode
         panel.state.setGameState(State.GameState.PAUSE);
@@ -43,7 +56,7 @@ class ZookeeperTest {
     }
 
     @Test
-    @DisplayName("Running update for zookeeper when game is in play mode")
+    @DisplayName("Running update test for zookeeper when game is in play mode")
     void updateInPlayTest() {
         panel.state.setGameState(State.GameState.PLAY);
 
@@ -73,7 +86,7 @@ class ZookeeperTest {
     }
 
     @Test
-    @DisplayName("running searchPath for zookeeper when monkey is above")
+    @DisplayName("running searchPath test for zookeeper when monkey is above")
     void searchPathMonkeyAbove() {
         monkey.x = 300;
         monkey.y = 300;
@@ -86,7 +99,7 @@ class ZookeeperTest {
     }
 
     @Test
-    @DisplayName("running searchPath for zookeeper when monkey is below")
+    @DisplayName("running searchPath test for zookeeper when monkey is below")
     void searchPathMonkeyBelow() {
         monkey.x = 300;
         monkey.y = 500;
@@ -99,7 +112,7 @@ class ZookeeperTest {
     }
 
     @Test
-    @DisplayName("running searchPath for zookeeper when monkey is right")
+    @DisplayName("running searchPath test for zookeeper when monkey is right")
     void searchPathMonkeyRight() {
         monkey.x = 500;
         monkey.y = 300;
@@ -112,7 +125,7 @@ class ZookeeperTest {
     }
 
     @Test
-    @DisplayName("running searchPath for zookeeper when monkey is left")
+    @DisplayName("running searchPath test for zookeeper when monkey is left")
     void searchPathMonkeyLeft() {
         monkey.x = 300;
         monkey.y = 300;
@@ -125,7 +138,7 @@ class ZookeeperTest {
     }
 
     @Test
-    @DisplayName("running searchPath for zookeeper when monkey is above and right")
+    @DisplayName("running searchPath test for zookeeper when monkey is above and right")
     void searchPathMonkeyAboveRight() {
         monkey.x = 300;
         monkey.y = 300;
@@ -139,7 +152,7 @@ class ZookeeperTest {
     }
 
     @Test
-    @DisplayName("running searchPath for zookeeper when monkey is above and left")
+    @DisplayName("running searchPath test for zookeeper when monkey is above and left")
     void searchPathMonkeyAboveLeft() {
         monkey.x = 300;
         monkey.y = 300;
@@ -153,7 +166,7 @@ class ZookeeperTest {
     }
 
     @Test
-    @DisplayName("running searchPath for zookeeper when monkey is below and right")
+    @DisplayName("running searchPath test for zookeeper when monkey is below and right")
     void searchPathMonkeyBelowRight() {
         monkey.x = 500;
         monkey.y = 500;
@@ -167,7 +180,7 @@ class ZookeeperTest {
     }
 
     @Test
-    @DisplayName("running searchPath for zookeeper when monkey is below and left")
+    @DisplayName("running searchPath test for zookeeper when monkey is below and left")
     void searchPathMonkeyBelowLeft() {
         monkey.x = 500;
         monkey.y = 500;

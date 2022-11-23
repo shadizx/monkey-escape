@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import static com.monkeyescape.entity.movingentity.MovingEntity.getPosition;
+
 /**
  * Represents a fixed entity
  *
@@ -61,21 +63,7 @@ public abstract class FixedEntity implements Entity {
      * @param panel A <code>Panel</code>> to refer to
      */
     public Position createRandomPosition(Panel panel){
-        boolean found = false;
-        Position newpos = null;
-        while(!found) {
-            //generates random colIndex and rowIndex between 1-14 which are between boundaries of walls
-            int colIndex = (int) (Math.random() * (panel.cols - 2) + 1);
-            int rowIndex = (int) (Math.random() * (panel.rows - 2) + 1);
-            if(!(panel.tm.tileMap[colIndex][rowIndex].blocked)
-                    && !(panel.tm.tileMap[colIndex][rowIndex].hasFixedEntity)
-                    && (colIndex < panel.exitCol - 2 && rowIndex < panel.exitRow - 2)
-                    && (colIndex > panel.startCol + 2 && rowIndex > panel.startRow + 2)){
-                newpos = new Position(colIndex*panel.tileSize, rowIndex*panel.tileSize);
-                found = true;
-            }
-        }
-        return newpos;
+        return getPosition(panel);
     }
 
     /**
@@ -84,7 +72,6 @@ public abstract class FixedEntity implements Entity {
     public void remove() {
         panel.removeEntity(this);
     }
-
 
     /**
      * Plays the sound effect of the Fixed Entity
