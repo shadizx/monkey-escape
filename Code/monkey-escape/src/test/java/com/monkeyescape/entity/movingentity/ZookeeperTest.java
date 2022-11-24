@@ -17,15 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ZookeeperTest {
-    private final Game game = new Game(false, false);
-    private final Panel panel = new Panel(game);
     private final KeyHandler kh = new KeyHandler();
-    private final Monkey monkey = new Monkey(panel, kh);
-    private final Zookeeper zookeeper = new Zookeeper(panel, kh, monkey);
+    private final Game game = new Game(kh);
+    private final Monkey monkey = new Monkey(game, kh);
+    private final Zookeeper zookeeper = new Zookeeper(game, kh, monkey);
 
     @BeforeAll
     public void setup() {
-        for (Tile[] tileRow : panel.tm.tileMap) {
+        for (Tile[] tileRow : game.tm.tileMap) {
             for (Tile tile : tileRow) {
                 tile.blocked = false;
             }
@@ -46,7 +45,7 @@ class ZookeeperTest {
     @DisplayName("Running update test for zookeeper when game is not in play mode")
     void updateNotInPlayTest() {
         // Assert that zookeeper is not moving when game is not in play mode
-        panel.state.setGameState(State.GameState.PAUSE);
+        game.state.setGameState(State.GameState.PAUSE);
         int currX = zookeeper.x;
         int currY = zookeeper.y;
 
@@ -58,7 +57,7 @@ class ZookeeperTest {
     @Test
     @DisplayName("Running update test for zookeeper when game is in play mode")
     void updateInPlayTest() {
-        panel.state.setGameState(State.GameState.PLAY);
+        game.state.setGameState(State.GameState.PLAY);
 
         // When direction is up zookeeper's y pos should decrease
         zookeeper.direction = "up";
@@ -94,7 +93,7 @@ class ZookeeperTest {
         zookeeper.x = 300;
         zookeeper.y = 500;
 
-        zookeeper.searchPath((monkey.x + (monkey.areaX))/panel.tileSize, (monkey.y + (monkey.areaY))/panel.tileSize);
+        zookeeper.searchPath((monkey.x + (monkey.areaX))/game.tileSize, (monkey.y + (monkey.areaY))/game.tileSize);
         assertEquals(zookeeper.direction, "up");
     }
 
@@ -107,7 +106,7 @@ class ZookeeperTest {
         zookeeper.x = 300;
         zookeeper.y = 300;
 
-        zookeeper.searchPath((monkey.x + (monkey.areaX))/panel.tileSize, (monkey.y + (monkey.areaY))/panel.tileSize);
+        zookeeper.searchPath((monkey.x + (monkey.areaX))/game.tileSize, (monkey.y + (monkey.areaY))/game.tileSize);
         assertEquals(zookeeper.direction, "down");
     }
 
@@ -120,7 +119,7 @@ class ZookeeperTest {
         zookeeper.x = 300;
         zookeeper.y = 300;
 
-        zookeeper.searchPath((monkey.x + (monkey.areaX))/panel.tileSize, (monkey.y + (monkey.areaY))/panel.tileSize);
+        zookeeper.searchPath((monkey.x + (monkey.areaX))/game.tileSize, (monkey.y + (monkey.areaY))/game.tileSize);
         assertEquals(zookeeper.direction, "right");
     }
 
@@ -133,7 +132,7 @@ class ZookeeperTest {
         zookeeper.x = 500;
         zookeeper.y = 300;
 
-        zookeeper.searchPath((monkey.x + (monkey.areaX))/panel.tileSize, (monkey.y + (monkey.areaY))/panel.tileSize);
+        zookeeper.searchPath((monkey.x + (monkey.areaX))/game.tileSize, (monkey.y + (monkey.areaY))/game.tileSize);
         assertEquals(zookeeper.direction, "left");
     }
 
@@ -146,7 +145,7 @@ class ZookeeperTest {
         zookeeper.x = 100;
         zookeeper.y = 500;
 
-        zookeeper.searchPath((monkey.x + (monkey.areaX))/panel.tileSize, (monkey.y + (monkey.areaY))/panel.tileSize);
+        zookeeper.searchPath((monkey.x + (monkey.areaX))/game.tileSize, (monkey.y + (monkey.areaY))/game.tileSize);
         // zookeeper first goes up when deciding
         assertEquals(zookeeper.direction, "up");
     }
@@ -160,7 +159,7 @@ class ZookeeperTest {
         zookeeper.x = 500;
         zookeeper.y = 500;
 
-        zookeeper.searchPath((monkey.x + (monkey.areaX))/panel.tileSize, (monkey.y + (monkey.areaY))/panel.tileSize);
+        zookeeper.searchPath((monkey.x + (monkey.areaX))/game.tileSize, (monkey.y + (monkey.areaY))/game.tileSize);
         // zookeeper first goes up when deciding
         assertEquals(zookeeper.direction, "up");
     }
@@ -174,7 +173,7 @@ class ZookeeperTest {
         zookeeper.x = 300;
         zookeeper.y = 300;
 
-        zookeeper.searchPath((monkey.x + (monkey.areaX))/panel.tileSize, (monkey.y + (monkey.areaY))/panel.tileSize);
+        zookeeper.searchPath((monkey.x + (monkey.areaX))/game.tileSize, (monkey.y + (monkey.areaY))/game.tileSize);
         // zookeeper first goes down when deciding
         assertEquals(zookeeper.direction, "down");
     }
@@ -188,7 +187,7 @@ class ZookeeperTest {
         zookeeper.x = 600;
         zookeeper.y = 100;
 
-        zookeeper.searchPath((monkey.x + (monkey.areaX))/panel.tileSize, (monkey.y + (monkey.areaY))/panel.tileSize);
+        zookeeper.searchPath((monkey.x + (monkey.areaX))/game.tileSize, (monkey.y + (monkey.areaY))/game.tileSize);
         // zookeeper first goes left when deciding
         assertEquals(zookeeper.direction, "left");
     }

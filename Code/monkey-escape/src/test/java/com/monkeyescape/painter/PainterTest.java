@@ -1,6 +1,7 @@
 package com.monkeyescape.painter;
 
 import com.monkeyescape.main.Game;
+import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.Panel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -13,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class PainterTest {
     private Painter testPainter;
-    private Panel testPanel;
-
+    private final Panel testPanel = new Panel(true);
+    private final KeyHandler testKeyHandler = new KeyHandler();
+    private final Game testGame = new Game(testKeyHandler);
     @BeforeEach
     void setup(){
-        testPanel = new Panel(new Game(false, false));
-        testPainter = new Painter(testPanel);
+        testPainter = new Painter(testGame, testPanel);
     }
 
     @Test

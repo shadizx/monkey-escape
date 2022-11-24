@@ -1,6 +1,6 @@
 package com.monkeyescape.entity.movingentity.Pathfinding;
 
-import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.Game;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @version 11/01/2022
  */
 public class Pathfinding {
-    Panel panel;
+    Game game;
     Node[][] node;
 
     //A list of nodes that are open and have not been touched
@@ -28,10 +28,10 @@ public class Pathfinding {
     /**
      * Initializes the pathfinder and creates the new nodes
      *
-     * @param panel A <code>Panel</code>> to refer to
+     * @param game A <code>Game</code>> to refer to
      */
-    public Pathfinding(Panel panel){
-        this.panel = panel;
+    public Pathfinding(Game game){
+        this.game = game;
 
         instantiateNodes();
     }  
@@ -40,10 +40,10 @@ public class Pathfinding {
      * Initializes the nodes to be used
      */
     public void instantiateNodes(){
-        node = new Node[panel.cols][panel.rows];
+        node = new Node[game.cols][game.rows];
 
-        for (int row = 0; row < panel.rows; row++) {
-            for (int col = 0; col < panel.cols; col++) {
+        for (int row = 0; row < game.rows; row++) {
+            for (int col = 0; col < game.cols; col++) {
                 node[col][row] = new Node(col,row);
             }
         }
@@ -56,15 +56,15 @@ public class Pathfinding {
         int col = 0;
         int row = 0;
 
-        while(col < panel.cols && row < panel.rows){
-            
+        while(col < game.cols && row < game.rows){
+
             node[col][row].open = false;
             node[col][row].checked = false;
             node[col][row].solid = false;
             node[col][row].path = false;
             
             col++;
-            if(col == panel.cols){
+            if(col == game.cols){
                 col = 0;
                 row++;
             }
@@ -95,9 +95,9 @@ public class Pathfinding {
         openList.add(currentNode);
 
         //Set which tiles are blocked/solid
-        for (int row = 0; row < panel.rows; row++) {
-            for (int col = 0; col < panel.cols; col++) {
-                node[col][row].solid = panel.tm.tileMap[col][row].blocked;
+        for (int row = 0; row < game.rows; row++) {
+            for (int col = 0; col < game.cols; col++) {
+                node[col][row].solid = game.tm.tileMap[col][row].blocked;
             }
         }
 
@@ -105,8 +105,8 @@ public class Pathfinding {
         node[goalCol][goalRow].solid = false;
 
         //Gets the cost of the nodes
-        for (int row = 0; row < panel.rows; row++) {
-            for (int col = 0; col < panel.cols; col++) {
+        for (int row = 0; row < game.rows; row++) {
+            for (int col = 0; col < game.cols; col++) {
                 getCost(node[col][row]);
             }
         }
@@ -149,10 +149,10 @@ public class Pathfinding {
             if(col - 1 >= 0){
                 openNode(node[col-1][row]);
             }
-            if(row + 1 < panel.rows){
+            if(row + 1 < game.rows){
                 openNode(node[col][row+1]);
             }
-            if(col + 1 < panel.cols){
+            if(col + 1 < game.cols){
                 openNode(node[col+1][row]);
             }    
             

@@ -10,30 +10,30 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
     private Game testGame;
-    private Panel testPanel;
+    private KeyHandler testKeyHandler;
 
     @BeforeEach
     void setup(){
-        testGame = new Game(false, false);
-        testPanel = testGame.panel;
-        testPanel.zookeepers.clear();
-        testPanel.getEntities().clear();
+        testKeyHandler = new KeyHandler();
+        testGame = new Game(testKeyHandler);
+        testGame.getEntities().clear();
+        testGame.zookeepers.clear();
     }
 
     @Test
     @DisplayName("Running spawnInitialEntities Tes")
     void spawnInitialEntitiesTest(){
         testGame.spawnInitialEntities();
-        assertEquals(7, testPanel.getEntities().size());
+        assertEquals(7,testGame.getEntities().size());
     }
 
     @Test
     @DisplayName("Running spawnMonkeyTest")
     void spawnMonkeyTest(){
         testGame.spawnMonkey();
-        int numEntities = testPanel.getEntities().size();
+        int numEntities = testGame.getEntities().size();
         assertEquals(1, numEntities);
-        MovingEntity testMonkey = (MovingEntity) testPanel.getEntities().get(0);
+        MovingEntity testMonkey = (MovingEntity) testGame.getEntities().get(0);
         assertEquals("monkey",testMonkey.type);
     }
 
@@ -42,14 +42,14 @@ class GameTest {
     void spawnZookeepersValidLevelTest(){
         testGame.setLevel(1);
         testGame.spawnZookeepers();
-        assertEquals(1, testPanel.zookeepers.size());
+        assertEquals(1,testGame.zookeepers.size());
     }
     @Test
     @DisplayName("Running spawnZookeepersValidTest level = 5")
     void spawnZookeepersValidLevelTest2(){
         testGame.setLevel(5);
         testGame.spawnZookeepers();
-        assertEquals(5, testPanel.zookeepers.size());
+        assertEquals(5,testGame.zookeepers.size());
     }
 
     @Test
@@ -57,17 +57,17 @@ class GameTest {
     void spawnZookeepersInValidLevelTest(){
         testGame.setLevel(0);
         testGame.spawnZookeepers();
-        assertEquals(0, testPanel.zookeepers.size());
+        assertEquals(0,testGame.zookeepers.size());
     }
 
     @Test
     @DisplayName("Running spawnBananasTest")
     void spawnBananasTest(){
-        testGame.spawnBananas();
-        int numEntities = testPanel.getEntities().size();
+        testGame.spawnBananas(2);
+        int numEntities = testGame.getEntities().size();
         assertEquals(2, numEntities);
-        FixedEntity testBanana1 = (FixedEntity) testPanel.getEntities().get(0);
-        FixedEntity testBanana2 = (FixedEntity) testPanel.getEntities().get(1);
+        FixedEntity testBanana1 = (FixedEntity) testGame.getEntities().get(0);
+        FixedEntity testBanana2 = (FixedEntity) testGame.getEntities().get(1);
         assertEquals("banana",testBanana1.type);
         assertEquals("banana",testBanana2.type);
     }
@@ -75,20 +75,20 @@ class GameTest {
     @DisplayName("Running spawnKeyTest")
     void spawnKeyTest(){
         testGame.spawnKeys();
-        int numEntities = testPanel.getEntities().size();
+        int numEntities = testGame.getEntities().size();
         assertEquals(1, numEntities);
-        FixedEntity testKey = (FixedEntity) testPanel.getEntities().get(0);
+        FixedEntity testKey = (FixedEntity) testGame.getEntities().get(0);
         assertEquals("key",testKey.type);
     }
 
     @Test
     @DisplayName("Running spawnLionPitsTest")
     void spawnLionPitsTest(){
-        testGame.spawnLionPits();
-        int numEntities = testPanel.getEntities().size();
+        testGame.spawnLionPits(2);
+        int numEntities = testGame.getEntities().size();
         assertEquals(2, numEntities);
-        FixedEntity testLionPit1 = (FixedEntity) testPanel.getEntities().get(0);
-        FixedEntity testLionPit2 = (FixedEntity) testPanel.getEntities().get(1);
+        FixedEntity testLionPit1 = (FixedEntity) testGame.getEntities().get(0);
+        FixedEntity testLionPit2 = (FixedEntity) testGame.getEntities().get(1);
         assertEquals("lionpit",testLionPit1.type);
         assertEquals("lionpit",testLionPit2.type);
     }
@@ -98,10 +98,10 @@ class GameTest {
     void restartTest(){
         testGame.restart();
         assertEquals(1, testGame.getLevel());
-        assertEquals(7, testPanel.getEntities().size());
-        assertEquals(1, testPanel.zookeepers.size());
-        assertEquals(0, testPanel.score);
-        assertEquals(0, testPanel.secondsTimer);
+        assertEquals(7,testGame.getEntities().size());
+        assertEquals(1,testGame.zookeepers.size());
+        assertEquals(0,testGame.score);
+        assertEquals(0,testGame.secondsTimer);
     }
     @Test
     @DisplayName("Running nextLevelTest level 2=>3")
@@ -109,16 +109,44 @@ class GameTest {
         testGame.setLevel(2);
         testGame.nextLevel();
         assertEquals(3, testGame.getLevel());
-        assertEquals(9, testPanel.getEntities().size());
-        assertEquals(3, testPanel.zookeepers.size());
-        assertEquals(0, testPanel.score);
-        assertEquals(0, testPanel.secondsTimer);
+        assertEquals(9,testGame.getEntities().size());
+        assertEquals(3,testGame.zookeepers.size());
+        assertEquals(0,testGame.score);
+        assertEquals(0,testGame.secondsTimer);
     }
 
+    @Test
+    @DisplayName("Running GameOverTestNegativeScore score < 0")
+    void GameOverTestNegativeScore(){
+        testGame.state.setGameState(State.GameState.PLAY);
+        testGame.score = -1;
+        testGame.update();
+        assertEquals(State.GameState.GAMEOVER, testGame.state.getGameState());
+    }
+    @Test
+    @DisplayName("Running GameOverTestNegativeScoreWithGameStateSTART score < 0, state = START")
+    void GameOverTestNegativeScoreWithGameStateSTART(){
+        testGame.state.setGameState(State.GameState.START);
+        testGame.score = -1;
+        assertEquals(State.GameState.START, testGame.state.getGameState());
+        testGame.update();
+        assertEquals(State.GameState.START, testGame.state.getGameState());
+    }
 
-
-
-
-
-
+    @Test
+    @DisplayName("Running NotGameOverTestPositiveScore score >= 0")
+    void NotGameOverTestPositiveScore(){
+        testGame.state.setGameState(State.GameState.PLAY);
+        testGame.score = 0;
+        testGame.update();
+        assertEquals(State.GameState.PLAY, testGame.state.getGameState());
+    }
+    @Test
+    @DisplayName("Running RestartTestAfterUpdate")
+    void RestartTestAfterUpdate(){
+        testGame.state.setGameState(State.GameState.RESTART);
+        assertEquals(State.GameState.RESTART, testGame.state.getGameState());
+        testGame.update();
+        assertEquals(State.GameState.START, testGame.state.getGameState());
+    }
 }

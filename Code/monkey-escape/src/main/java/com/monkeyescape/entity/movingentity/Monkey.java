@@ -1,7 +1,7 @@
 package com.monkeyescape.entity.movingentity;
 
+import com.monkeyescape.main.Game;
 import com.monkeyescape.main.KeyHandler;
-import com.monkeyescape.main.Panel;
 import com.monkeyescape.main.State;
 
 import java.awt.Rectangle;
@@ -22,11 +22,11 @@ public class Monkey extends MovingEntity {
     /**
      * Creates a Monkey
      *
-     * @param panel A <code>Panel</code>> to refer to
+     * @param game A <code>Game</code>> to refer to
      * @param kh a <code>KeyHandler</code> for handling key inputs
      */
-    public Monkey(Panel panel, KeyHandler kh) {
-        super(panel, kh);
+    public Monkey(Game game, KeyHandler kh) {
+        super(game, kh);
         type = "monkey";
         loadImage();
 
@@ -38,8 +38,8 @@ public class Monkey extends MovingEntity {
         area = new Rectangle(areaX, areaY, 32, 32);
 
         // start to wherever the cage is
-        x = panel.startCol * panel.tileSize;
-        y = panel.startRow * panel.tileSize;
+        x = game.startCol * game.tileSize;
+        y = game.startRow * game.tileSize;
 
         speed = 4;
     }
@@ -49,7 +49,7 @@ public class Monkey extends MovingEntity {
      */
     public void update() {
         //No movement if game is not in play
-        if(panel.state.getGameState() != State.GameState.PLAY) return;
+        if(game.state.getGameState() != State.GameState.PLAY) return;
         
         if (Monkey.inLionPit){
             direction = "jump";
@@ -74,9 +74,9 @@ public class Monkey extends MovingEntity {
         }
 
         collided = false;
-        panel.collisionChecker.checkTile(this);
-        panel.collisionChecker.checkFixedEntity(this);
-        panel.collisionChecker.checkZookeeper(this,panel.zookeepers);
+        game.collisionChecker.checkTile(this);
+        game.collisionChecker.checkFixedEntity(this);
+        game.collisionChecker.checkZookeeper(this, game.zookeepers);
 
         if (!collided && !Monkey.inLionPit && isMoving) {
             switch (direction) {

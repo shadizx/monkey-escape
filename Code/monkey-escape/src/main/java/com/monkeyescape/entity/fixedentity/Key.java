@@ -1,6 +1,6 @@
 package com.monkeyescape.entity.fixedentity;
 
-import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.Game;
 
 /**
  * Represents a Key
@@ -15,17 +15,17 @@ public class Key extends FixedEntity {
     /**
      * Creates a key with random position
      *
-     * @param panel A <code>Panel</code>> to refer to
+     * @param game A <code>Game</code>> to refer to
      */
-    public Key(Panel panel) {
-        super(panel);
+    public Key(Game game) {
+        super(game);
         type = "key";
         impact = 100;
         //position of door
-        this.exitCol = panel.exitCol;
-        this.exitRow = panel.exitRow;
+        this.exitCol = game.exitCol;
+        this.exitRow = game.exitRow;
 
-        panel.tm.addFixedEntitytoMap(y/ panel.tileSize, x/ panel.tileSize, this);
+        game.tm.addFixedEntitytoMap(y/ game.tileSize, x/ game.tileSize, this);
         loadImage();
     }
 
@@ -36,8 +36,8 @@ public class Key extends FixedEntity {
      */
     void useKey() {
         //unblocks door tile
-        panel.tm.tileMap[exitCol][exitRow].blocked = false;
-        panel.tm.tileMap[exitCol][exitRow].image = panel.tm.tileImages[0].image;
+        game.tm.tileMap[exitCol][exitRow].blocked = false;
+        game.tm.tileMap[exitCol][exitRow].image = game.tm.tileImages[0].image;
         playSound();
     }
 
