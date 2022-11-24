@@ -1,7 +1,7 @@
 package com.monkeyescape.entity.movingentity.Pathfinding;
 
 import com.monkeyescape.main.Game;
-import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.KeyHandler;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -12,15 +12,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PathfindingTest {
-    private final Game game = new Game(false, false);
-    private final Panel panel = new Panel(game);
-    private final Pathfinding pf = new Pathfinding(panel);
+    private final KeyHandler kh = new KeyHandler();
+    private final Game game = new Game(kh);
+    private final Pathfinding pf = new Pathfinding(game);
 
     @Test
     @DisplayName("Running instantiateNodes test")
     void instantiateNodes() {
         assertNotNull(pf.node);
-        assertEquals(pf.node.length, panel.cols);
+        assertEquals(pf.node.length, game.cols);
 
         for (Node[] nodeRow : pf.node) {
             for (Node node : nodeRow) {
@@ -32,8 +32,8 @@ class PathfindingTest {
     @Test
     @DisplayName("Running resetNodes test")
     void resetNodes() {
-        for (int i = 0; i < pf.panel.rows; i++) {
-            for (int j = 0; j < pf.panel.cols; j++) {
+        for (int i = 0; i < pf.game.rows; i++) {
+            for (int j = 0; j < pf.game.cols; j++) {
                 assertFalse(pf.node[j][i].open);
                 assertFalse(pf.node[j][i].checked);
                 assertFalse(pf.node[j][i].solid);
@@ -52,22 +52,22 @@ class PathfindingTest {
     void setNodes() {
         pf.resetNodes();
         pf.instantiateNodes();
-        panel.tm.getTiles();
-        panel.tm.generateMap();
+        game.tm.getTiles();
+        game.tm.generateMap();
 
         pf.setNodes(0, 0, 10, 10);
-        for (int i = 0; i < pf.panel.rows; i++) {
-            for (int j = 0; j < pf.panel.cols; j++) {
+        for (int i = 0; i < pf.game.rows; i++) {
+            for (int j = 0; j < pf.game.cols; j++) {
                 if(j != 10 && i != 10){ //Check only none goal tiles
-                    assertEquals(pf.node[j][i].solid, panel.tm.tileMap[j][i].blocked);
+                    assertEquals(pf.node[j][i].solid, game.tm.tileMap[j][i].blocked);
                 }
             }
         }
         assertFalse(pf.node[10][10].solid); //Check that goal tile is not solid
 
         assertFalse(pf.node[10][10].solid);
-        for (int i = 0; i < pf.panel.rows; i++) {
-            for (int j = 0; j < pf.panel.cols; j++) {
+        for (int i = 0; i < pf.game.rows; i++) {
+            for (int j = 0; j < pf.game.cols; j++) {
                 assertEquals(pf.node[j][i].gCost, Math.abs(pf.node[j][i].col - pf.startNode.col) + Math.abs(pf.node[j][i].row - pf.startNode.row));
                 assertEquals(pf.node[j][i].hCost, Math.abs(pf.node[j][i].col - pf.goalNode.col) + Math.abs(pf.node[j][i].row - pf.goalNode.row));
                 assertEquals(pf.node[j][i].fCost, pf.node[j][i].gCost + pf.node[j][i].hCost);
@@ -89,6 +89,7 @@ class PathfindingTest {
     }
 
     @Test
+    @DisplayName("Running search test")
     void search() {
         pf.currentNode = new Node(10, 1);
         pf.goalNode = new Node(13, 4);
@@ -105,6 +106,7 @@ class PathfindingTest {
     }
 
     @Test
+    @DisplayName("Running openNodeTest")
     void openNodeTest() {
         Node node = new Node(5, 5);
 
@@ -123,6 +125,7 @@ class PathfindingTest {
     }
 
     @Test
+    @DisplayName("Running trackThePath test")
     void trackThePath() {
         Node testStartCurrentNode = new Node(3, 3);
         pf.startNode = testStartCurrentNode;

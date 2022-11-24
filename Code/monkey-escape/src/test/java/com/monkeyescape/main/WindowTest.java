@@ -19,7 +19,7 @@ class WindowTest {
     @DisplayName("Add panel to window")
     void addPanel() {
         int count = Window.window.getComponentCount();
-        window.addPanel(new Panel(new Game(false, false)));
+        window.addPanel(new Panel(true));
         assertEquals(count, Window.window.getComponentCount());
         assertTrue(Window.window.isVisible());
     }

@@ -1,6 +1,6 @@
 package com.monkeyescape.entity.fixedentity;
 
-import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.Game;
 
 /**
  * Represents a banana
@@ -13,14 +13,14 @@ public class Banana extends FixedEntity {
 
     /**
      * Creates a banana with random position
-     * @param panel A <code>Panel</code>> to refer to
+     * @param game A <code>Game</code>> to refer to
      */
-    public Banana(Panel panel) {
-        super(panel);
+    public Banana(Game game) {
+        super(game);
         type = "banana";
         impact = 100;
 
-        panel.tm.addFixedEntitytoMap(y / panel.tileSize, x / panel.tileSize, this);
+        game.tm.addFixedEntitytoMap(y / game.tileSize, x / game.tileSize, this);
 
         loadImage();
     }
@@ -45,11 +45,12 @@ public class Banana extends FixedEntity {
     public void update() {
         // Banana despawns after set amount of time
         if (--lifecycle < 0) {
-            var tileToRemove = panel.tm.tileMap[x / panel.tileSize][y / panel.tileSize];
+            var tileToRemove = game.tm.tileMap[x / game.tileSize][y / game.tileSize];
             tileToRemove.hasFixedEntity = false;
             super.remove();
         }
     }
+
 
     @Override
     public void remove() {

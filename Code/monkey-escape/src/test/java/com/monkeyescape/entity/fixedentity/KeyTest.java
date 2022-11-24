@@ -1,9 +1,9 @@
-package com.monkeyescape.fixedentity;
+package com.monkeyescape.entity.fixedentity;
 
 import com.monkeyescape.entity.Position;
 import com.monkeyescape.entity.fixedentity.Key;
-import com.monkeyescape.entity.fixedentity.LionPit;
 import com.monkeyescape.main.Game;
+import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.Panel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -12,35 +12,34 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class LionPitTest {
-
-    private LionPit testLionPit;
-    private Panel testPanel;
+class KeyTest {
+    private Key testKey;
     private Game testGame;
+    private KeyHandler testKeyhandler;
 
     @BeforeEach
     void setup() {
-        testGame = new Game(false, false);
-        testPanel = new Panel(testGame);
-        testLionPit = new LionPit(testPanel);
+        testKeyhandler = new KeyHandler();
+        testGame = new Game(testKeyhandler);
+        testKey = new Key(testGame);
     }
 
     @Test
     @DisplayName("Running loadImage with invalid image")
     void loadImageInvalidImage() {
-        testLionPit.type = "notLionPit";
-        assertFalse(testLionPit.loadImage());
+        testKey.type = "notKey";
+        assertFalse(testKey.loadImage());
     }
 
     @Test
     @DisplayName("Running createRandomPosition to ensure boundary conditions of positions")
     void createRandomPositionValidRange() {
-        Position result = testLionPit.createRandomPosition(testPanel);
+        Position result = testKey.createRandomPosition(testGame);
 
-        int expectedMaxX = testPanel.tileSize * 14;
-        int expectedMinX = testPanel.tileSize * 1;
-        int expectedMaxY = testPanel.tileSize * 14;
-        int expectedMinY = testPanel.tileSize * 1;
+        int expectedMaxX = testGame.tileSize * 14;
+        int expectedMinX = testGame.tileSize * 1;
+        int expectedMaxY = testGame.tileSize * 14;
+        int expectedMinY = testGame.tileSize * 1;
 
         assertTrue(result.x >= expectedMinX);
         assertTrue(result.x <= expectedMaxX);
@@ -49,4 +48,10 @@ class LionPitTest {
         assertTrue(result.y <= expectedMaxY);
     }
 
+    @Test
+    @DisplayName("Running useKey to ensure updating of panel")
+    void useKeyValidRemoveUpdate() {
+        testKey.remove();
+        assertFalse(testGame.tm.tileMap[testGame.exitCol][testGame.exitRow].blocked);
+    }
 }

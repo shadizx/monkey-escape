@@ -1,81 +1,81 @@
 package com.monkeyescape.main;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 import com.monkeyescape.entity.fixedentity.Key;
 import com.monkeyescape.entity.fixedentity.LionPit;
 import com.monkeyescape.entity.movingentity.Monkey;
 import com.monkeyescape.entity.movingentity.Zookeeper;
 import com.monkeyescape.map.Tile;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class CollisionTest {
     private Collision collision;
-
-    private Panel panel;
-    private Game game = new Game(false, false);
-    Monkey monkey;
+    private KeyHandler keyhandler = new KeyHandler();
+    private Game game;
+    Monkey entity;
 
     @BeforeEach
     void setup() {
-        panel = new Panel(game);
-        collision = new Collision(panel,game);
+        game = new Game(keyhandler);
+        collision = new Collision(game);
 
         //Create a monkey
-        monkey = new Monkey(panel, panel.kh);
+        entity = new Monkey(game,keyhandler);
     }
 
     @Test
     @DisplayName("Running checkTile for invalid position")
     void checkTileInvalidPosition() {
         //Give the monkey a position that is off the map (to the left and above)
-        monkey.x = (-1)*panel.tileSize;
-        monkey.y = (-1)*panel.tileSize;
+        entity.x = (-1)*game.tileSize;
+        entity.y = (-1)*game.tileSize;
 
-        collision.checkTile(monkey);
+        collision.checkTile(entity);
 
-        assertTrue(monkey.collided);
+        assertTrue(entity.collided);
     }
 
     @Test
     @DisplayName("Running checkTile for valid position")
     void checkTileValidPosition() {
         //Give the monkey a position that is on the map (tile 1,1)
-        monkey.x = (1)*panel.tileSize;
-        monkey.y = (1)*panel.tileSize;
+        entity.x = (1)*game.tileSize;
+        entity.y = (1)*game.tileSize;
 
-        collision.checkTile(monkey);
+        collision.checkTile(entity);
 
-        assertFalse(monkey.collided);
+        assertFalse(entity.collided);
     }
 
     @Test
     @DisplayName("Running checkTile for tile that is blocked")
     void checkTileBlockedPosition() {
         //Give the monkey a position that is blocked (tile 0,5)
-        monkey.x = (0)*panel.tileSize;
-        monkey.y = (5)*panel.tileSize;
+        entity.x = (0)*game.tileSize;
+        entity.y = (5)*game.tileSize;
 
-        collision.checkTile(monkey);
+        collision.checkTile(entity);
 
-        assertTrue(monkey.collided);
+        assertTrue(entity.collided);
     }
 
     @Test
     @DisplayName("Running checkFixedEntity for invalid position")
     void checkFixedEntityInvalidPosition() {
         //Give the monkey a position that is off the map (to the left and above)
-        monkey.x = (-1)*panel.tileSize;
-        monkey.y = (-1)*panel.tileSize;
+        entity.x = (-1)*game.tileSize;
+        entity.y = (-1)*game.tileSize;
 
-        boolean fixedEntity = collision.checkFixedEntity(monkey);
+        boolean fixedEntity = collision.checkFixedEntity(entity);
 
         assertFalse(fixedEntity);
     }
@@ -84,22 +84,22 @@ class CollisionTest {
     @DisplayName("Running checkFixedEntity for valid position")
     void checkFixedEntityValidPosition() {
         //Set monkey to a tile in the middle of the map that might have a fixed entity
-        monkey.x = (8)*panel.tileSize;
-        monkey.y = (8)*panel.tileSize;
+        entity.x = (8)*game.tileSize;
+        entity.y = (8)*game.tileSize;
 
-        boolean fixedEntity = collision.checkFixedEntity(monkey);
+        boolean fixedEntity = collision.checkFixedEntity(entity);
 
-        assertEquals(panel.tm.tileMap[8][8].hasFixedEntity, fixedEntity);
+        assertEquals(game.tm.tileMap[8][8].hasFixedEntity, fixedEntity);
     }
 
     @Test
     @DisplayName("Running checkZookeeper for invalid position")
     void checkZookeeperInvalidPosition() {
         //Give the monkey a position that is off the map (to the left and above)
-        monkey.x = (-1)*panel.tileSize;
-        monkey.y = (-1)*panel.tileSize;
+        entity.x = (-1)*game.tileSize;
+        entity.y = (-1)*game.tileSize;
 
-        boolean fixedEntity = collision.checkZookeeper(monkey,panel.zookeepers);
+        boolean fixedEntity = collision.checkZookeeper(entity,game.zookeepers);
 
         assertFalse(fixedEntity);
     }
@@ -107,13 +107,13 @@ class CollisionTest {
     @Test
     @DisplayName("Running checkZookeeper for position a zookeeper is in")
     void checkZookeeperValidPosition() {
-        //Set monkey to a the same tile that a zookeeper is on
-        Zookeeper zookeeper = new Zookeeper(panel, panel.kh, monkey);
-        panel.addZookeeper(zookeeper);
-        monkey.x = zookeeper.x;
-        monkey.y = zookeeper.y;
+        //Set monkey to the same tile that a zookeeper is on
+        Zookeeper zookeeper = new Zookeeper(game, keyhandler, entity);
+        game.addZookeeper(zookeeper);
+        entity.x = zookeeper.x;
+        entity.y = zookeeper.y;
 
-        boolean fixedEntity = collision.checkZookeeper(monkey,panel.zookeepers);
+        boolean fixedEntity = collision.checkZookeeper(entity,game.zookeepers);
 
         assertTrue(fixedEntity);
     }
@@ -123,11 +123,11 @@ class CollisionTest {
     void processCollisionEmptyList() {
         List<Tile> potentialCollisions = new ArrayList<Tile>(); //Empty list
 
-        int beforeScore = panel.score;
+        int beforeScore = game.score;
 
-        collision.processCollision(panel, potentialCollisions, monkey);
+        collision.processCollision(game, potentialCollisions, entity);
 
-        assertEquals(beforeScore, panel.score);
+        assertEquals(beforeScore, game.score);
     }
 
     @Test
@@ -136,17 +136,16 @@ class CollisionTest {
         List<Tile> potentialCollisions = new ArrayList<Tile>(); //Empty list
         Tile tiletoadd = new Tile();
         tiletoadd.hasFixedEntity = true;
-        tiletoadd.FixedEntityObject = new LionPit(panel);
+        tiletoadd.FixedEntityObject = new LionPit(game);
 
-        monkey.x = tiletoadd.FixedEntityObject.x;
-        monkey.y = tiletoadd.FixedEntityObject.y;
+        entity.x = tiletoadd.FixedEntityObject.x;
+        entity.y = tiletoadd.FixedEntityObject.y;
 
         potentialCollisions.add(tiletoadd);
 
         boolean beforeStuckInPit = Monkey.inLionPit;
         Monkey.lionPitInvincibility = 0;
-
-        collision.processCollision(panel, potentialCollisions, monkey);
+        collision.processCollision(game, potentialCollisions, entity);
 
         assertEquals(tiletoadd.FixedEntityObject.impact, collision.delayedDamages);
         assertEquals(!beforeStuckInPit, Monkey.inLionPit);
@@ -158,14 +157,14 @@ class CollisionTest {
         List<Tile> potentialCollisions = new ArrayList<Tile>(); //Empty list
         Tile tiletoadd = new Tile();
         tiletoadd.hasFixedEntity = true;
-        tiletoadd.FixedEntityObject = new Key(panel);
+        tiletoadd.FixedEntityObject = new Key(game);
 
         potentialCollisions.add(tiletoadd);
 
-        int beforeScore = panel.score;
+        int beforeScore = game.score;
 
-        collision.processCollision(panel, potentialCollisions, monkey);
+        collision.processCollision(game, potentialCollisions, entity);
 
-        assertEquals(beforeScore+tiletoadd.FixedEntityObject.impact, panel.score);
+        assertEquals(beforeScore+tiletoadd.FixedEntityObject.impact, game.score);
     }
 }

@@ -1,6 +1,6 @@
 package com.monkeyescape.map;
 
-import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.Game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,24 +29,24 @@ public class MapGenerator {
     /**
      * Creates a new map generator
      *
-     * @param panel a <code>Panel</code> to refer to
+     * @param game a <code>Panel</code> to refer to
      */
-    public MapGenerator(Panel panel) {
-        this.numRows = panel.rows;
-        this.numCols = panel.cols;
+    public MapGenerator(Game game) {
+        this.numRows = game.rows;
+        this.numCols = game.cols;
         this.map = new int[numCols][numRows];
 
         //starting position of the cage around boundary
-        startCol = panel.startCol;
-        startRow = panel.startRow;
+        startCol = game.startCol;
+        startRow = game.startRow;
 
         //start of maze
         col = startCol;
         row = startRow +1;
 
         //ending position of the door/exit around boundary
-        exitCol = panel.exitCol;
-        exitRow = panel.exitRow;
+        exitCol = game.exitCol;
+        exitRow = game.exitRow;
     }
 
     /**Initializes the starting map to all walls,

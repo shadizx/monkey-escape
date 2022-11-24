@@ -8,24 +8,24 @@ import com.monkeyescape.main.Game;
 import com.monkeyescape.main.KeyHandler;
 import com.monkeyescape.main.State;
 import com.monkeyescape.map.Tile;
-import com.monkeyescape.main.Panel;
 
+import java.awt.Panel;
 import java.awt.event.KeyEvent;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 class MonkeyTest {
+    private Panel panel = new Panel();
     private Monkey monkey;
 
-    private Panel panel;
-    private Game game = new Game(false,false);
     private KeyHandler keyHandler = new KeyHandler();
+    private Game game = new Game(keyHandler);
 
     @BeforeEach
     void setup() {
-        panel = new Panel(game);
-        monkey = new Monkey(panel,keyHandler);
-        for (Tile[] tileRow : panel.tm.tileMap) {
+        monkey = new Monkey(game,keyHandler);
+        for (Tile[] tileRow : game.tm.tileMap) {
             for (Tile tile : tileRow) {
                 tile.blocked = false;
             }
@@ -36,7 +36,7 @@ class MonkeyTest {
     @DisplayName("Testing Monkey update function while not in play mode")
     void updateWhileNotInPlay() {
         //Set the game state to not be in play
-        panel.state.setGameState(State.GameState.START);
+        game.state.setGameState(State.GameState.START);
         int x = monkey.x;
         int y = monkey.y;
 
@@ -50,9 +50,9 @@ class MonkeyTest {
     @Test
     @DisplayName("Testing Monkey update function while in play mode")
     void updateWhileInPlay() {
-        panel.state.setGameState(State.GameState.PLAY);
-
-        //Check the monkey's movement depending on it's direction
+        game.state.setGameState(State.GameState.PLAY);
+        Monkey.inLionPit = false;
+        //Check the monkey's movement depending on its direction
         //Jump
         int beforeX = monkey.x;
         int beforeY = monkey.y;
@@ -114,7 +114,7 @@ class MonkeyTest {
         monkey.timeInLionPit = 119;
         monkey.update();
         assertEquals(0,monkey.timeInLionPit); //It resets
-        assertEquals(false, Monkey.inLionPit);
+        assertFalse(Monkey.inLionPit);
         assertEquals(60, Monkey.lionPitInvincibility);
 
         //Check that lionPitInvincibility decrements

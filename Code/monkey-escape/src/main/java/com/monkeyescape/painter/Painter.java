@@ -16,14 +16,17 @@ import java.awt.image.BufferedImage;
  */
 public class Painter {
     private final Panel panel;
+    private final Game game;
 
     /**
      * Creates a Painter object
      *
-     * @param panel a <code>Panel</code> to refer to
+     * @param game  a <code>Game</code> refer to
+     * @param panel a <code>Panel</code> to draw on
      */
-    public Painter(Panel panel) {
+    public Painter(Game game, Panel panel) {
         this.panel = panel;
+        this.game = game;
     }
 
     /**
@@ -65,7 +68,7 @@ public class Painter {
         g2.drawString("Score:", (panel.width + panel.sideBarWidth / 2) - (fontSize + 20), 60);
 
         g2.setFont(new Font("Helvetica", Font.PLAIN, fontSize));
-        g2.drawString(String.valueOf(panel.score), panel.width + panel.sideBarWidth / 2 - (fontSize + 2), 100);
+        g2.drawString(String.valueOf(game.score), panel.width + panel.sideBarWidth / 2 - (fontSize + 2), 100);
     }
 
     /**
@@ -79,7 +82,7 @@ public class Painter {
         g2.drawString("Time:", (panel.width + panel.sideBarWidth / 2) - (fontSize + 8), panel.height - 100);
 
         g2.setFont(new Font("Helvetica", Font.PLAIN, fontSize));
-        g2.drawString(formatSeconds(panel.secondsTimer), panel.width + panel.sideBarWidth / 2 - (fontSize + 2), panel.height - 60);
+        g2.drawString(formatSeconds(game.secondsTimer), panel.width + panel.sideBarWidth / 2 - (fontSize + 2), panel.height - 60);
     }
 
     /**

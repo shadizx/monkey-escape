@@ -1,6 +1,6 @@
 package com.monkeyescape.entity.fixedentity;
 
-import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.Game;
 
 /**
  * Represents a lion pit
@@ -12,13 +12,13 @@ public class LionPit extends FixedEntity {
     /**
      * Initializes a lion pit
      *
-     * @param panel a <code>Panel</code> to refer to
+     * @param game a <code>Game</code> to refer to
      */
-    public LionPit(Panel panel) {
-        super(panel);
+    public LionPit(Game game) {
+        super(game);
         type = "lionpit";
         impact = -150;
-        panel.tm.addFixedEntitytoMap(y/ panel.tileSize, x/ panel.tileSize, this);
+        game.tm.addFixedEntitytoMap(y/ game.tileSize, x/ game.tileSize, this);
         loadImage();
     }
 

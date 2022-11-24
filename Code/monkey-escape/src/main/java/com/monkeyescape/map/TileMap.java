@@ -1,7 +1,7 @@
 package com.monkeyescape.map;
 
 import com.monkeyescape.entity.fixedentity.FixedEntity;
-import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.Game;
 
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
@@ -17,7 +17,7 @@ import java.io.IOException;
  * @version 11/02/2022
  * */
 public class TileMap {
-    Panel p;
+    Game game;
     public Tile [] tileImages;
 
     public int numCols;
@@ -30,15 +30,15 @@ public class TileMap {
     /**
      * Creates a new tile map
      *
-     * @param p a <code>Panel</code> to refer to
+     * @param g a <code>Game</code> to refer to
      */
-    public TileMap(Panel p){
-        this.p = p;
-        numCols = p.cols;
-        numRows = p.rows;
+    public TileMap(Game g){
+        this.game = g;
+        numCols = g.cols;
+        numRows = g.rows;
         tileImages = new Tile[4];
         tileMap = new Tile[numCols][numRows];
-        mapGenerator = new MapGenerator(p);
+        mapGenerator = new MapGenerator(game);
         randomMap = mapGenerator.generateRandomMap();
         getTiles();
         generateMap();
@@ -113,7 +113,7 @@ public class TileMap {
      * @param fixedEntity fixedEntity object to add to map
      * */
     public void addFixedEntitytoMap(int column, int row, FixedEntity fixedEntity){
-        if(column < 0 || column >= p.cols || row < 0 || row >= p.rows){
+        if(column < 0 || column >= game.cols || row < 0 || row >= game.rows){
             System.out.printf("(%d,%d) is an invalid position", column,row);
             return;
         }
@@ -132,7 +132,7 @@ public class TileMap {
         int col = 0;
         while(col < numCols && row < numRows){
             while(col < numCols){
-                drawTile(g2, tileMap[col][row].image, col* p.tileSize, row*p.tileSize);
+                drawTile(g2, tileMap[col][row].image, col* game.tileSize, row*game.tileSize);
                 col++;
             }
             col = 0;
@@ -149,6 +149,6 @@ public class TileMap {
      * @param row the row where the tile is to be drawn
      * */
     public void drawTile(Graphics2D g2, BufferedImage tileImage, int col, int row){
-        g2.drawImage(tileImage, col, row, p.tileSize, p.tileSize, null);
+        g2.drawImage(tileImage, col, row, game.tileSize, game.tileSize, null);
     }
 }

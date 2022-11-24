@@ -1,6 +1,6 @@
 package com.monkeyescape.entity;
 
-import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.Game;
 
 import java.awt.Graphics2D;
 
@@ -30,5 +30,5 @@ public interface Entity {
     /**
      * Creates a random  valid Position within the map
      * */
-     Position createRandomPosition(Panel panel);
+     Position createRandomPosition(Game game);
 }

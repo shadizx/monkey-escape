@@ -2,8 +2,8 @@ package com.monkeyescape.entity.movingentity;
 
 import com.monkeyescape.entity.Entity;
 import com.monkeyescape.entity.Position;
+import com.monkeyescape.main.Game;
 import com.monkeyescape.main.KeyHandler;
-import com.monkeyescape.main.Panel;
 import com.monkeyescape.main.State;
 
 import javax.imageio.ImageIO;
@@ -19,7 +19,7 @@ import java.util.HashMap;
  * @version 10/30/2022
  */
 public abstract class MovingEntity implements Entity {
-    Panel panel;
+    Game game;
     KeyHandler kh;
 
     public String type = null;
@@ -42,11 +42,11 @@ public abstract class MovingEntity implements Entity {
     /**
      * Creates a moving entity
      *
-     * @param panel A <code>Panel</code>> to refer to
+     * @param game A <code>Game</code>> to refer to
      * @param kh a <code>KeyHandler</code> for handling key inputs
      */
-    public MovingEntity(Panel panel, KeyHandler kh) {
-        this.panel = panel;
+    public MovingEntity(Game game, KeyHandler kh) {
+        this.game = game;
         this.kh = kh;
         direction = "down";
     }
@@ -82,7 +82,7 @@ public abstract class MovingEntity implements Entity {
      */
     public void update() {
         //No movement if game is not in play
-        if(panel.state.getGameState() != State.GameState.PLAY) return;
+        if(game.state.getGameState() != State.GameState.PLAY) return;
         
         if(kh.isPressedUp() || kh.isPressedRight() || kh.isPressedDown() || kh.isPressedLeft()) {
             if (kh.isPressedUp()) {
@@ -99,9 +99,9 @@ public abstract class MovingEntity implements Entity {
             } 
 
             collided = false;
-            panel.collisionChecker.checkTile(this);
-            panel.collisionChecker.checkFixedEntity(this);
-            panel.collisionChecker.checkZookeeper(this,panel.zookeepers);
+            game.collisionChecker.checkTile(this);
+            game.collisionChecker.checkFixedEntity(this);
+            game.collisionChecker.checkZookeeper(this, game.zookeepers);
 
             if (!collided) {
                 switch (direction) {
@@ -132,23 +132,23 @@ public abstract class MovingEntity implements Entity {
     /**
      * Creates a random position
      *
-     * @param panel A <code>Panel</code>> to refer to
+     * @param game A <code>Game</code>> to refer to
      */
-    public Position createRandomPosition(Panel panel){
-        return getPosition(panel);
+    public Position createRandomPosition(Game game){
+        return getPosition(game);
     }
 
-    public static Position getPosition(Panel panel) {
+    public static Position getPosition(Game game) {
         boolean found = false;
         Position newPos = null;
         while(!found) {
             //generates random colIndex and rowIndex between 1-14 which are between boundaries of walls
-            int colIndex = (int) (Math.random() * (panel.cols - 2) + 1);
-            int rowIndex = (int) (Math.random() * (panel.rows - 2) + 1);
-            if(!(panel.tm.tileMap[colIndex][rowIndex].blocked) && !(panel.tm.tileMap[colIndex][rowIndex].hasFixedEntity)
-                    && (colIndex < panel.exitCol - 2 && rowIndex < panel.exitRow - 2)
-                    && (colIndex > panel.startCol + 2 && rowIndex > panel.startRow + 2)){
-                newPos = new Position(colIndex*panel.tileSize, rowIndex*panel.tileSize);
+            int colIndex = (int) (Math.random() * (game.cols - 2) + 1);
+            int rowIndex = (int) (Math.random() * (game.rows - 2) + 1);
+            if(!(game.tm.tileMap[colIndex][rowIndex].blocked) && !(game.tm.tileMap[colIndex][rowIndex].hasFixedEntity)
+                    && (colIndex < game.exitCol - 2 && rowIndex < game.exitRow - 2)
+                    && (colIndex > game.startCol + 2 && rowIndex > game.startRow + 2)){
+                newPos = new Position(colIndex*game.tileSize, rowIndex*game.tileSize);
                 found = true;
             }
 
@@ -157,6 +157,6 @@ public abstract class MovingEntity implements Entity {
     }
 
     public void draw(Graphics2D g2) {
-        g2.drawImage(images.get(direction + drawImageVersion), x, y, panel.tileSize, panel.tileSize, null);
+        g2.drawImage(images.get(direction + drawImageVersion), x, y, game.tileSize, game.tileSize, null);
     }
 }

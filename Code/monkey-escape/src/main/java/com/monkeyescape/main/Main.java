@@ -3,8 +3,8 @@ package com.monkeyescape.main;
 /**
  * Runs the main method
  *
- * @author Shadi Zoldjalali
- * @version 10/26/2022
+ * @author Shadi Zoldjalali & Jeffrey Ramacula
+ * @version 11/20/2022
  */
 public class Main {
     /**
@@ -13,6 +13,8 @@ public class Main {
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
-        new Game(true, true);
+        Window window = new Window();
+        Panel panel = new Panel();
+        window.addPanel(panel);
     }
 }

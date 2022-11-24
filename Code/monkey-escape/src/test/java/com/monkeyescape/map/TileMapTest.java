@@ -1,12 +1,13 @@
 package com.monkeyescape.map;
 
-import com.monkeyescape.entity.fixedentity.FixedEntity;
-import com.monkeyescape.entity.fixedentity.Key;
-import com.monkeyescape.main.Game;
-import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.KeyHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import com.monkeyescape.entity.fixedentity.FixedEntity;
+import com.monkeyescape.entity.fixedentity.Key;
+import com.monkeyescape.main.Game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -15,13 +16,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class TileMapTest {
     private TileMap tileMap;
 
-    private Panel panel;
-    private Game game = new Game(false, false);
+
+    private Game game;
+    private KeyHandler keyHandler = new KeyHandler();
 
     @BeforeEach
     void setup() {
-        panel = new Panel(game);
-        tileMap = new TileMap(panel);
+        game = new Game(keyHandler);
+        tileMap = new TileMap(game);
     }
 
     @Test
@@ -40,9 +42,9 @@ class TileMapTest {
     @DisplayName("Running Make New Map")
     void makeNewMap() {
         //The original map
-        Tile[][] oldTileMap = new Tile[panel.cols][panel.rows];
-        for(int col = 0; col < panel.cols; col++){
-            for(int row = 0; row < panel.rows; row++){
+        Tile[][] oldTileMap = new Tile[game.cols][game.rows];
+        for(int col = 0; col < game.cols; col++){
+            for(int row = 0; row < game.rows; row++){
                 oldTileMap[col][row] = new Tile();
                 oldTileMap[col][row].image = tileMap.tileMap[col][row].image;
             }
@@ -55,8 +57,8 @@ class TileMapTest {
         Tile[][] newTileMap = tileMap.tileMap;
 
         boolean same = true;
-        for(int col = 0; col < panel.cols; col++){
-            for(int row = 0; row < panel.rows; row++){
+        for(int col = 0; col < game.cols; col++){
+            for(int row = 0; row < game.rows; row++){
                 if(oldTileMap[col][row].image != newTileMap[col][row].image){
                     same = false;
                 }
@@ -73,8 +75,8 @@ class TileMapTest {
 
         //Check that randomMap was copied into tileMap
         boolean same = true;
-        for(int col = 0; col < panel.cols; col++){
-            for(int row = 0; row < panel.rows; row++){
+        for(int col = 0; col < game.cols; col++){
+            for(int row = 0; row < game.rows; row++){
                 if(tileMap.tileMap[col][row].image != tileMap.tileImages[tileMap.randomMap[col][row]].image){
                     same = false;
                 }
@@ -87,7 +89,7 @@ class TileMapTest {
     @DisplayName("Running addFixedEntitytoMap")
     void addFixedEntitytoMap() {
         //Assign FixedEntity to a position
-        FixedEntity fixedEntity = new Key(panel);
+        FixedEntity fixedEntity = new Key(game);
         tileMap.addFixedEntitytoMap(8, 8, fixedEntity);
 
         assertEquals(fixedEntity,tileMap.tileMap[8][8].FixedEntityObject);

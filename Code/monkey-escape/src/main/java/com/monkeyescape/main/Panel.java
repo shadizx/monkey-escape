@@ -1,9 +1,6 @@
 package com.monkeyescape.main;
 
 import com.monkeyescape.entity.Entity;
-import com.monkeyescape.entity.fixedentity.Banana;
-import com.monkeyescape.entity.movingentity.Zookeeper;
-import com.monkeyescape.map.TileMap;
 import com.monkeyescape.painter.Painter;
 
 import javax.swing.JPanel;
@@ -11,17 +8,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents a JPanel panel that is used for interaction
  *
- * @author Shadi Zoldjalali & Kaleigh Toering
- * @version 11/21/2022
+ * @author Shadi Zoldjalali & Kaleigh Toering & Jeffrey Ramacula
+ * @version 11/23/2022
  */
 public class Panel extends JPanel implements Runnable {
-    private final Game game;
+    public final Game game;
+    Sound sound;
+
     public final int tileSize = 48;
     public final int rows = 16;
     public final int cols = 16;
@@ -30,41 +28,46 @@ public class Panel extends JPanel implements Runnable {
     public final int sideBarWidth = 200;
     public final int FPS = 60;
 
-    public int score = 0;
-    public int secondsTimer = 0;
-
-    //set start tile where the cage will be to the top-left corner
-    public final int startCol = 1;
-    public final int startRow = 0;
-
-    //set end tile where the door/exit will be to the bottom-right corner
-    public final int exitCol = cols-2;
-    public final int exitRow = rows-1;
-
-    public TileMap tm = new TileMap(this);
     protected KeyHandler kh = new KeyHandler();
-    private final Painter painter = new Painter(this);
+    private final Painter painter;
     private Thread gameThread;
 
-    public State state = new State();
 
-    private final List<Entity> entities = new ArrayList<>();
-    public List<Zookeeper> zookeepers = new ArrayList<>();
-    public Collision collisionChecker;
-
+    private List<Entity> entities;
     /**Ï
-     * Creates a new Panel
+     * Creates a new Panel with no sound for testing purposes
      *
-     * @param game a <code>Game</code> to refer to
+     * @param noSound true for no sound
      */
-    public Panel(Game game) {
+    public Panel(boolean noSound){
         this.setPreferredSize(new Dimension(width + sideBarWidth, height));
         this.setBackground(Color.GREEN);
         this.setDoubleBuffered(true); // improves games rendering performance
         this.addKeyListener(kh);
         this.setFocusable(true); // Game panel is "focused" to receive key input
-        collisionChecker = new Collision(this, game);
-        this.game = game;
+
+        game = new Game(kh);
+        this.painter = new Painter(game, this);
+        startGameThread();
+    }
+
+    /**Ï
+     * Creates a new Panel
+     *
+     */
+    public Panel() {
+        this.setPreferredSize(new Dimension(width + sideBarWidth, height));
+        this.setBackground(Color.GREEN);
+        this.setDoubleBuffered(true); // improves games rendering performance
+        this.addKeyListener(kh);
+        this.setFocusable(true); // Game panel is "focused" to receive key input
+
+        game = new Game(kh);
+        this.painter = new Painter(game, this);
+        startGameThread();
+        sound = new Sound();
+        playMusic(0);
+
     }
 
     /**
@@ -94,11 +97,9 @@ public class Panel extends JPanel implements Runnable {
 
         // Game loop
         while (gameThread != null) {
-
             currentTime = System.nanoTime();
 
             delta += (currentTime - lastTime) / drawInterval;
-
 
             timerCount += (currentTime - lastTime);
             timerCount = addSeconds(timerCount);
@@ -112,32 +113,29 @@ public class Panel extends JPanel implements Runnable {
 
                 delta--;
             }
-
-            if (collisionChecker.delayedDamages < 0 && delayCheck) {
-                score += collisionChecker.delayedDamages;
-                collisionChecker.delayedDamages = 0;
+            if (game.collisionChecker.delayedDamages < 0 && delayCheck) {
+                game.score += game.collisionChecker.delayedDamages;
+                game.collisionChecker.delayedDamages = 0;
                 delayCheck = false;
                 cachedNanoTime = delayCount;
                 startDelayTimer = true;
             }
-
             if ((delayCount >= 1000000000 + cachedNanoTime) && startDelayTimer) {
                 delayCheck = true;
-                collisionChecker.delayedDamages = 0;
+                game.collisionChecker.delayedDamages = 0;
                 startDelayTimer = false;
             }
         }
     }
-
     /**
      * Adds 1 second to timer every 1000000000 nanoseconds
      *
      * @param timerCount time elapsed in nanoseconds
      */
     public long addSeconds(long timerCount) {
-        if (state.getGameState() == State.GameState.PLAY) {
+        if (game.state.getGameState() == State.GameState.PLAY) {
             if (timerCount >= 1000000000) {
-                secondsTimer += 1;
+                game.secondsTimer += 1;
                 timerCount = 0;
             }
         }
@@ -148,30 +146,18 @@ public class Panel extends JPanel implements Runnable {
      * Updates game information
      */
     public void update() {
-        state.changeState(kh);
-
-        // Create new game if in restart state
-        if (state.getGameState() == State.GameState.RESTART) {
-            game.restart();
-            state.changeState(kh);
-        }
-        if(state.getGameState() == State.GameState.PLAY) {
-            for (int i = 0; i < entities.size(); i++) {
-                entities.get(i).update();
-            }
-
-            //Spawns a new banana on average every 15 seconds
-            if (((int) (Math.random() * 900)) == 1) {
-                addEntity(new Banana(this));
-            }
-
-            if (score < 0) {
-                state.setGameState(State.GameState.GAMEOVER);
-                state.changeState(kh);
-            }
-        }
+        game.update();
     }
-
+    /**
+     * Plays specified sound
+     *
+     * @param i index for the sound file
+     */
+    public void playMusic(int i){
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
     /**
      * Draws the UI
      */
@@ -182,88 +168,17 @@ public class Panel extends JPanel implements Runnable {
         painter.paintTimer(g2);
         painter.paintLevel(g2);
 
-        State.GameState gameState = state.getGameState();
+        State.GameState gameState = game.state.getGameState();
         if (gameState != State.GameState.PLAY) {
             painter.paintMenu(g2, gameState.toString().toLowerCase());
         } else {
-            // draw stuff here
-            tm.drawMap(g2);
-
+            game.tm.drawMap(g2);
+            entities = game.getEntities();
             // use this type of for loop to not throw exception ConcurrentModificationException
             for (int i = 0; i < entities.size(); i++) {
                 entities.get(i).draw(g2);
             }
-            // draw stuff here
-
             g2.dispose(); // good practice to save memory
         }
-    }
-    /**
-     * Gets the List of Entities
-     *
-     * @return List of Entity objects
-     */
-    public List<Entity> getEntities(){
-        return entities;
-    }
-
-
-
-    /**
-     * Adds an entity into the panel
-     *
-     * @param entity A non-null entity
-     */
-    public void addEntity(Entity entity) {
-        entities.add(0,entity);
-    }
-
-    /**
-     * Adds an zookeeper to a list of enemies
-     *
-     * @param zookeeper A non-null entity
-     */
-    public void addZookeeper(Zookeeper zookeeper) {
-        zookeepers.add(zookeeper);
-    }
-
-    /**
-     * Removes selected entity from the panel
-     *
-     * @param entity A non-null entity
-     */
-    public boolean removeEntity(Entity entity) {
-        return entities.remove(entity);
-    }
-
-    /**
-     * Removes selected zookeeper from the list of enemies
-     *
-     * @param zookeeper A non-null entity
-     */
-    public boolean removeZookeeper(Zookeeper zookeeper) {
-        return zookeepers.remove(zookeeper);
-    }
-
-    /**
-     * Restarts the game by resetting the game progress
-     */
-    public void restartGame() {
-        entities.clear();
-        zookeepers.clear();
-        score = 0;
-        secondsTimer = 0;
-
-        tm.makeNewMap();
-    }
-
-    /**
-     * Resets the list of entities and zookeepers for the next level to be played and generates a new map
-     */
-    public void nextLevel(){
-        entities.clear();
-        zookeepers.clear();
-
-        tm.makeNewMap();
     }
 }

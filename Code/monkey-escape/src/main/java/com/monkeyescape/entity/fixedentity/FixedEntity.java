@@ -2,7 +2,7 @@ package com.monkeyescape.entity.fixedentity;
 
 import com.monkeyescape.entity.Entity;
 import com.monkeyescape.entity.Position;
-import com.monkeyescape.main.Panel;
+import com.monkeyescape.main.Game;
 import com.monkeyescape.main.Sound;
 
 import javax.imageio.ImageIO;
@@ -18,7 +18,7 @@ import static com.monkeyescape.entity.movingentity.MovingEntity.getPosition;
  * @version 11/02/2022
  */
 public abstract class FixedEntity implements Entity {
-    protected final Panel panel;
+    protected final Game game;
 
     public String type;
 
@@ -32,11 +32,11 @@ public abstract class FixedEntity implements Entity {
     /**
      * Creates a fixed entity
      *
-     * @param panel A <code>Panel</code>> to refer to
+     * @param game A <code>Game</code>> to refer to
      */
-    public FixedEntity(Panel panel) {
-        this.panel = panel;
-        Position pos = createRandomPosition(panel);
+    public FixedEntity(Game game) {
+        this.game = game;
+        Position pos = createRandomPosition(game);
         x = pos.x;
         y = pos.y;
         this.sound = new Sound();
@@ -54,24 +54,25 @@ public abstract class FixedEntity implements Entity {
     }
 
     public void draw(Graphics2D g2) {
-        g2.drawImage(image, x, y, panel.tileSize, panel.tileSize, null);
+        g2.drawImage(image, x, y, game.tileSize, game.tileSize, null);
     }
 
     /**
      * Creates a random position
      *
-     * @param panel A <code>Panel</code>> to refer to
+     * @param game A <code>Game</code>> to refer to
      */
-    public Position createRandomPosition(Panel panel){
-        return getPosition(panel);
+    public Position createRandomPosition(Game game){
+        return getPosition(game);
     }
 
     /**
-     * Removes the fixed entity from the panel
+     * Removes the fixed entity from the Game
      */
     public void remove() {
-        panel.removeEntity(this);
+        game.removeEntity(this);
     }
+
 
     /**
      * Plays the sound effect of the Fixed Entity
