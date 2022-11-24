@@ -11,7 +11,7 @@ import java.util.Random;
  * Generates a random maze-like map
  *
  * @author Jeffrey Ramacula
- * @version 11/02/2022
+ * @version 11/23/2022
  * */
 public class MapGenerator {
     enum Direction {UP, DOWN, LEFT, RIGHT}
@@ -29,7 +29,7 @@ public class MapGenerator {
     /**
      * Creates a new map generator
      *
-     * @param game a <code>Panel</code> to refer to
+     * @param game a <code>Game</code> to refer to
      */
     public MapGenerator(Game game) {
         this.numRows = game.rows;
@@ -99,22 +99,22 @@ public class MapGenerator {
             colBetween = col;
             Direction chosenDirection = directions.remove(0);
             switch (chosenDirection) {
-                case UP:
+                case UP -> {
                     nextRow -= 2;
                     rowBetween -= 1;
-                    break;
-                case DOWN:
+                }
+                case DOWN -> {
                     nextRow += 2;
                     rowBetween += 1;
-                    break;
-                case LEFT:
+                }
+                case LEFT -> {
                     nextCol -= 2;
                     colBetween -= 1;
-                    break;
-                case RIGHT:
+                }
+                case RIGHT -> {
                     nextCol += 2;
                     colBetween += 1;
-                    break;
+                }
             }
             if (nextRow > 0 && nextRow < numRows-1 && nextCol > 0 && nextCol < numCols-1) {
                 if (map[nextCol][nextRow] == 1) {
@@ -125,6 +125,7 @@ public class MapGenerator {
         }
         return map;
     }
+
     /**
      *This method takes a perfect Maze and deletes some walls to
      * introduce cycles and empty space in the map

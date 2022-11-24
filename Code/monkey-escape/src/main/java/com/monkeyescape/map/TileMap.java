@@ -8,13 +8,12 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-
 /**
  * Holds information of all the tiles in the map and can be
  * accessed by tileMap[col][row]
  *
  * @author Jeffrey Ramacula
- * @version 11/02/2022
+ * @version 11/23/2022
  * */
 public class TileMap {
     Game game;
@@ -84,25 +83,21 @@ public class TileMap {
     
     /**
      * Initializes tileMap with tiles based on a random map from MapGenerator
-     * Draws the map onto the screen*/
-    public void generateMap(){
-            int row = 0;
-            int col = 0;
-            int tileIndex;
+     * Draws the map onto the screen
+     */
+    public void generateMap() {
+        int tileIndex;
 
-            while(col < numCols && row < numRows){
-                while(col < numCols){
-                    tileMap[col][row] = new Tile();
-                    tileIndex = randomMap[col][row];
-                    tileMap[col][row].image = tileImages[tileIndex].image;
-                    tileMap[col][row].blocked = tileImages[tileIndex].blocked;
-                    tileMap[col][row].hasFixedEntity = tileImages[tileIndex].hasFixedEntity;
-                    tileMap[col][row].FixedEntityObject = tileImages[tileIndex].FixedEntityObject;
-                    col++;
-                }
-                col = 0;
-                row++;
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                tileMap[col][row] = new Tile();
+                tileIndex = randomMap[col][row];
+                tileMap[col][row].image = tileImages[tileIndex].image;
+                tileMap[col][row].blocked = tileImages[tileIndex].blocked;
+                tileMap[col][row].hasFixedEntity = tileImages[tileIndex].hasFixedEntity;
+                tileMap[col][row].FixedEntityObject = tileImages[tileIndex].FixedEntityObject;
             }
+        }
     }
 
     /**
@@ -112,8 +107,8 @@ public class TileMap {
      * @param row row on map to add fixedEntity
      * @param fixedEntity fixedEntity object to add to map
      * */
-    public void addFixedEntitytoMap(int column, int row, FixedEntity fixedEntity){
-        if(column < 0 || column >= game.cols || row < 0 || row >= game.rows){
+    public void addFixedEntitytoMap(int column, int row, FixedEntity fixedEntity) {
+        if(column < 0 || column >= game.cols || row < 0 || row >= game.rows) {
             System.out.printf("(%d,%d) is an invalid position", column,row);
             return;
         }

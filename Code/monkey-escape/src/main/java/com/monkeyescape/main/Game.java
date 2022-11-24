@@ -15,7 +15,7 @@ import java.util.List;
  * Represents the game
  *
  * @author Shadi Zoldjalali & Jeffrey Ramacula
- * @version 11/22/2022
+ * @version 11/23/2022
  */
 public class Game {
     Monkey monkey;
@@ -68,7 +68,6 @@ public class Game {
         spawnLionPits(2);
     }
 
-
     /**
      * Updates game information
      */
@@ -85,7 +84,7 @@ public class Game {
                 entities.get(i).update();
             }
             //Spawns a new banana on average every 15 seconds
-            if(((int) (Math.random() * 900)) == 1){
+            if(((int) (Math.random() * 900)) == 1) {
                 spawnBananas(1);
             }
             if (score < 0) {
@@ -104,7 +103,7 @@ public class Game {
     }
 
     /**
-     * Spawns the same number of zookeeper's as the level
+     * Spawns the same number of zookeepers as the level
      */
     public void spawnZookeepers() {
         for(int i = 0; i < level; i++){
@@ -120,7 +119,7 @@ public class Game {
      * @param numBananas number of bananas to spawn
      */
     public void spawnBananas(int numBananas) {
-        for(int i = 0; i<numBananas;i++) {
+        for(int i = 0; i < numBananas;i++) {
             addEntity(new Banana(this));
         }
     }
@@ -134,6 +133,8 @@ public class Game {
 
     /**
      * Spawns lion pits
+     *
+     * @param numLionPits the number of lionpits to spawn
      */
     public void spawnLionPits(int numLionPits) {
         for(int i = 0; i<numLionPits;i++) {
@@ -209,16 +210,6 @@ public class Game {
      */
     public boolean removeEntity(Entity entity) {
         return entities.remove(entity);
-    }
-
-    /**
-     * Removes selected zookeeper from the list of enemies
-     *
-     * @param zookeeper A non-null entity
-     * @return true if remove was successful
-     */
-    public boolean removeZookeeper(Zookeeper zookeeper) {
-        return zookeepers.remove(zookeeper);
     }
 
     /**

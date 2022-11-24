@@ -10,7 +10,7 @@ import java.net.URL;
  * Represents a sound that plays music for sound effect
  *
  * @author Henry Ruckman-Utting
- * @version 10/31/2022
+ * @version 11/23/2022
  */
 public class Sound {
     Clip clip;
@@ -32,8 +32,8 @@ public class Sound {
      *
      * @param i index for the sound file
      */
-    public void setFile(int i){
-        try{
+    public void setFile(int i) {
+        try {
             // Check for invalid index
             if (i < 0 || i >= soundURL.length) {
                 System.out.printf("Invalid index %d for sound file%n", i);
@@ -50,7 +50,8 @@ public class Sound {
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-20.0f); // Reduce volume by 10 decibels.
         }
-        catch(Exception ignored){
+        catch(Exception ex) {
+            ex.printStackTrace();
         }
     }
 

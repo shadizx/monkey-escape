@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
  * Represents the States of the game
  *
  * @author Kaleigh Toering
- * @version 10/31/2022
+ * @version 11/23/2022
  */
 public class State {
     /**
@@ -34,10 +34,6 @@ public class State {
      * Creates a new state with default <code>START</code>
      */
     public State() { CurrentState = GameState.START;}
-
-    public GameState getGameState() { return CurrentState;}
-
-    public void setGameState(GameState newState) { CurrentState = newState;}
 
     /**
      * Returns updated state based on given state and key presses
@@ -97,4 +93,8 @@ public class State {
             System.exit(0);
         }
     }
+
+    public GameState getGameState() { return CurrentState; }
+
+    public void setGameState(GameState newState) { CurrentState = newState; }
 }

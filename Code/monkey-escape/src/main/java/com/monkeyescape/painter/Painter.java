@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  * Represents a Painter class used for painting UI components
  *
  * @author Kaleigh Toering & Shadi Zoldjalali
- * @version 11/21/2022
+ * @version 11/23/2022
  */
 public class Painter {
     private final Panel panel;
@@ -44,7 +44,7 @@ public class Painter {
      * Gets the Image of then menu to be displayed
      *
      * @param menuType the menu type to be displayed
-     * @return The image of the selected menutype
+     * @return The image of the selected menu type
      * */
     public BufferedImage getImage(String menuType) {
         BufferedImage image = null;

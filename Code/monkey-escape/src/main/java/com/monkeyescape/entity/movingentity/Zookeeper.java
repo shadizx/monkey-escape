@@ -12,7 +12,7 @@ import java.awt.Rectangle;
  * Represents the zookeeper
  *
  * @author Henry Ruckman-Utting
- * @version 10/30/2022
+ * @version 11/23/2022
  */
 public class Zookeeper extends MovingEntity {
     Monkey monkey;
@@ -21,7 +21,7 @@ public class Zookeeper extends MovingEntity {
     /**
      * Initializes a zookeeper with random position and connected to the monkey
      *
-     * @param game A <code>Game</code>> to refer to
+     * @param game A <code>Game</code> to refer to
      * @param kh a <code>KeyHandler</code> for handling key inputs
      * @param monkey a <code>Monkey</code> to refer to
      */

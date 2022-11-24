@@ -15,7 +15,7 @@ import static com.monkeyescape.entity.movingentity.MovingEntity.getPosition;
  * Represents a fixed entity
  *
  * @author Henry Ruckman-Utting
- * @version 11/02/2022
+ * @version 11/23/2022
  */
 public abstract class FixedEntity implements Entity {
     protected final Game game;
@@ -32,7 +32,7 @@ public abstract class FixedEntity implements Entity {
     /**
      * Creates a fixed entity
      *
-     * @param game A <code>Game</code>> to refer to
+     * @param game A <code>Game</code> to refer to
      */
     public FixedEntity(Game game) {
         this.game = game;
@@ -60,7 +60,8 @@ public abstract class FixedEntity implements Entity {
     /**
      * Creates a random position
      *
-     * @param game A <code>Game</code>> to refer to
+     * @param game A <code>Game</code> to refer to
+     * @return the random position that was created
      */
     public Position createRandomPosition(Game game){
         return getPosition(game);
@@ -72,7 +73,6 @@ public abstract class FixedEntity implements Entity {
     public void remove() {
         game.removeEntity(this);
     }
-
 
     /**
      * Plays the sound effect of the Fixed Entity

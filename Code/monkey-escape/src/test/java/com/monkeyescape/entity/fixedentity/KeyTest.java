@@ -1,10 +1,8 @@
 package com.monkeyescape.entity.fixedentity;
 
 import com.monkeyescape.entity.Position;
-import com.monkeyescape.entity.fixedentity.Key;
 import com.monkeyescape.main.Game;
 import com.monkeyescape.main.KeyHandler;
-import com.monkeyescape.main.Panel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

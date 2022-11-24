@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Represents the pathfinding algorithm that is used by entities
  *
  * @author Henry Ruckman-Utting
- * @version 11/01/2022
+ * @version 11/23/2022
  */
 public class Pathfinding {
     Game game;
@@ -28,7 +28,7 @@ public class Pathfinding {
     /**
      * Initializes the pathfinder and creates the new nodes
      *
-     * @param game A <code>Game</code>> to refer to
+     * @param game A <code>Game</code> to refer to
      */
     public Pathfinding(Game game){
         this.game = game;
@@ -53,20 +53,12 @@ public class Pathfinding {
      * Resets the nodes to search for the best path again
      */
     public void resetNodes(){
-        int col = 0;
-        int row = 0;
-
-        while(col < game.cols && row < game.rows){
-
-            node[col][row].open = false;
-            node[col][row].checked = false;
-            node[col][row].solid = false;
-            node[col][row].path = false;
-            
-            col++;
-            if(col == game.cols){
-                col = 0;
-                row++;
+        for (int row = 0; row < game.rows; row++) {
+            for (int col = 0; col < game.cols; col++) {
+                node[col][row].open = false;
+                node[col][row].checked = false;
+                node[col][row].solid = false;
+                node[col][row].path = false;
             }
         }
 
