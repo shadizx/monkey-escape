@@ -6,14 +6,15 @@ import com.monkeyescape.main.Game;
  * Represents a banana
  *
  * @author Henry Ruckman-Utting
- * @version 11/02/2022
+ * @version 11/23/2022
  */
 public class Banana extends FixedEntity {
     int lifecycle = (int) ((Math.random() * 300) + 480); //Lifecycle is random (between 5-10 seconds)
 
     /**
      * Creates a banana with random position
-     * @param game A <code>Game</code>> to refer to
+     *
+     * @param game A <code>Game</code> to refer to
      */
     public Banana(Game game) {
         super(game);
@@ -24,8 +25,11 @@ public class Banana extends FixedEntity {
 
         loadImage();
     }
+
     /**
      * Returns the lifecycle of Banana
+     *
+     * @return the lifecycle of the banana
      */
     public int getLifecycle() {
         return lifecycle;
@@ -33,7 +37,8 @@ public class Banana extends FixedEntity {
 
     /**
      * Sets the lifecycle of Banana to new value
-     * @param newLifecycle  a <code>integer</code> number for the lifecycle
+     *
+     * @param newLifecycle a <code>integer</code> number for the lifecycle
      */
     public void setLifecycle(int newLifecycle) {
         lifecycle = newLifecycle;
@@ -50,7 +55,6 @@ public class Banana extends FixedEntity {
             super.remove();
         }
     }
-
 
     @Override
     public void remove() {

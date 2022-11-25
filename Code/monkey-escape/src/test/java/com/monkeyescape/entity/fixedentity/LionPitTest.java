@@ -1,11 +1,8 @@
 package com.monkeyescape.entity.fixedentity;
 
 import com.monkeyescape.entity.Position;
-import com.monkeyescape.entity.fixedentity.Key;
-import com.monkeyescape.entity.fixedentity.LionPit;
 import com.monkeyescape.main.Game;
 import com.monkeyescape.main.KeyHandler;
-import com.monkeyescape.main.Panel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LionPitTest {
-
     private LionPit testLionPit;
     private Game testGame;
     private KeyHandler testKeyhandler;
@@ -49,5 +45,4 @@ class LionPitTest {
         assertTrue(result.y >= expectedMinY);
         assertTrue(result.y <= expectedMaxY);
     }
-
 }

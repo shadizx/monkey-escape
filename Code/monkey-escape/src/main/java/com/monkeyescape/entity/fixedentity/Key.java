@@ -6,7 +6,7 @@ import com.monkeyescape.main.Game;
  * Represents a Key
  *
  * @author Henry Ruckman-Utting
- * @version 10/30/2022
+ * @version 11/23/2022
  */
 public class Key extends FixedEntity {
     int exitCol;
@@ -15,7 +15,7 @@ public class Key extends FixedEntity {
     /**
      * Creates a key with random position
      *
-     * @param game A <code>Game</code>> to refer to
+     * @param game A <code>Game</code> to refer to
      */
     public Key(Game game) {
         super(game);

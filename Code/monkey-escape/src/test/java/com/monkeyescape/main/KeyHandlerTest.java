@@ -1,14 +1,16 @@
 package com.monkeyescape.main;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
 import java.awt.Panel;
 import java.awt.event.KeyEvent;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class KeyHandlerTest {
-
     Panel panel;
     private KeyHandler keyhandler;
     private KeyEvent keyevent;
@@ -19,8 +21,6 @@ class KeyHandlerTest {
         panel = new Panel();
     }
 
-    //KeyEventPressed Tests
-
     @Test
     @DisplayName("Running KeyEventPressed for UP key")
     void KeyEventPressedUp(){
@@ -28,6 +28,7 @@ class KeyHandlerTest {
         keyhandler.keyPressed(keyevent);
         assertTrue(keyhandler.isPressedUp());
     }
+
     @Test
     @DisplayName("Running KeyEventPressed for RIGHT key")
     void KeyEventPressedRight(){
@@ -35,6 +36,7 @@ class KeyHandlerTest {
         keyhandler.keyPressed(keyevent);
         assertTrue(keyhandler.isPressedRight());
     }
+
     @Test
     @DisplayName("Running KeyEventPressed for DOWN key")
     void KeyEventPressedDown(){
@@ -42,6 +44,7 @@ class KeyHandlerTest {
         keyhandler.keyPressed(keyevent);
         assertTrue(keyhandler.isPressedDown());
     }
+
     @Test
     @DisplayName("Running KeyEventPressed for LEFT key")
     void KeyEventPressedLeft(){
@@ -49,6 +52,7 @@ class KeyHandlerTest {
         keyhandler.keyPressed(keyevent);
         assertTrue(keyhandler.isPressedLeft());
     }
+
     @Test
     @DisplayName("Running KeyEventPressed for ESC key")
     void KeyEventPressedEsc(){
@@ -70,6 +74,7 @@ class KeyHandlerTest {
         keyhandler.keyPressed(keyevent);
         assertTrue(keyhandler.isPressedSpace());
     }
+
     @Test
     @DisplayName("Running KeyEventPressed for Y key")
     void KeyEventPressedY(){
@@ -77,6 +82,7 @@ class KeyHandlerTest {
         keyhandler.keyPressed(keyevent);
         assertTrue(keyhandler.isPressedY());
     }
+
     @Test
     @DisplayName("Running KeyEventPressed for N key")
     void KeyEventPressedN(){
@@ -84,6 +90,7 @@ class KeyHandlerTest {
         keyhandler.keyPressed(keyevent);
         assertTrue(keyhandler.isPressedN());
     }
+
     @Test
     @DisplayName("Running KeyEventPressed for invalid key")
     void InvalidKeyEventPressed(){
@@ -100,7 +107,6 @@ class KeyHandlerTest {
         assertFalse(keyhandler.isPressedN());
     }
 
-    //KeyEventReleased Tests
     @Test
     @DisplayName("Running KeyEventReleased for UP key")
     void KeyEventReleasedUp(){
@@ -108,6 +114,7 @@ class KeyHandlerTest {
         keyhandler.keyReleased(keyevent);
         assertFalse(keyhandler.isPressedN());
     }
+
     @Test
     @DisplayName("Running KeyEventReleased for RIGHT key")
     void KeyEventReleasedRight(){
@@ -170,8 +177,4 @@ class KeyHandlerTest {
         keyhandler.keyReleased(keyevent);
         assertFalse(keyhandler.isPressedN());
     }
-
-
-
-
 }

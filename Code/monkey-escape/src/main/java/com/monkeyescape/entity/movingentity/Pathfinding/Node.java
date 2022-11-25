@@ -4,7 +4,7 @@ package com.monkeyescape.entity.movingentity.Pathfinding;
  * Represents a node used in pathfinding
  *
  * @author Henry Ruckman-Utting
- * @version 11/01/2022
+ * @version 11/23/2022
  */
 public class Node {
     public int col;

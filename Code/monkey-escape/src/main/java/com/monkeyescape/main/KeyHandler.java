@@ -7,7 +7,7 @@ import java.awt.event.KeyListener;
  * Handles key input
  *
  * @author Shadi Zoldjalali & Kaleigh Toering
- * @version 10/26/2022
+ * @version 11/23/2022
  */
 public class KeyHandler implements KeyListener {
     private boolean pressedUp;

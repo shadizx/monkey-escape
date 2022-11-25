@@ -16,7 +16,7 @@ import java.util.HashMap;
  * Represents a moving entity
  *
  * @author Shadi Zoldjalali
- * @version 10/30/2022
+ * @version 11/23/2022
  */
 public abstract class MovingEntity implements Entity {
     Game game;
@@ -42,7 +42,7 @@ public abstract class MovingEntity implements Entity {
     /**
      * Creates a moving entity
      *
-     * @param game A <code>Game</code>> to refer to
+     * @param game A <code>Game</code> to refer to
      * @param kh a <code>KeyHandler</code> for handling key inputs
      */
     public MovingEntity(Game game, KeyHandler kh) {
@@ -53,6 +53,7 @@ public abstract class MovingEntity implements Entity {
 
     /**
      * Loads the images and places them in the <code>images</code> hashmap
+     *
      * @return true if successful, false if exception occurred
      */
     public boolean loadImage() {
@@ -132,12 +133,19 @@ public abstract class MovingEntity implements Entity {
     /**
      * Creates a random position
      *
-     * @param game A <code>Game</code>> to refer to
+     * @param game A <code>Game</code> to refer to
+     * @return the random position that was created
      */
     public Position createRandomPosition(Game game){
         return getPosition(game);
     }
 
+    /**
+     * Creates a random position
+     *
+     * @param game A <code>Game</code> to refer to
+     * @return the random position that was created
+     */
     public static Position getPosition(Game game) {
         boolean found = false;
         Position newPos = null;

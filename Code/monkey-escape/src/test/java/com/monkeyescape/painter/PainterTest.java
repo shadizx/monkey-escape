@@ -17,6 +17,7 @@ class PainterTest {
     private final Panel testPanel = new Panel(true);
     private final KeyHandler testKeyHandler = new KeyHandler();
     private final Game testGame = new Game(testKeyHandler);
+
     @BeforeEach
     void setup(){
         testPainter = new Painter(testGame, testPanel);

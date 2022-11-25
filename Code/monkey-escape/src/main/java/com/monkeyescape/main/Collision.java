@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * Handles Collisions between background tiles and Entities
  *
  * @author Jeffrey Ramacula, Shadi Zoldjalali
- * @version 11/02/2022
+ * @version 11/23/2022
  * */
 public class Collision {
     Game game;
@@ -49,22 +49,15 @@ public class Collision {
 
         // Check that tile is in map
         if (ColLeft < 0 || ColRight >= game.cols || RowTop < 0 || RowBottom >= game.rows) {
-            switch (entity.direction){
-                case "up":
-                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", entity.x/game.tileSize,RowTop);
-                    break;
-
-                case "right":
-                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", ColRight,entity.y/game.tileSize);
-                    break;
-
-                case "down":
-                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", entity.x/game.tileSize,RowBottom);
-                    break;
-
-                case "left":
-                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", ColLeft,entity.y/game.tileSize);
-                    break;
+            switch (entity.direction) {
+                case "up" ->
+                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", entity.x / game.tileSize, RowTop);
+                case "right" ->
+                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", ColRight, entity.y / game.tileSize);
+                case "down" ->
+                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", entity.x / game.tileSize, RowBottom);
+                case "left" ->
+                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", ColLeft, entity.y / game.tileSize);
             }
 
             //Set that entity is collided so it cannot continue to move
@@ -72,44 +65,41 @@ public class Collision {
             return;
         }
 
-        switch (entity.direction){
-            case "up":
+        switch (entity.direction) {
+            case "up" -> {
                 //checks if top left or top right corner of entity is touching another tile
-                RowTop = (TopY - entity.speed)/ game.tileSize;
-                if(game.tm.tileMap[ColLeft][RowTop].blocked || game.tm.tileMap[ColRight][RowTop].blocked){
-                     entity.collided = true;
+                RowTop = (TopY - entity.speed) / game.tileSize;
+                if (game.tm.tileMap[ColLeft][RowTop].blocked || game.tm.tileMap[ColRight][RowTop].blocked) {
+                    entity.collided = true;
                 }
-                break;
-
-            case "right":
+            }
+            case "right" -> {
                 //checks if top right or bottom right corner of entity is touching another tile
-                ColRight = (RightX + entity.speed)/ game.tileSize;
-                if(game.tm.tileMap[ColRight][RowTop].blocked || game.tm.tileMap[ColRight][RowBottom].blocked){
+                ColRight = (RightX + entity.speed) / game.tileSize;
+                if (game.tm.tileMap[ColRight][RowTop].blocked || game.tm.tileMap[ColRight][RowBottom].blocked) {
                     entity.collided = true;
                 }
-                break;
-
-            case "down":
+            }
+            case "down" -> {
                 //checks if bottom left or bottom right corner of entity is touching another tile
-                RowBottom = (BottomY + entity.speed)/ game.tileSize;
-                if(game.tm.tileMap[ColLeft][RowBottom].blocked || game.tm.tileMap[ColRight][RowBottom].blocked){
+                RowBottom = (BottomY + entity.speed) / game.tileSize;
+                if (game.tm.tileMap[ColLeft][RowBottom].blocked || game.tm.tileMap[ColRight][RowBottom].blocked) {
                     entity.collided = true;
                 }
-                break;
-
-            case "left":
+            }
+            case "left" -> {
                 //checks if top left or bottom left corner of entity is touching another tile
-                ColLeft = (LeftX - entity.speed)/ game.tileSize;
-                if(game.tm.tileMap[ColLeft][RowTop].blocked || game.tm.tileMap[ColLeft][RowBottom].blocked){
+                ColLeft = (LeftX - entity.speed) / game.tileSize;
+                if (game.tm.tileMap[ColLeft][RowTop].blocked || game.tm.tileMap[ColLeft][RowBottom].blocked) {
                     entity.collided = true;
                 }
-                break;
+            }
         }
 
         //checks if the tile exit is unlocked and the monkey can enter the tile
         if(!(game.tm.tileMap[game.exitCol][game.exitRow].blocked)
                 && ((ColLeft == game.exitCol && RowBottom == game.exitRow)
-                || (ColRight == game.exitCol && RowBottom == game.exitRow))){
+                || (ColRight == game.exitCol && RowBottom == game.exitRow))) {
             //Calls next level function here
             game.nextLevel();
             //sets tile back to blocked so that monkey does not go past borders and ensures this only triggers once
@@ -136,22 +126,14 @@ public class Collision {
 
         // Check that tile is in map
         if (colLeft < 0 || colRight >= game.cols || rowTop < 0 || rowBottom >= game.rows) {
-            switch (entity.direction){
-                case "up":
-                    System.out.printf("The tile (%d,%d) is not on the map", entity.x/game.tileSize,rowTop);
-                    break;
-
-                case "right":
-                    System.out.printf("The tile (%d,%d) is not on the map", colRight,entity.y/game.tileSize);
-                    break;
-
-                case "down":
-                    System.out.printf("The tile (%d,%d) is not on the map", entity.x/game.tileSize,rowBottom);
-                    break;
-
-                case "left":
-                    System.out.printf("The tile (%d,%d) is not on the map", colLeft,entity.y/game.tileSize);
-                    break;
+            switch (entity.direction) {
+                case "up" -> System.out.printf("The tile (%d,%d) is not on the map", entity.x / game.tileSize, rowTop);
+                case "right" ->
+                    System.out.printf("The tile (%d,%d) is not on the map", colRight, entity.y / game.tileSize);
+                case "down" ->
+                    System.out.printf("The tile (%d,%d) is not on the map", entity.x / game.tileSize, rowBottom);
+                case "left" ->
+                    System.out.printf("The tile (%d,%d) is not on the map", colLeft, entity.y / game.tileSize);
             }
             return false;
         }
@@ -193,7 +175,6 @@ public class Collision {
             zookeeper.area.y = zookeeper.y + zookeeper.area.y;
 
             switch (entity.direction){
-
                 case "up":
                     entity.area.y -= entity.speed;
                     if(entity.area.intersects(zookeeper.area)){
@@ -256,7 +237,7 @@ public class Collision {
 
             }
             else if(entity.type.equals("monkey") && !Monkey.inLionPit && Monkey.lionPitInvincibility <= 0) { //If monkey is colliding with lion pit
-                if(Math.abs(entity.x - collidedTile.FixedEntityObject.x) < 16 && Math.abs(entity.y - collidedTile.FixedEntityObject.y) < 16){
+                if(Math.abs(entity.x - collidedTile.FixedEntityObject.x) < 16 && Math.abs(entity.y - collidedTile.FixedEntityObject.y) < 16) {
                     //Checks that monkey is directly on the tile to avoid being stuck in lion pit when just going near it
                     delayedDamages = entityCollidedWith.impact;
                     Monkey.inLionPit = true;    

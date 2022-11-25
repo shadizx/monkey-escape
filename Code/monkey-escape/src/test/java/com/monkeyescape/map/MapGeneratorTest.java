@@ -1,16 +1,15 @@
 package com.monkeyescape.map;
 
+import com.monkeyescape.main.Game;
 import com.monkeyescape.main.KeyHandler;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import com.monkeyescape.main.Game;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Arrays;
 
 class MapGeneratorTest {
     private MapGenerator mapGenerator;
@@ -18,6 +17,7 @@ class MapGeneratorTest {
     private Game game;
 
     private KeyHandler keyHandler = new KeyHandler();
+
     @BeforeEach
     void setup() {
         game = new Game(keyHandler);
@@ -59,8 +59,9 @@ class MapGeneratorTest {
         boolean between0and1 = true;
         for(int col = 1; col < game.cols-1; col++){
             for(int row = 1; row < game.rows-1; row++){
-                if(mapnew[col][row] < 0 || mapnew[col][row] > 1){
+                if (mapnew[col][row] < 0 || mapnew[col][row] > 1) {
                     between0and1 = false;
+                    break;
                 }
             }
         }
@@ -77,7 +78,8 @@ class MapGeneratorTest {
         //Call add spaces on map
         mapGenerator.addSpaces(map);
 
-        //Check that at least 31 spaces have been added. 31 is worst case scenario with 16 in corners and 15 additional cyces
+        // Check that at least 31 spaces have been added. 31 is worst case scenario
+        // with 16 in corners and 15 additional cycles
         int spacesAdded = 0;
         for(int col = 0; col < game.cols; col++){
             for(int row = 0; row < game.rows; row++){

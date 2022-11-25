@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
  * Tile object that has the image, whether its blocked and an object if it contains one.
  *
  * @author Jeffrey Ramacula
- * @version 11/02/2022
+ * @version 11/23/2022
  */
 public class Tile {
     public BufferedImage image;

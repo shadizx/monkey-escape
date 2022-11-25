@@ -34,10 +34,11 @@ public class Panel extends JPanel implements Runnable {
 
 
     private List<Entity> entities;
-    /**Ï
+
+    /**
      * Creates a new Panel with no sound for testing purposes
      *
-     * @param noSound true for no sound
+     * @param noSound true for no sound, otherwise false
      */
     public Panel(boolean noSound){
         this.setPreferredSize(new Dimension(width + sideBarWidth, height));
@@ -53,7 +54,6 @@ public class Panel extends JPanel implements Runnable {
 
     /**Ï
      * Creates a new Panel
-     *
      */
     public Panel() {
         this.setPreferredSize(new Dimension(width + sideBarWidth, height));
@@ -131,6 +131,7 @@ public class Panel extends JPanel implements Runnable {
      * Adds 1 second to timer every 1000000000 nanoseconds
      *
      * @param timerCount time elapsed in nanoseconds
+     * @return the time elapsed after 1 second
      */
     public long addSeconds(long timerCount) {
         if (game.state.getGameState() == State.GameState.PLAY) {
@@ -148,16 +149,18 @@ public class Panel extends JPanel implements Runnable {
     public void update() {
         game.update();
     }
+
     /**
      * Plays specified sound
      *
      * @param i index for the sound file
      */
-    public void playMusic(int i){
+    public void playMusic(int i) {
         sound.setFile(i);
         sound.play();
         sound.loop();
     }
+
     /**
      * Draws the UI
      */

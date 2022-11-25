@@ -10,7 +10,7 @@ import java.awt.Rectangle;
  * Represents a monkey
  *
  * @author Shadi Zoldjalali
- * @version 10/30/2022
+ * @version 11/23/2022
  */
 public class Monkey extends MovingEntity {
     public static boolean inLionPit = false;
@@ -22,7 +22,7 @@ public class Monkey extends MovingEntity {
     /**
      * Creates a Monkey
      *
-     * @param game A <code>Game</code>> to refer to
+     * @param game A <code>Game</code> to refer to
      * @param kh a <code>KeyHandler</code> for handling key inputs
      */
     public Monkey(Game game, KeyHandler kh) {
@@ -97,22 +97,22 @@ public class Monkey extends MovingEntity {
         isMoving = false;
 
         //Keeps track of how long the monkey has been in the lion pit
-        if(Monkey.inLionPit){
+        if(Monkey.inLionPit) {
             timeInLionPit++;
 
             //The monkey escapes the pit after 2 seconds
-            if(timeInLionPit == 120){
+            if(timeInLionPit == 120) {
                 timeInLionPit = 0;
                 Monkey.inLionPit = false;
-                Monkey.lionPitInvincibility = 60; //Creates a 1 second timer that the monkey can't get caught in the pit again for
+                Monkey.lionPitInvincibility = 60; //Creates a 1-second timer that the monkey can't get caught in the pit again for
             }
         }
-        else if(Monkey.lionPitInvincibility > 0){
+        else if(Monkey.lionPitInvincibility > 0) {
             Monkey.lionPitInvincibility--;
         }
 
         //Switches back to normal direction after in lion pit even if no keys are being pressed
-        if(!Monkey.inLionPit && direction.equals("jump")){
+        if(!Monkey.inLionPit && direction.equals("jump")) {
             direction = "down";
         }
 

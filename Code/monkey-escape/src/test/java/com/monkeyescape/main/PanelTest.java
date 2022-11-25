@@ -14,8 +14,6 @@ class PanelTest {
         testPanel = new Panel(true);
     }
 
-
-
     @Test
     @DisplayName("Running addSecondsTest")
     void addSecondsTest(){
@@ -25,6 +23,7 @@ class PanelTest {
         testPanel.addSeconds(1000000000);
         assertEquals(1,testPanel.game.secondsTimer);
     }
+
     @Test
     @DisplayName("Running addSecondsTestLessThan1Second")
     void addSecondsTestLessThan1Second(){
@@ -34,6 +33,7 @@ class PanelTest {
         testPanel.addSeconds(999999999);
         assertEquals(0,testPanel.game.secondsTimer);
     }
+
     @Test
     @DisplayName("Running addSecondsTestNotPlayState")
     void addSecondsTestNotPlayState(){
