@@ -6,12 +6,9 @@ import com.monkeyescape.main.Game;
  * Represents a Key
  *
  * @author Henry Ruckman-Utting
- * @version 11/23/2022
+ * @version 12/06/2022
  */
 public class Key extends FixedEntity {
-    int exitCol;
-    int exitRow;
-
     /**
      * Creates a key with random position
      *
@@ -21,9 +18,6 @@ public class Key extends FixedEntity {
         super(game);
         type = "key";
         impact = 100;
-        //position of door
-        this.exitCol = game.exitCol;
-        this.exitRow = game.exitRow;
 
         game.tileMap.addFixedEntitytoMap(y/ game.tileSize, x/ game.tileSize, this);
         loadImage();
@@ -36,8 +30,8 @@ public class Key extends FixedEntity {
      */
     void useKey() {
         //unblocks door tile
-        game.tileMap.tileMap[exitCol][exitRow].isBlocked = false;
-        game.tileMap.tileMap[exitCol][exitRow].image = game.tileMap.tileImages[0].image;
+        game.tileMap.tileMap[game.doorPos.x][game.doorPos.y].isBlocked = false;
+        game.tileMap.tileMap[game.doorPos.x][game.doorPos.y].image = game.tileMap.tileImages[0].image;
         playSound();
     }
 

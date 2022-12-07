@@ -1,5 +1,6 @@
 package com.monkeyescape.map;
 
+import com.monkeyescape.entity.Position;
 import com.monkeyescape.main.Game;
 
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ public class MapGenerator {
     int numRows;
     int numCols;
 
-    int startCol, startRow;
-    int exitCol, exitRow;
+    public final Position cagePos;
+    public final Position doorPos;
 
     int[][] map;
     int col;
@@ -36,17 +37,12 @@ public class MapGenerator {
         this.numCols = game.cols;
         this.map = new int[numCols][numRows];
 
-        //starting position of the cage around boundary
-        startCol = game.startCol;
-        startRow = game.startRow;
+        cagePos = game.cagePos;
+        doorPos = game.doorPos;
 
         //start of maze
-        col = startCol;
-        row = startRow +1;
-
-        //ending position of the door/exit around boundary
-        exitCol = game.exitCol;
-        exitRow = game.exitRow;
+        col = cagePos.x;
+        row = cagePos.y + 1;
     }
 
     /**Initializes the starting map to all walls,
@@ -57,7 +53,7 @@ public class MapGenerator {
      */
     public int[][] generateRandomMap() {
         Arrays.stream(map).forEach(tile -> Arrays.fill(tile, 1));
-        int[][] randomMap = newRandomMaze(map, startCol, startRow);
+        int[][] randomMap = newRandomMaze(map, cagePos.x, cagePos.y);
         addSpaces(map);
         return randomMap;
     }
@@ -172,7 +168,7 @@ public class MapGenerator {
             }
         }
         //add start and exit tiles
-        map[startCol][startRow] = 3;
-        map[exitCol][exitRow] = 2;
+        map[cagePos.x][cagePos.y] = 3;
+        map[doorPos.x][doorPos.y] = 2;
     }
 }
