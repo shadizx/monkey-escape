@@ -6,7 +6,7 @@ import com.monkeyescape.main.Game;
  * Represents a banana
  *
  * @author Henry Ruckman-Utting
- * @version 11/23/2022
+ * @version 12/06/2022
  */
 public class Banana extends FixedEntity {
     int lifecycle = (int) ((Math.random() * 300) + 480); //Lifecycle is random (between 5-10 seconds)

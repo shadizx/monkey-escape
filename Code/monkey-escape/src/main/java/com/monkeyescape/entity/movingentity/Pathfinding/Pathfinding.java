@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * Represents the pathfinding algorithm that is used by entities
  *
  * @author Henry Ruckman-Utting
- * @version 11/23/2022
+ * @version 12/06/2022
  */
 public class Pathfinding {
     protected Game game;

@@ -6,7 +6,7 @@ import com.monkeyescape.main.Game;
  * Represents a lion pit
  *
  * @author Henry Ruckman-Utting
- * @version 11/23/2022
+ * @version 12/06/2022
  */
 public class LionPit extends FixedEntity {
     /**

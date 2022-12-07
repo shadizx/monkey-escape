@@ -50,6 +50,6 @@ class KeyTest {
     @DisplayName("Running useKey to ensure updating of panel")
     void useKeyValidRemoveUpdate() {
         testKey.remove();
-        assertFalse(testGame.tileMap.tileMap[testGame.exitCol][testGame.exitRow].isBlocked);
+        assertFalse(testGame.tileMap.tileMap[testGame.doorPos.x][testGame.doorPos.y].isBlocked);
     }
 }

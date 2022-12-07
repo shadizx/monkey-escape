@@ -10,7 +10,7 @@ import java.awt.Rectangle;
  * Represents a monkey
  *
  * @author Shadi Zoldjalali
- * @version 11/23/2022
+ * @version 12/06/2022
  */
 public class Monkey extends MovingEntity {
     public static boolean inLionPit = false;
@@ -38,8 +38,8 @@ public class Monkey extends MovingEntity {
         area = new Rectangle(areaX, areaY, 32, 32);
 
         // start to wherever the cage is
-        x = game.startCol * game.tileSize;
-        y = game.startRow * game.tileSize;
+        x = game.cagePos.x * game.tileSize;
+        y = game.cagePos.y * game.tileSize;
 
         speed = 4;
     }

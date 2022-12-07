@@ -53,7 +53,7 @@ class MapGeneratorTest {
         Arrays.stream(map).forEach(tile -> Arrays.fill(tile, 1));
 
         //Call new random maze on the map
-        int[][] mapnew = mapGenerator.newRandomMaze(map,game.startCol,game.startRow);
+        int[][] mapnew = mapGenerator.newRandomMaze(map, mapGenerator.cagePos.x, mapGenerator.cagePos.y);
 
         //Check that every tile not on the edge is either a wall or grass block
         boolean between0and1 = true;

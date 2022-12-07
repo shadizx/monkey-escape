@@ -142,8 +142,8 @@ public abstract class MovingEntity implements Entity {
             int colIndex = (int) (Math.random() * (game.cols - 2) + 1);
             int rowIndex = (int) (Math.random() * (game.rows - 2) + 1);
             if(!(game.tileMap.tileMap[colIndex][rowIndex].isBlocked) && !(game.tileMap.tileMap[colIndex][rowIndex].hasFixedEntity)
-                    && (colIndex < game.exitCol - 2 && rowIndex < game.exitRow - 2)
-                    && (colIndex > game.startCol + 2 && rowIndex > game.startRow + 2)){
+                    && (colIndex < game.doorPos.x - 2 && rowIndex < game.doorPos.y - 2)
+                    && (colIndex > game.cagePos.x + 2 && rowIndex > game.cagePos.y + 2)){
                 newPos = new Position(colIndex*game.tileSize, rowIndex*game.tileSize);
                 found = true;
             }

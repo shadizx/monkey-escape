@@ -97,13 +97,13 @@ public class Collision {
         }
 
         //checks if the tile exit is unlocked and the monkey can enter the tile
-        if(!(game.tileMap.tileMap[game.exitCol][game.exitRow].isBlocked)
-                && ((ColLeft == game.exitCol && RowBottom == game.exitRow)
-                || (ColRight == game.exitCol && RowBottom == game.exitRow))) {
+        if(!(game.tileMap.tileMap[game.doorPos.x][game.doorPos.y].isBlocked)
+                && ((ColLeft == game.doorPos.x && RowBottom == game.doorPos.y)
+                || (ColRight == game.doorPos.x && RowBottom == game.doorPos.y))) {
             //Calls next level function here
             game.nextLevel();
             //sets tile back to blocked so that monkey does not go past borders and ensures this only triggers once
-            game.tileMap.tileMap[game.exitCol][game.exitRow].isBlocked = true;
+            game.tileMap.tileMap[game.doorPos.x][game.doorPos.y].isBlocked = true;
         }
     }
 

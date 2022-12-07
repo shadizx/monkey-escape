@@ -1,6 +1,7 @@
 package com.monkeyescape.main;
 
 import com.monkeyescape.entity.Entity;
+import com.monkeyescape.entity.Position;
 import com.monkeyescape.entity.fixedentity.Banana;
 import com.monkeyescape.entity.fixedentity.Key;
 import com.monkeyescape.entity.fixedentity.LionPit;
@@ -27,13 +28,11 @@ public class Game {
     public final int cols = 16;
     public final int width = tileSize * cols;
     public final int height = tileSize * rows;
-    //set start tile where the cage will be to the top-left corner
-    public final int startCol = 1;
-    public final int startRow = 0;
 
+    //set start tile where the cage will be to the top-left corner
+    public final Position cagePos = new Position(1, 0);
     //set end tile where the door/exit will be to the bottom-right corner
-    public final int exitCol = cols-2;
-    public final int exitRow = rows-1;
+    public final Position doorPos = new Position(cols - 2, rows - 1);
 
     public State state = new State();
     public int score = 0;
