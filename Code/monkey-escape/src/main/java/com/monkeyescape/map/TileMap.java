@@ -123,15 +123,10 @@ public class TileMap {
      * @param g2 the <code>Graphics2D</code> object used to draw
      */
     public void drawMap(Graphics2D g2){
-        int row = 0;
-        int col = 0;
-        while(col < numCols && row < numRows){
-            while(col < numCols){
+        for (int row = 0; row <numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
                 drawTile(g2, tileMap[col][row].image, col* game.tileSize, row*game.tileSize);
-                col++;
             }
-            col = 0;
-            row++;
         }
     }
 
