@@ -2,7 +2,6 @@ package com.monkeyescape.entity.movingentity;
 
 import com.monkeyescape.main.Game;
 import com.monkeyescape.main.KeyHandler;
-import com.monkeyescape.main.Panel;
 import com.monkeyescape.main.State;
 import com.monkeyescape.map.Tile;
 import org.junit.jupiter.api.BeforeAll;
@@ -24,9 +23,9 @@ class ZookeeperTest {
 
     @BeforeAll
     public void setup() {
-        for (Tile[] tileRow : game.tm.tileMap) {
+        for (Tile[] tileRow : game.tileMap.tileMap) {
             for (Tile tile : tileRow) {
-                tile.blocked = false;
+                tile.isBlocked = false;
             }
         }
     }

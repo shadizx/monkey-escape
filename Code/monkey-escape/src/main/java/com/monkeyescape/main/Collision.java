@@ -15,7 +15,7 @@ import java.util.stream.Stream;
  * Handles Collisions between background tiles and Entities
  *
  * @author Jeffrey Ramacula, Shadi Zoldjalali
- * @version 11/23/2022
+ * @version 12/06/2022
  * */
 public class Collision {
     Game game;
@@ -69,41 +69,41 @@ public class Collision {
             case "up" -> {
                 //checks if top left or top right corner of entity is touching another tile
                 RowTop = (TopY - entity.speed) / game.tileSize;
-                if (game.tm.tileMap[ColLeft][RowTop].blocked || game.tm.tileMap[ColRight][RowTop].blocked) {
+                if (game.tileMap.tileMap[ColLeft][RowTop].isBlocked || game.tileMap.tileMap[ColRight][RowTop].isBlocked) {
                     entity.collided = true;
                 }
             }
             case "right" -> {
                 //checks if top right or bottom right corner of entity is touching another tile
                 ColRight = (RightX + entity.speed) / game.tileSize;
-                if (game.tm.tileMap[ColRight][RowTop].blocked || game.tm.tileMap[ColRight][RowBottom].blocked) {
+                if (game.tileMap.tileMap[ColRight][RowTop].isBlocked || game.tileMap.tileMap[ColRight][RowBottom].isBlocked) {
                     entity.collided = true;
                 }
             }
             case "down" -> {
                 //checks if bottom left or bottom right corner of entity is touching another tile
                 RowBottom = (BottomY + entity.speed) / game.tileSize;
-                if (game.tm.tileMap[ColLeft][RowBottom].blocked || game.tm.tileMap[ColRight][RowBottom].blocked) {
+                if (game.tileMap.tileMap[ColLeft][RowBottom].isBlocked || game.tileMap.tileMap[ColRight][RowBottom].isBlocked) {
                     entity.collided = true;
                 }
             }
             case "left" -> {
                 //checks if top left or bottom left corner of entity is touching another tile
                 ColLeft = (LeftX - entity.speed) / game.tileSize;
-                if (game.tm.tileMap[ColLeft][RowTop].blocked || game.tm.tileMap[ColLeft][RowBottom].blocked) {
+                if (game.tileMap.tileMap[ColLeft][RowTop].isBlocked || game.tileMap.tileMap[ColLeft][RowBottom].isBlocked) {
                     entity.collided = true;
                 }
             }
         }
 
         //checks if the tile exit is unlocked and the monkey can enter the tile
-        if(!(game.tm.tileMap[game.exitCol][game.exitRow].blocked)
+        if(!(game.tileMap.tileMap[game.exitCol][game.exitRow].isBlocked)
                 && ((ColLeft == game.exitCol && RowBottom == game.exitRow)
                 || (ColRight == game.exitCol && RowBottom == game.exitRow))) {
             //Calls next level function here
             game.nextLevel();
             //sets tile back to blocked so that monkey does not go past borders and ensures this only triggers once
-            game.tm.tileMap[game.exitCol][game.exitRow].blocked = true;
+            game.tileMap.tileMap[game.exitCol][game.exitRow].isBlocked = true;
         }
     }
 
@@ -139,10 +139,10 @@ public class Collision {
         }
 
         List<Tile> potentialCollisions = Stream.of(
-            game.tm.tileMap[colLeft][rowTop],
-            game.tm.tileMap[colRight][rowTop],
-            game.tm.tileMap[colLeft][rowBottom],
-            game.tm.tileMap[colRight][rowBottom])
+            game.tileMap.tileMap[colLeft][rowTop],
+            game.tileMap.tileMap[colRight][rowTop],
+            game.tileMap.tileMap[colLeft][rowBottom],
+            game.tileMap.tileMap[colRight][rowBottom])
             .filter(tile -> tile.FixedEntityObject != null)
             .collect(Collectors.toList());
 

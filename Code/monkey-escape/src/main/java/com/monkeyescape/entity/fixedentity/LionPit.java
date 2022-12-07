@@ -18,7 +18,7 @@ public class LionPit extends FixedEntity {
         super(game);
         type = "lionpit";
         impact = -150;
-        game.tm.addFixedEntitytoMap(y/ game.tileSize, x/ game.tileSize, this);
+        game.tileMap.addFixedEntitytoMap(y/ game.tileSize, x/ game.tileSize, this);
         loadImage();
     }
 

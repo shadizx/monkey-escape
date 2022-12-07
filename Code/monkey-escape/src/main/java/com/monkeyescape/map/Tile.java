@@ -8,11 +8,11 @@ import java.awt.image.BufferedImage;
  * Tile object that has the image, whether its blocked and an object if it contains one.
  *
  * @author Jeffrey Ramacula
- * @version 11/23/2022
+ * @version 12/06/2022
  */
 public class Tile {
     public BufferedImage image;
-    public boolean blocked = false;
+    public boolean isBlocked = false;
     public boolean hasFixedEntity = false;
     public FixedEntity FixedEntityObject;
 }

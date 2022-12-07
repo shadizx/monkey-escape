@@ -15,12 +15,12 @@ import java.util.List;
  * Represents the game
  *
  * @author Shadi Zoldjalali & Jeffrey Ramacula
- * @version 11/23/2022
+ * @version 12/06/2022
  */
 public class Game {
     Monkey monkey;
     public static int level;
-    public TileMap tm;
+    public TileMap tileMap;
 
     public final int tileSize = 48;
     public final int rows = 16;
@@ -42,7 +42,7 @@ public class Game {
     private final List<Entity> entities = new ArrayList<>();
     public List<Zookeeper> zookeepers = new ArrayList<>();
     public Collision collisionChecker;
-    KeyHandler kh;
+    KeyHandler keyHandler;
 
     /**
      * Initializes the game
@@ -50,10 +50,10 @@ public class Game {
      * @param keyhandler a keyhandler for key inputs
      */
     public Game(KeyHandler keyhandler) {
-        tm = new TileMap(this);
+        tileMap = new TileMap(this);
         collisionChecker = new Collision(this);
         setLevel(1);
-        kh = keyhandler;
+        keyHandler = keyhandler;
         spawnInitialEntities();
     }
 
@@ -72,11 +72,11 @@ public class Game {
      * Updates game information
      */
     public void update() {
-        state.changeState(kh);
+        state.changeState(keyHandler);
         // Create new game if in restart state
         if (state.getGameState() == State.GameState.RESTART) {
             restart();
-            state.changeState(kh);
+            state.changeState(keyHandler);
         }
         if (state.getGameState() == State.GameState.PLAY) {
             //updates entities
@@ -89,7 +89,7 @@ public class Game {
             }
             if (score < 0) {
                 state.setGameState(State.GameState.GAMEOVER);
-                state.changeState(kh);
+                state.changeState(keyHandler);
             }
         }
     }
@@ -98,7 +98,7 @@ public class Game {
      * Spawns the Monkey
      */
     public void spawnMonkey() {
-        monkey = new Monkey(this, kh);
+        monkey = new Monkey(this, keyHandler);
         addEntity(monkey);
     }
 
@@ -107,7 +107,7 @@ public class Game {
      */
     public void spawnZookeepers() {
         for(int i = 0; i < level; i++){
-            Zookeeper zookeeper = new Zookeeper(this,kh,monkey);
+            Zookeeper zookeeper = new Zookeeper(this, keyHandler,monkey);
             addEntity(zookeeper);
             addZookeeper(zookeeper);
         }
@@ -169,7 +169,7 @@ public class Game {
         zookeepers.clear();
         score = 0;
         secondsTimer = 0;
-        tm.makeNewMap();
+        tileMap.makeNewMap();
         spawnInitialEntities();
     }
 
@@ -180,7 +180,7 @@ public class Game {
         setLevel(level + 1);
         entities.clear();
         zookeepers.clear();
-        tm.makeNewMap();
+        tileMap.makeNewMap();
         spawnInitialEntities();
     }
 

@@ -21,7 +21,7 @@ public class Banana extends FixedEntity {
         type = "banana";
         impact = 100;
 
-        game.tm.addFixedEntitytoMap(y / game.tileSize, x / game.tileSize, this);
+        game.tileMap.addFixedEntitytoMap(y / game.tileSize, x / game.tileSize, this);
 
         loadImage();
     }
@@ -50,7 +50,7 @@ public class Banana extends FixedEntity {
     public void update() {
         // Banana despawns after set amount of time
         if (--lifecycle < 0) {
-            var tileToRemove = game.tm.tileMap[x / game.tileSize][y / game.tileSize];
+            var tileToRemove = game.tileMap.tileMap[x / game.tileSize][y / game.tileSize];
             tileToRemove.hasFixedEntity = false;
             super.remove();
         }

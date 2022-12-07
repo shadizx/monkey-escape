@@ -25,9 +25,9 @@ class MonkeyTest {
     @BeforeEach
     void setup() {
         monkey = new Monkey(game,keyHandler);
-        for (Tile[] tileRow : game.tm.tileMap) {
+        for (Tile[] tileRow : game.tileMap.tileMap) {
             for (Tile tile : tileRow) {
-                tile.blocked = false;
+                tile.isBlocked = false;
             }
         }
     }

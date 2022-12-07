@@ -89,7 +89,7 @@ class CollisionTest {
 
         boolean fixedEntity = collision.checkFixedEntity(entity);
 
-        assertEquals(game.tm.tileMap[8][8].hasFixedEntity, fixedEntity);
+        assertEquals(game.tileMap.tileMap[8][8].hasFixedEntity, fixedEntity);
     }
 
     @Test

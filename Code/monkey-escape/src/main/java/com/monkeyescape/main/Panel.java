@@ -28,7 +28,7 @@ public class Panel extends JPanel implements Runnable {
     public final int sideBarWidth = 200;
     public final int FPS = 60;
 
-    protected KeyHandler kh = new KeyHandler();
+    protected KeyHandler keyHandler = new KeyHandler();
     private final Painter painter;
     private Thread gameThread;
 
@@ -43,10 +43,10 @@ public class Panel extends JPanel implements Runnable {
         this.setPreferredSize(new Dimension(width + sideBarWidth, height));
         this.setBackground(Color.GREEN);
         this.setDoubleBuffered(true); // improves games rendering performance
-        this.addKeyListener(kh);
+        this.addKeyListener(keyHandler);
         this.setFocusable(true); // Game panel is "focused" to receive key input
 
-        game = new Game(kh);
+        game = new Game(keyHandler);
         this.painter = new Painter(game, this);
         startGameThread();
 
@@ -161,7 +161,7 @@ public class Panel extends JPanel implements Runnable {
         if (gameState != State.GameState.PLAY) {
             painter.paintMenu(g2, gameState.toString().toLowerCase());
         } else {
-            game.tm.drawMap(g2);
+            game.tileMap.drawMap(g2);
             entities = game.getEntities();
             // use this type of for loop to not throw exception ConcurrentModificationException
             for (int i = 0; i < entities.size(); i++) {

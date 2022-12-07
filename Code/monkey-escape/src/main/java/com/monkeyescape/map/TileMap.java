@@ -13,7 +13,7 @@ import java.io.IOException;
  * accessed by tileMap[col][row]
  *
  * @author Jeffrey Ramacula
- * @version 11/23/2022
+ * @version 12/06/2022
  * */
 public class TileMap {
     Game game;
@@ -55,17 +55,17 @@ public class TileMap {
             //wall tile
             tileImages[1] = new Tile();
             tileImages[1].image = ImageIO.read(getClass().getResourceAsStream("/background/wall.png"));
-            tileImages[1].blocked = true;
+            tileImages[1].isBlocked = true;
 
             //door tile
             tileImages[2] = new Tile();
             tileImages[2].image = ImageIO.read(getClass().getResourceAsStream("/background/cage.png"));
-            tileImages[2].blocked = true;
+            tileImages[2].isBlocked = true;
 
             //cage tile
             tileImages[3] = new Tile();
             tileImages[3].image = ImageIO.read(getClass().getResourceAsStream("/background/cage.png"));
-            tileImages[3].blocked = true;
+            tileImages[3].isBlocked = true;
 
         }catch (IOException e){
             e.printStackTrace();
@@ -93,7 +93,7 @@ public class TileMap {
                 tileMap[col][row] = new Tile();
                 tileIndex = randomMap[col][row];
                 tileMap[col][row].image = tileImages[tileIndex].image;
-                tileMap[col][row].blocked = tileImages[tileIndex].blocked;
+                tileMap[col][row].isBlocked = tileImages[tileIndex].isBlocked;
                 tileMap[col][row].hasFixedEntity = tileImages[tileIndex].hasFixedEntity;
                 tileMap[col][row].FixedEntityObject = tileImages[tileIndex].FixedEntityObject;
             }
