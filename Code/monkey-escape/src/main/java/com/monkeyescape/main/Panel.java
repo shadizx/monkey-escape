@@ -20,11 +20,6 @@ public class Panel extends JPanel implements Runnable {
     public final Game game;
     Sound sound;
 
-    public final int tileSize = 48;
-    public final int rows = 16;
-    public final int cols = 16;
-    public final int width = tileSize * cols;
-    public final int height = tileSize * rows;
     public final int sideBarWidth = 200;
     public final int FPS = 60;
 
@@ -40,13 +35,13 @@ public class Panel extends JPanel implements Runnable {
      * @param noSound true for sound off, otherwise false
      */
     public Panel(boolean... noSound) {
-        this.setPreferredSize(new Dimension(width + sideBarWidth, height));
+        game = new Game(keyHandler);
+        this.setPreferredSize(new Dimension(game.width + sideBarWidth, game.height));
         this.setBackground(Color.GREEN);
         this.setDoubleBuffered(true); // improves games rendering performance
         this.addKeyListener(keyHandler);
         this.setFocusable(true); // Game panel is "focused" to receive key input
 
-        game = new Game(keyHandler);
         this.painter = new Painter(game, this);
         startGameThread();
 

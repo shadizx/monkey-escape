@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  * Represents a Painter class used for painting UI components
  *
  * @author Kaleigh Toering & Shadi Zoldjalali
- * @version 11/23/2022
+ * @version 12/06/2022
  */
 public class Painter {
     private final Panel panel;
@@ -65,10 +65,10 @@ public class Painter {
     public void paintScore(Graphics2D g2) {
         int fontSize = 30;
         g2.setFont(new Font("Helvetica", Font.BOLD, fontSize));
-        g2.drawString("Score:", (panel.width + panel.sideBarWidth / 2) - (fontSize + 20), 60);
+        g2.drawString("Score:", (game.width + panel.sideBarWidth / 2) - (fontSize + 20), 60);
 
         g2.setFont(new Font("Helvetica", Font.PLAIN, fontSize));
-        g2.drawString(String.valueOf(game.score), panel.width + panel.sideBarWidth / 2 - (fontSize + 2), 100);
+        g2.drawString(String.valueOf(game.score), game.width + panel.sideBarWidth / 2 - (fontSize + 2), 100);
     }
 
     /**
@@ -79,10 +79,10 @@ public class Painter {
     public void paintTimer(Graphics2D g2) {
         int fontSize = 30;
         g2.setFont(new Font("Helvetica", Font.BOLD, fontSize));
-        g2.drawString("Time:", (panel.width + panel.sideBarWidth / 2) - (fontSize + 8), panel.height - 100);
+        g2.drawString("Time:", (game.width + panel.sideBarWidth / 2) - (fontSize + 8), game.height - 100);
 
         g2.setFont(new Font("Helvetica", Font.PLAIN, fontSize));
-        g2.drawString(formatSeconds(game.secondsTimer), panel.width + panel.sideBarWidth / 2 - (fontSize + 2), panel.height - 60);
+        g2.drawString(formatSeconds(game.secondsTimer), game.width + panel.sideBarWidth / 2 - (fontSize + 2), game.height - 60);
     }
 
     /**
@@ -114,9 +114,9 @@ public class Painter {
     public void paintLevel(Graphics2D g2) {
         int fontSize = 30;
         g2.setFont(new Font("Helvetica", Font.BOLD, fontSize));
-        g2.drawString("Level:", (panel.width + panel.sideBarWidth / 2) - (fontSize + 20), panel.height/2);
+        g2.drawString("Level:", (game.width + panel.sideBarWidth / 2) - (fontSize + 20), game.height/2);
 
         g2.setFont(new Font("Helvetica", Font.PLAIN, fontSize));
-        g2.drawString(String.valueOf(Game.level), panel.width + panel.sideBarWidth / 2 - (fontSize + 2), (panel.height/2) + 40);
+        g2.drawString(String.valueOf(Game.level), game.width + panel.sideBarWidth / 2 - (fontSize + 2), (game.height/2) + 40);
     }
 }
