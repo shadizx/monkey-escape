@@ -83,6 +83,21 @@ public class Monkey extends MovingEntity {
         }
         isMoving = false;
 
+        checkLionPit();
+
+        // after 15 game "ticks" we want to switch the image (version 1 or version 2)
+        // version we are showing to make it look more animated
+        if (++drawImageDelay > 15) {
+            drawImageVersion = drawImageVersion == 1 ? 2 : 1;
+            drawImageDelay = 0;
+        }
+    }
+
+    /**
+     * Checks if the monkey is in the lion-pit and
+     * holds the logic for <code>Monkey</code> - <code>LionPit</code> interaction
+     */
+    private void checkLionPit() {
         //Keeps track of how long the monkey has been in the lion pit
         if(Monkey.inLionPit) {
             timeInLionPit++;
@@ -101,13 +116,6 @@ public class Monkey extends MovingEntity {
         //Switches back to normal direction after in lion pit even if no keys are being pressed
         if(!Monkey.inLionPit && direction.equals("jump")) {
             direction = "down";
-        }
-
-        // after 15 game "ticks" we want to switch the image (version 1 or version 2)
-        // version we are showing to make it look more animated
-        if (++drawImageDelay > 15) {
-            drawImageVersion = drawImageVersion == 1 ? 2 : 1;
-            drawImageDelay = 0;
         }
     }
 }
