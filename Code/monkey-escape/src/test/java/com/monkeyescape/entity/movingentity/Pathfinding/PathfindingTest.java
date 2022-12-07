@@ -19,10 +19,10 @@ class PathfindingTest {
     @Test
     @DisplayName("Running instantiateNodes test")
     void instantiateNodes() {
-        assertNotNull(pf.node);
-        assertEquals(pf.node.length, game.cols);
+        assertNotNull(pf.map);
+        assertEquals(pf.map.length, game.cols);
 
-        for (Node[] nodeRow : pf.node) {
+        for (Node[] nodeRow : pf.map) {
             for (Node node : nodeRow) {
                 assertNotEquals(node, null);
             }
@@ -34,10 +34,10 @@ class PathfindingTest {
     void resetNodes() {
         for (int i = 0; i < pf.game.rows; i++) {
             for (int j = 0; j < pf.game.cols; j++) {
-                assertFalse(pf.node[j][i].open);
-                assertFalse(pf.node[j][i].checked);
-                assertFalse(pf.node[j][i].solid);
-                assertFalse(pf.node[j][i].path);
+                assertFalse(pf.map[j][i].open);
+                assertFalse(pf.map[j][i].checked);
+                assertFalse(pf.map[j][i].solid);
+                assertFalse(pf.map[j][i].path);
             }
         }
 
@@ -59,18 +59,18 @@ class PathfindingTest {
         for (int i = 0; i < pf.game.rows; i++) {
             for (int j = 0; j < pf.game.cols; j++) {
                 if(j != 10 && i != 10){ //Check only none goal tiles
-                    assertEquals(pf.node[j][i].solid, game.tm.tileMap[j][i].blocked);
+                    assertEquals(pf.map[j][i].solid, game.tm.tileMap[j][i].blocked);
                 }
             }
         }
-        assertFalse(pf.node[10][10].solid); //Check that goal tile is not solid
+        assertFalse(pf.map[10][10].solid); //Check that goal tile is not solid
 
-        assertFalse(pf.node[10][10].solid);
+        assertFalse(pf.map[10][10].solid);
         for (int i = 0; i < pf.game.rows; i++) {
             for (int j = 0; j < pf.game.cols; j++) {
-                assertEquals(pf.node[j][i].gCost, Math.abs(pf.node[j][i].col - pf.startNode.col) + Math.abs(pf.node[j][i].row - pf.startNode.row));
-                assertEquals(pf.node[j][i].hCost, Math.abs(pf.node[j][i].col - pf.goalNode.col) + Math.abs(pf.node[j][i].row - pf.goalNode.row));
-                assertEquals(pf.node[j][i].fCost, pf.node[j][i].gCost + pf.node[j][i].hCost);
+                assertEquals(pf.map[j][i].gCost, Math.abs(pf.map[j][i].col - pf.startNode.col) + Math.abs(pf.map[j][i].row - pf.startNode.row));
+                assertEquals(pf.map[j][i].hCost, Math.abs(pf.map[j][i].col - pf.goalNode.col) + Math.abs(pf.map[j][i].row - pf.goalNode.row));
+                assertEquals(pf.map[j][i].fCost, pf.map[j][i].gCost + pf.map[j][i].hCost);
             }
         }
     }

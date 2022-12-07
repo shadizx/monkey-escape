@@ -68,20 +68,7 @@ public class Zookeeper extends MovingEntity {
         collided = false;
         game.collisionChecker.checkTile(this);
         if (!collided) {
-            switch (direction) {
-                case "up":
-                    y -= speed;
-                    break;
-                case "right":
-                    x += speed;
-                    break;
-                case "down":
-                    y += speed;
-                    break;
-                case "left":
-                    x -= speed;
-                    break;
-            }
+            movement.move();
         }
     }
 
