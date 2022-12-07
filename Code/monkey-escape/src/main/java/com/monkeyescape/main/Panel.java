@@ -14,7 +14,7 @@ import java.util.List;
  * Represents a JPanel panel that is used for interaction
  *
  * @author Shadi Zoldjalali & Kaleigh Toering & Jeffrey Ramacula
- * @version 11/23/2022
+ * @version 12/06/2022
  */
 public class Panel extends JPanel implements Runnable {
     public final Game game;
@@ -32,15 +32,14 @@ public class Panel extends JPanel implements Runnable {
     private final Painter painter;
     private Thread gameThread;
 
-
     private List<Entity> entities;
 
     /**
      * Creates a new Panel with no sound for testing purposes
      *
-     * @param noSound true for no sound, otherwise false
+     * @param noSound true for sound off, otherwise false
      */
-    public Panel(boolean noSound){
+    public Panel(boolean... noSound) {
         this.setPreferredSize(new Dimension(width + sideBarWidth, height));
         this.setBackground(Color.GREEN);
         this.setDoubleBuffered(true); // improves games rendering performance
@@ -50,24 +49,11 @@ public class Panel extends JPanel implements Runnable {
         game = new Game(kh);
         this.painter = new Painter(game, this);
         startGameThread();
-    }
 
-    /**Ï
-     * Creates a new Panel
-     */
-    public Panel() {
-        this.setPreferredSize(new Dimension(width + sideBarWidth, height));
-        this.setBackground(Color.GREEN);
-        this.setDoubleBuffered(true); // improves games rendering performance
-        this.addKeyListener(kh);
-        this.setFocusable(true); // Game panel is "focused" to receive key input
-
-        game = new Game(kh);
-        this.painter = new Painter(game, this);
-        startGameThread();
-        sound = new Sound();
-        playMusic(0);
-
+        if (noSound.length == 0) {
+            sound = new Sound();
+            playMusic(0);
+        }
     }
 
     /**
