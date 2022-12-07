@@ -23,14 +23,14 @@ class GameTest {
     @Test
     @DisplayName("Running spawnInitialEntities Tes")
     void spawnInitialEntitiesTest(){
-        testGame.spawnInitialEntities();
+        testGame.spawner.spawnInitialEntities();
         assertEquals(7,testGame.getEntities().size());
     }
 
     @Test
     @DisplayName("Running spawnMonkeyTest")
     void spawnMonkeyTest(){
-        testGame.spawnMonkey();
+        testGame.spawner.spawnMonkey();
         int numEntities = testGame.getEntities().size();
         assertEquals(1, numEntities);
         MovingEntity testMonkey = (MovingEntity) testGame.getEntities().get(0);
@@ -41,14 +41,14 @@ class GameTest {
     @DisplayName("Running spawnZookeepersValidTest Level = 1")
     void spawnZookeepersValidLevelTest(){
         testGame.setLevel(1);
-        testGame.spawnZookeepers();
+        testGame.spawner.spawnZookeepers();
         assertEquals(1,testGame.zookeepers.size());
     }
     @Test
     @DisplayName("Running spawnZookeepersValidTest level = 5")
     void spawnZookeepersValidLevelTest2(){
         testGame.setLevel(5);
-        testGame.spawnZookeepers();
+        testGame.spawner.spawnZookeepers();
         assertEquals(5,testGame.zookeepers.size());
     }
 
@@ -56,14 +56,14 @@ class GameTest {
     @DisplayName("Running spawnZookeepersInValidTest Level = 0")
     void spawnZookeepersInValidLevelTest(){
         testGame.setLevel(0);
-        testGame.spawnZookeepers();
+        testGame.spawner.spawnZookeepers();
         assertEquals(0,testGame.zookeepers.size());
     }
 
     @Test
     @DisplayName("Running spawnBananasTest")
     void spawnBananasTest(){
-        testGame.spawnBananas(2);
+        testGame.spawner.spawnBananas(2);
         int numEntities = testGame.getEntities().size();
         assertEquals(2, numEntities);
         FixedEntity testBanana1 = (FixedEntity) testGame.getEntities().get(0);
@@ -74,7 +74,7 @@ class GameTest {
     @Test
     @DisplayName("Running spawnKeyTest")
     void spawnKeyTest(){
-        testGame.spawnKeys();
+        testGame.spawner.spawnKeys();
         int numEntities = testGame.getEntities().size();
         assertEquals(1, numEntities);
         FixedEntity testKey = (FixedEntity) testGame.getEntities().get(0);
@@ -84,7 +84,7 @@ class GameTest {
     @Test
     @DisplayName("Running spawnLionPitsTest")
     void spawnLionPitsTest(){
-        testGame.spawnLionPits(2);
+        testGame.spawner.spawnLionPits(2);
         int numEntities = testGame.getEntities().size();
         assertEquals(2, numEntities);
         FixedEntity testLionPit1 = (FixedEntity) testGame.getEntities().get(0);

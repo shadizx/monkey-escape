@@ -2,9 +2,6 @@ package com.monkeyescape.main;
 
 import com.monkeyescape.entity.Entity;
 import com.monkeyescape.entity.Position;
-import com.monkeyescape.entity.fixedentity.Banana;
-import com.monkeyescape.entity.fixedentity.Key;
-import com.monkeyescape.entity.fixedentity.LionPit;
 import com.monkeyescape.entity.movingentity.Monkey;
 import com.monkeyescape.entity.movingentity.Zookeeper;
 import com.monkeyescape.map.TileMap;
@@ -42,6 +39,7 @@ public class Game {
     public List<Zookeeper> zookeepers = new ArrayList<>();
     public Collision collisionChecker;
     KeyHandler keyHandler;
+    Spawner spawner;
 
     /**
      * Initializes the game
@@ -53,18 +51,8 @@ public class Game {
         collisionChecker = new Collision(this);
         setLevel(1);
         keyHandler = keyhandler;
-        spawnInitialEntities();
-    }
-
-    /**
-     * Spawns the Entities
-     */
-    public void spawnInitialEntities() {
-        spawnMonkey();
-        spawnZookeepers();
-        spawnBananas(2);
-        spawnKeys();
-        spawnLionPits(2);
+        spawner = new Spawner(this);
+        spawner.spawnInitialEntities();
     }
 
     /**
@@ -84,60 +72,12 @@ public class Game {
             }
             //Spawns a new banana on average every 15 seconds
             if(((int) (Math.random() * 900)) == 1) {
-                spawnBananas(1);
+                spawner.spawnBananas(1);
             }
             if (score < 0) {
                 state.setGameState(State.GameState.GAMEOVER);
                 state.changeState(keyHandler);
             }
-        }
-    }
-
-    /**
-     * Spawns the Monkey
-     */
-    public void spawnMonkey() {
-        monkey = new Monkey(this, keyHandler);
-        addEntity(monkey);
-    }
-
-    /**
-     * Spawns the same number of zookeepers as the level
-     */
-    public void spawnZookeepers() {
-        for(int i = 0; i < level; i++){
-            Zookeeper zookeeper = new Zookeeper(this, keyHandler,monkey);
-            addEntity(zookeeper);
-            addZookeeper(zookeeper);
-        }
-    }
-
-    /**
-     * Creates a Banana Entity and adds it to the Entity List
-     *
-     * @param numBananas number of bananas to spawn
-     */
-    public void spawnBananas(int numBananas) {
-        for(int i = 0; i < numBananas;i++) {
-            addEntity(new Banana(this));
-        }
-    }
-
-    /**
-     * Spawns keys
-     */
-    public void spawnKeys() {
-        addEntity(new Key(this));
-    }
-
-    /**
-     * Spawns lion pits
-     *
-     * @param numLionPits the number of lionpits to spawn
-     */
-    public void spawnLionPits(int numLionPits) {
-        for(int i = 0; i<numLionPits;i++) {
-            addEntity(new LionPit(this));
         }
     }
 
@@ -169,7 +109,7 @@ public class Game {
         score = 0;
         secondsTimer = 0;
         tileMap.makeNewMap();
-        spawnInitialEntities();
+        spawner.spawnInitialEntities();
     }
 
     /**
@@ -180,7 +120,7 @@ public class Game {
         entities.clear();
         zookeepers.clear();
         tileMap.makeNewMap();
-        spawnInitialEntities();
+        spawner.spawnInitialEntities();
     }
 
     /**
