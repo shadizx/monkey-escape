@@ -11,19 +11,19 @@ import java.util.ArrayList;
  * @version 11/23/2022
  */
 public class Pathfinding {
-    Game game;
-    Node[][] node;
+    protected Game game;
+    protected Node[][] map;
 
     //A list of nodes that are open and have not been touched
     ArrayList<Node> openList = new ArrayList<>();
     //A list of nodes in the path to the goal
     public ArrayList<Node> pathList = new ArrayList<>();
 
-    Node startNode;
-    Node goalNode;
-    Node currentNode;
-    boolean goalReached = false;
-    int step = 0;
+    protected Node startNode;
+    protected Node goalNode;
+    protected Node currentNode;
+    protected boolean goalReached = false;
+    protected int step = 0;
 
     /**
      * Initializes the pathfinder and creates the new nodes
@@ -40,11 +40,11 @@ public class Pathfinding {
      * Initializes the nodes to be used
      */
     public void instantiateNodes(){
-        node = new Node[game.cols][game.rows];
+        map = new Node[game.cols][game.rows];
 
         for (int row = 0; row < game.rows; row++) {
             for (int col = 0; col < game.cols; col++) {
-                node[col][row] = new Node(col,row);
+                map[col][row] = new Node(col,row);
             }
         }
     }
@@ -55,10 +55,10 @@ public class Pathfinding {
     public void resetNodes(){
         for (int row = 0; row < game.rows; row++) {
             for (int col = 0; col < game.cols; col++) {
-                node[col][row].open = false;
-                node[col][row].checked = false;
-                node[col][row].solid = false;
-                node[col][row].path = false;
+                map[col][row].open = false;
+                map[col][row].checked = false;
+                map[col][row].solid = false;
+                map[col][row].path = false;
             }
         }
 
@@ -81,25 +81,25 @@ public class Pathfinding {
         resetNodes();
 
         //Sets the start,current, and goal nodes using the inputs
-        startNode = node[startCol][startRow];
+        startNode = map[startCol][startRow];
         currentNode = startNode;
-        goalNode = node[goalCol][goalRow];
+        goalNode = map[goalCol][goalRow];
         openList.add(currentNode);
 
         //Set which tiles are blocked/solid
         for (int row = 0; row < game.rows; row++) {
             for (int col = 0; col < game.cols; col++) {
-                node[col][row].solid = game.tm.tileMap[col][row].blocked;
+                map[col][row].solid = game.tm.tileMap[col][row].blocked;
             }
         }
 
         //Set monkeys tile to not solid in case it is the cage tile
-        node[goalCol][goalRow].solid = false;
+        map[goalCol][goalRow].solid = false;
 
         //Gets the cost of the nodes
         for (int row = 0; row < game.rows; row++) {
             for (int col = 0; col < game.cols; col++) {
-                getCost(node[col][row]);
+                getCost(map[col][row]);
             }
         }
     }
@@ -136,16 +136,16 @@ public class Pathfinding {
 
             //Opens the nodes adjacent to current node
             if(row - 1 >= 0){
-                openNode(node[col][row-1]);
+                openNode(map[col][row-1]);
             }
             if(col - 1 >= 0){
-                openNode(node[col-1][row]);
+                openNode(map[col-1][row]);
             }
             if(row + 1 < game.rows){
-                openNode(node[col][row+1]);
+                openNode(map[col][row+1]);
             }
             if(col + 1 < game.cols){
-                openNode(node[col+1][row]);
+                openNode(map[col+1][row]);
             }    
             
             int bestNodeIndex = 0;

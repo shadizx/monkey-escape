@@ -79,20 +79,7 @@ public class Monkey extends MovingEntity {
         game.collisionChecker.checkZookeeper(this, game.zookeepers);
 
         if (!collided && !Monkey.inLionPit && isMoving) {
-            switch (direction) {
-                case "up":
-                    y -= speed;
-                    break;
-                case "right":
-                    x += speed;
-                    break;
-                case "down":
-                    y += speed;
-                    break;
-                case "left":
-                    x -= speed;
-                    break;
-            }
+            movement.move();
         }
         isMoving = false;
 

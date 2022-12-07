@@ -21,6 +21,7 @@ import java.util.HashMap;
 public abstract class MovingEntity implements Entity {
     Game game;
     KeyHandler kh;
+    protected Movement movement = new Movement(this);
 
     public String type = null;
 
@@ -105,20 +106,7 @@ public abstract class MovingEntity implements Entity {
             game.collisionChecker.checkZookeeper(this, game.zookeepers);
 
             if (!collided) {
-                switch (direction) {
-                    case "up":
-                        y -= speed;
-                        break;
-                    case "right":
-                        x += speed;
-                        break;
-                    case "down":
-                        y += speed;
-                        break;
-                    case "left":
-                        x -= speed;
-                        break;
-                }
+                movement.move();
             }
         }
 

@@ -41,13 +41,8 @@ public class State {
      * @param kh a <code>KeyHandler</code> to refer to
      */
     public void changeState(KeyHandler kh) {
-        boolean enterPressed = kh.isPressedEnter();
-        boolean escPressed = kh.isPressedEsc();
-        boolean spacePressed = kh.isPressedSpace();
-        boolean yPressed = kh.isPressedY();
-        boolean nPressed = kh.isPressedN();
         // Start Menu --> Play Game
-        if ((CurrentState == GameState.START) && enterPressed) {
+        if ((CurrentState == GameState.START) && kh.isPressedEnter()) {
             CurrentState = GameState.INSTRUCTIONS;
         }
         else if (CurrentState == GameState.INSTRUCTIONS) {
@@ -60,23 +55,23 @@ public class State {
             CurrentState = GameState.PLAY;
         }
         // Play Game --> Pause Menu
-        else if ((CurrentState == GameState.PLAY) && spacePressed) {
+        else if ((CurrentState == GameState.PLAY) && kh.isPressedSpace()) {
             CurrentState = State.GameState.PAUSE;
         }
         // Pause Menu --> Continue Playing
-        else if ((CurrentState == GameState.PAUSE) && enterPressed) {
+        else if ((CurrentState == GameState.PAUSE) && kh.isPressedEnter()) {
             CurrentState = State.GameState.PLAY;
         }
         // Pause Menu --> GameOver screen
-        else if ((CurrentState == GameState.PAUSE) && escPressed) {
+        else if ((CurrentState == GameState.PAUSE) && kh.isPressedEsc()) {
             CurrentState = GameState.GAMEOVER;
         }
         // Game over screen --> Restart Game
-        else if ((CurrentState == GameState.GAMEOVER) && yPressed) {
+        else if ((CurrentState == GameState.GAMEOVER) && kh.isPressedY()) {
             CurrentState = GameState.RESTART;
         }
         // Game over screen --> Exit
-        else if ((CurrentState == GameState.GAMEOVER) && nPressed) {
+        else if ((CurrentState == GameState.GAMEOVER) && kh.isPressedN()) {
             CurrentState = GameState.EXIT;
         }
         else if (CurrentState == GameState.RESTART) {
