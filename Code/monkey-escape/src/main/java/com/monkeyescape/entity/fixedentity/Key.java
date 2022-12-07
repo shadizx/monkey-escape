@@ -25,7 +25,7 @@ public class Key extends FixedEntity {
         this.exitCol = game.exitCol;
         this.exitRow = game.exitRow;
 
-        game.tm.addFixedEntitytoMap(y/ game.tileSize, x/ game.tileSize, this);
+        game.tileMap.addFixedEntitytoMap(y/ game.tileSize, x/ game.tileSize, this);
         loadImage();
     }
 
@@ -36,8 +36,8 @@ public class Key extends FixedEntity {
      */
     void useKey() {
         //unblocks door tile
-        game.tm.tileMap[exitCol][exitRow].blocked = false;
-        game.tm.tileMap[exitCol][exitRow].image = game.tm.tileImages[0].image;
+        game.tileMap.tileMap[exitCol][exitRow].isBlocked = false;
+        game.tileMap.tileMap[exitCol][exitRow].image = game.tileMap.tileImages[0].image;
         playSound();
     }
 

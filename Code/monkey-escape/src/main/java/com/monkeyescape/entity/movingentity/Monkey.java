@@ -23,10 +23,10 @@ public class Monkey extends MovingEntity {
      * Creates a Monkey
      *
      * @param game A <code>Game</code> to refer to
-     * @param kh a <code>KeyHandler</code> for handling key inputs
+     * @param keyHandler a <code>KeyHandler</code> for handling key inputs
      */
-    public Monkey(Game game, KeyHandler kh) {
-        super(game, kh);
+    public Monkey(Game game, KeyHandler keyHandler) {
+        super(game, keyHandler);
         type = "monkey";
         loadImage();
 
@@ -54,20 +54,20 @@ public class Monkey extends MovingEntity {
         if (Monkey.inLionPit){
             direction = "jump";
             isMoving = true;
-        } else if(kh.isPressedUp() || kh.isPressedRight() || kh.isPressedDown() || kh.isPressedLeft()) {
-            if (kh.isPressedUp()) {
+        } else if(keyHandler.isPressedUp() || keyHandler.isPressedRight() || keyHandler.isPressedDown() || keyHandler.isPressedLeft()) {
+            if (keyHandler.isPressedUp()) {
                 direction = "up";
                 isMoving = true;
 
-            } else if (kh.isPressedRight()) {
+            } else if (keyHandler.isPressedRight()) {
                 direction = "right";
                 isMoving = true;
 
-            } else if (kh.isPressedDown()) {
+            } else if (keyHandler.isPressedDown()) {
                 direction = "down";
                 isMoving = true;
 
-            } else if (kh.isPressedLeft()) {
+            } else if (keyHandler.isPressedLeft()) {
                 direction = "left";
                 isMoving = true;
             } 

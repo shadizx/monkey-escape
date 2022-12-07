@@ -30,10 +30,10 @@ class TileMapTest {
         tileMap.getTiles();
 
         //Check that it correctly assigns the tile images
-        assertFalse(tileMap.tileImages[0].blocked);
-        assertTrue(tileMap.tileImages[1].blocked);
-        assertTrue(tileMap.tileImages[2].blocked);
-        assertTrue(tileMap.tileImages[3].blocked);
+        assertFalse(tileMap.tileImages[0].isBlocked);
+        assertTrue(tileMap.tileImages[1].isBlocked);
+        assertTrue(tileMap.tileImages[2].isBlocked);
+        assertTrue(tileMap.tileImages[3].isBlocked);
     }
 
     @Test

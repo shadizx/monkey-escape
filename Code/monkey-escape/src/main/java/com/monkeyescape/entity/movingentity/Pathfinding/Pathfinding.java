@@ -89,7 +89,7 @@ public class Pathfinding {
         //Set which tiles are blocked/solid
         for (int row = 0; row < game.rows; row++) {
             for (int col = 0; col < game.cols; col++) {
-                map[col][row].solid = game.tm.tileMap[col][row].blocked;
+                map[col][row].solid = game.tileMap.tileMap[col][row].isBlocked;
             }
         }
 

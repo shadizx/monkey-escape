@@ -52,14 +52,14 @@ class PathfindingTest {
     void setNodes() {
         pf.resetNodes();
         pf.instantiateNodes();
-        game.tm.getTiles();
-        game.tm.generateMap();
+        game.tileMap.getTiles();
+        game.tileMap.generateMap();
 
         pf.setNodes(0, 0, 10, 10);
         for (int i = 0; i < pf.game.rows; i++) {
             for (int j = 0; j < pf.game.cols; j++) {
                 if(j != 10 && i != 10){ //Check only none goal tiles
-                    assertEquals(pf.map[j][i].solid, game.tm.tileMap[j][i].blocked);
+                    assertEquals(pf.map[j][i].solid, game.tileMap.tileMap[j][i].isBlocked);
                 }
             }
         }

@@ -16,12 +16,12 @@ import java.util.HashMap;
  * Represents a moving entity
  *
  * @author Shadi Zoldjalali
- * @version 11/23/2022
+ * @version 12/06/2022
  */
 public abstract class MovingEntity implements Entity {
     Game game;
-    KeyHandler kh;
     protected Movement movement = new Movement(this);
+    KeyHandler keyHandler;
 
     public String type = null;
 
@@ -44,11 +44,11 @@ public abstract class MovingEntity implements Entity {
      * Creates a moving entity
      *
      * @param game A <code>Game</code> to refer to
-     * @param kh a <code>KeyHandler</code> for handling key inputs
+     * @param keyHandler a <code>KeyHandler</code> for handling key inputs
      */
-    public MovingEntity(Game game, KeyHandler kh) {
+    public MovingEntity(Game game, KeyHandler keyHandler) {
         this.game = game;
-        this.kh = kh;
+        this.keyHandler = keyHandler;
         direction = "down";
     }
 
@@ -86,17 +86,17 @@ public abstract class MovingEntity implements Entity {
         //No movement if game is not in play
         if(game.state.getGameState() != State.GameState.PLAY) return;
         
-        if(kh.isPressedUp() || kh.isPressedRight() || kh.isPressedDown() || kh.isPressedLeft()) {
-            if (kh.isPressedUp()) {
+        if(keyHandler.isPressedUp() || keyHandler.isPressedRight() || keyHandler.isPressedDown() || keyHandler.isPressedLeft()) {
+            if (keyHandler.isPressedUp()) {
                 direction = "up";
 
-            } else if (kh.isPressedRight()) {
+            } else if (keyHandler.isPressedRight()) {
                 direction = "right";
 
-            } else if (kh.isPressedDown()) {
+            } else if (keyHandler.isPressedDown()) {
                 direction = "down";
 
-            } else if (kh.isPressedLeft()) {
+            } else if (keyHandler.isPressedLeft()) {
                 direction = "left";
             } 
 
@@ -141,7 +141,7 @@ public abstract class MovingEntity implements Entity {
             //generates random colIndex and rowIndex between 1-14 which are between boundaries of walls
             int colIndex = (int) (Math.random() * (game.cols - 2) + 1);
             int rowIndex = (int) (Math.random() * (game.rows - 2) + 1);
-            if(!(game.tm.tileMap[colIndex][rowIndex].blocked) && !(game.tm.tileMap[colIndex][rowIndex].hasFixedEntity)
+            if(!(game.tileMap.tileMap[colIndex][rowIndex].isBlocked) && !(game.tileMap.tileMap[colIndex][rowIndex].hasFixedEntity)
                     && (colIndex < game.exitCol - 2 && rowIndex < game.exitRow - 2)
                     && (colIndex > game.startCol + 2 && rowIndex > game.startRow + 2)){
                 newPos = new Position(colIndex*game.tileSize, rowIndex*game.tileSize);
