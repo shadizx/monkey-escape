@@ -22,8 +22,7 @@ public abstract class FixedEntity implements Entity {
 
     public String type;
 
-    public int x;
-    public int y;
+    protected Position coordinates;
 
     private BufferedImage image;
     public int impact;
@@ -37,10 +36,47 @@ public abstract class FixedEntity implements Entity {
     public FixedEntity(Game game) {
         this.game = game;
         Position pos = createRandomPosition(game);
-        x = pos.x;
-        y = pos.y;
+        coordinates = new Position(pos.x, pos.y);
         this.sound = new Sound();
     }
+
+    /**
+     * Returns the X coordinate of the fixed entity
+     *
+     * @return int X coordinate of entity
+     */
+    public int getXCoordinate() {
+        return coordinates.x;
+    }
+
+    /**
+     * Returns the Y coordinate of the fixed entity
+     *
+     * @return int Y coordinate of entity
+     */
+    public int getYCoordinate() {
+        return coordinates.y;
+    }
+
+    /**
+     * Sets the X coordinate of fixed entity to new value
+     *
+     * @param int a number for the new coordinate
+     */
+    public void setXCoordinate(int newX) {
+        coordinates.x = newX;
+    }
+
+    /**
+     * Sets the Y coordinate of fixed entity to new value
+     *
+     * @param int a number for the new coordinate
+     */
+    public void setYCoordinate(int newY) {
+        coordinates.y = newY;
+    }
+
+
 
     public boolean loadImage() {
         try {
@@ -54,7 +90,7 @@ public abstract class FixedEntity implements Entity {
     }
 
     public void draw(Graphics2D g2) {
-        g2.drawImage(image, x, y, game.tileSize, game.tileSize, null);
+        g2.drawImage(image, coordinates.x, coordinates.y, game.tileSize, game.tileSize, null);
     }
 
     /**

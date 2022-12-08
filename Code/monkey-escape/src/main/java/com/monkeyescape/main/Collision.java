@@ -37,10 +37,10 @@ public class Collision {
      * @param entity the entity that wants to move
     */
     public void checkTile(MovingEntity entity){
-        int LeftX = entity.x + entity.area.x;
-        int RightX = entity.x + entity.area.x + entity.area.width;
-        int TopY = entity.y + entity.area.y;
-        int BottomY = entity.y + entity.area.y + entity.area.height;
+        int LeftX = entity.getXCoordinate() + entity.area.x;
+        int RightX = entity.getXCoordinate() + entity.area.x + entity.area.width;
+        int TopY = entity.getYCoordinate() + entity.area.y;
+        int BottomY = entity.getYCoordinate() + entity.area.y + entity.area.height;
 
         int ColLeft = LeftX/ game.tileSize;
         int ColRight = RightX/ game.tileSize;
@@ -51,13 +51,13 @@ public class Collision {
         if (ColLeft < 0 || ColRight >= game.cols || RowTop < 0 || RowBottom >= game.rows) {
             switch (entity.direction) {
                 case "up" ->
-                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", entity.x / game.tileSize, RowTop);
+                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", entity.getXCoordinate() / game.tileSize, RowTop);
                 case "right" ->
-                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", ColRight, entity.y / game.tileSize);
+                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", ColRight, entity.getYCoordinate() / game.tileSize);
                 case "down" ->
-                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", entity.x / game.tileSize, RowBottom);
+                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", entity.getXCoordinate() / game.tileSize, RowBottom);
                 case "left" ->
-                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", ColLeft, entity.y / game.tileSize);
+                    System.out.printf("Entity colliding with the tile (%d,%d) is not on the map", ColLeft, entity.getYCoordinate() / game.tileSize);
             }
 
             //Set that entity is collided so it cannot continue to move
@@ -114,10 +114,11 @@ public class Collision {
      * @return Returns true is there was a fixed entity on that tile, false if not.
      * */
     public boolean checkFixedEntity(MovingEntity entity){
-        int LeftX = entity.x + entity.area.x;
-        int RightX = entity.x + entity.area.x + entity.area.width;
-        int TopY = entity.y + entity.area.y;
-        int BottomY = entity.y + entity.area.y + entity.area.height;
+        int LeftX = entity.getXCoordinate() + entity.area.x;
+        int RightX = entity.getXCoordinate()+ entity.area.x + entity.area.width;
+        int TopY = entity.getYCoordinate() + entity.area.y;
+        int BottomY = entity.getYCoordinate() + entity.area.y + entity.area.height;
+
 
         int colLeft = LeftX/ game.tileSize;
         int colRight = RightX/ game.tileSize;
@@ -127,13 +128,13 @@ public class Collision {
         // Check that tile is in map
         if (colLeft < 0 || colRight >= game.cols || rowTop < 0 || rowBottom >= game.rows) {
             switch (entity.direction) {
-                case "up" -> System.out.printf("The tile (%d,%d) is not on the map", entity.x / game.tileSize, rowTop);
+                case "up" -> System.out.printf("The tile (%d,%d) is not on the map", entity.getXCoordinate() / game.tileSize, rowTop);
                 case "right" ->
-                    System.out.printf("The tile (%d,%d) is not on the map", colRight, entity.y / game.tileSize);
+                    System.out.printf("The tile (%d,%d) is not on the map", colRight, entity.getYCoordinate() / game.tileSize);
                 case "down" ->
-                    System.out.printf("The tile (%d,%d) is not on the map", entity.x / game.tileSize, rowBottom);
+                    System.out.printf("The tile (%d,%d) is not on the map", entity.getXCoordinate() / game.tileSize, rowBottom);
                 case "left" ->
-                    System.out.printf("The tile (%d,%d) is not on the map", colLeft, entity.y / game.tileSize);
+                    System.out.printf("The tile (%d,%d) is not on the map", colLeft, entity.getYCoordinate() / game.tileSize);
             }
             return false;
         }
@@ -158,7 +159,7 @@ public class Collision {
      * */
     public boolean checkZookeeper(MovingEntity entity, List<Zookeeper> zookeepers){
         // Check that tile is in map
-        if (entity.x < 0 || entity.x >= game.width || entity.y < 0 || entity.y >= game.height) {
+        if (entity.getXCoordinate() < 0 || entity.getXCoordinate() >= game.width || entity.getYCoordinate() < 0 || entity.getYCoordinate() >= game.height) {
             System.out.println("The entity is not on the map");
             return false;
         }
@@ -167,12 +168,12 @@ public class Collision {
             Zookeeper zookeeper = zookeepers.get(i);
 
             //entities area
-            entity.area.x = entity.x + entity.area.x;
-            entity.area.y = entity.y + entity.area.y;
+            entity.area.x = entity.getXCoordinate() + entity.area.x;
+            entity.area.y = entity.getYCoordinate() + entity.area.y;
 
             //Enemies area
-            zookeeper.area.x = zookeeper.x + zookeeper.area.x;
-            zookeeper.area.y = zookeeper.y + zookeeper.area.y;
+            zookeeper.area.x = zookeeper.getXCoordinate() + zookeeper.area.x;
+            zookeeper.area.y = zookeeper.getYCoordinate() + zookeeper.area.y;
 
             switch (entity.direction){
                 case "up":
@@ -237,7 +238,7 @@ public class Collision {
 
             }
             else if(entity.type.equals("monkey") && !Monkey.inLionPit && Monkey.lionPitInvincibility <= 0) { //If monkey is colliding with lion pit
-                if(Math.abs(entity.x - collidedTile.FixedEntityObject.x) < 16 && Math.abs(entity.y - collidedTile.FixedEntityObject.y) < 16) {
+                if(Math.abs(entity.getXCoordinate() - collidedTile.FixedEntityObject.getXCoordinate()) < 16 && Math.abs(entity.getYCoordinate() - collidedTile.FixedEntityObject.getYCoordinate()) < 16) {
                     //Checks that monkey is directly on the tile to avoid being stuck in lion pit when just going near it
                     delayedDamages = entityCollidedWith.impact;
                     Monkey.inLionPit = true;    

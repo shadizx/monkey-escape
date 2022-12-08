@@ -25,8 +25,7 @@ public abstract class MovingEntity implements Entity {
 
     public String type = null;
 
-    public int x;
-    public int y;
+    protected Position coordinates;
     public int speed;
 
     private final HashMap<String, BufferedImage> images = new HashMap<>();
@@ -50,6 +49,43 @@ public abstract class MovingEntity implements Entity {
         this.game = game;
         this.keyHandler = keyHandler;
         direction = "down";
+        coordinates = new Position(0,0);
+    }
+
+    /**
+     * Returns the X coordinate of the moving entity
+     *
+     * @return int X coordinate of entity
+     */
+    public int getXCoordinate() {
+        return coordinates.x;
+    }
+
+    /**
+     * Returns the Y coordinate of the moving entity
+     *
+     * @return int Y coordinate of entity
+     */
+    public int getYCoordinate() {
+        return coordinates.y;
+    }
+
+    /**
+     * Sets the X coordinate of moving entity to new value
+     *
+     * @param int a number for the new coordinate
+     */
+    public void setXCoordinate(int newX) {
+        coordinates.x = newX;
+    }
+
+    /**
+     * Sets the Y coordinate of moving entity to new value
+     *
+     * @param int a number for the new coordinate
+     */
+    public void setYCoordinate(int newY) {
+        coordinates.y = newY;
     }
 
     /**
@@ -153,6 +189,6 @@ public abstract class MovingEntity implements Entity {
     }
 
     public void draw(Graphics2D g2) {
-        g2.drawImage(images.get(direction + drawImageVersion), x, y, game.tileSize, game.tileSize, null);
+        g2.drawImage(images.get(direction + drawImageVersion), this.getXCoordinate(), this.getYCoordinate(), game.tileSize, game.tileSize, null);
     }
 }

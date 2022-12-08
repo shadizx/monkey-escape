@@ -9,7 +9,7 @@ import com.monkeyescape.main.Game;
  * @version 12/06/2022
  */
 public class Banana extends FixedEntity {
-    int lifecycle = (int) ((Math.random() * 300) + 480); //Lifecycle is random (between 5-10 seconds)
+    private int lifecycle;
 
     /**
      * Creates a banana with random position
@@ -20,8 +20,9 @@ public class Banana extends FixedEntity {
         super(game);
         type = "banana";
         impact = 100;
+        generateRandomLifecycle(8, 13);
 
-        game.tileMap.addFixedEntitytoMap(y / game.tileSize, x / game.tileSize, this);
+        game.tileMap.addFixedEntitytoMap(this.getYCoordinate() / game.tileSize, this.getXCoordinate() / game.tileSize, this);
 
         loadImage();
     }
@@ -45,12 +46,37 @@ public class Banana extends FixedEntity {
     }
 
     /**
+     * Returns a random lifecycle (for 60 frames/second) for banana between the specified thresholds
+     *
+     * @param int shortestLifecycle the shortest possible lifecycle [seconds]
+     * @param int longestLifecycle the longest possible lifecycle [seconds]
+     *
+     */
+    private void generateRandomLifecycle(int shortestLifecycle, int longestLifecycle) {
+        // Error check params
+        if (longestLifecycle < shortestLifecycle) {
+            System.out.println("longestLifecycle must be greater than shortestLifecycle. Setting to default of 8-13 seconds");
+            shortestLifecycle = 8;
+            longestLifecycle = 13;
+        }
+
+        if (longestLifecycle <= 0 || shortestLifecycle <= 0) {
+            System.out.println("longestLifecycle and/or shortestLifecycle must be greater than 0. Setting to default of 8-13 seconds");
+            shortestLifecycle = 8;
+            longestLifecycle = 13;
+        }
+        lifecycle = (int) ((Math.random() * 60*(longestLifecycle-shortestLifecycle)) + 60*shortestLifecycle);
+        return;
+    }
+
+
+    /**
      * Updates the number of ticks the banana has left
      */
     public void update() {
         // Banana despawns after set amount of time
         if (--lifecycle < 0) {
-            var tileToRemove = game.tileMap.tileMap[x / game.tileSize][y / game.tileSize];
+            var tileToRemove = game.tileMap.tileMap[this.getXCoordinate() / game.tileSize][this.getYCoordinate() / game.tileSize];
             tileToRemove.hasFixedEntity = false;
             super.remove();
         }

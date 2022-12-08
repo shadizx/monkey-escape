@@ -38,8 +38,8 @@ public class Monkey extends MovingEntity {
         area = new Rectangle(areaX, areaY, 32, 32);
 
         // start to wherever the cage is
-        x = game.cagePos.x * game.tileSize;
-        y = game.cagePos.y * game.tileSize;
+        this.setXCoordinate(game.cagePos.x * game.tileSize);
+        this.setYCoordinate(game.cagePos.y * game.tileSize);
 
         speed = 4;
     }

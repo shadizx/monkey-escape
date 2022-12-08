@@ -19,16 +19,16 @@ public class Movement {
     protected void move(){
         switch (movingEntity.direction) {
             case "up":
-                movingEntity.y -= movingEntity.speed;
+                movingEntity.setYCoordinate(movingEntity.getYCoordinate() - movingEntity.speed);
                 break;
             case "right":
-                movingEntity.x += movingEntity.speed;
+                movingEntity.setXCoordinate(movingEntity.getXCoordinate() + movingEntity.speed);
                 break;
             case "down":
-                movingEntity.y += movingEntity.speed;
+                movingEntity.setYCoordinate(movingEntity.getYCoordinate() + movingEntity.speed);
                 break;
             case "left":
-                movingEntity.x -= movingEntity.speed;
+                movingEntity.setXCoordinate(movingEntity.getXCoordinate() - movingEntity.speed);
                 break;
         }
     }
