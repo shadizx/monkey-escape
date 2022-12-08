@@ -19,7 +19,7 @@ public class Key extends FixedEntity {
         type = "key";
         impact = 100;
 
-        game.tileMap.addFixedEntitytoMap(y/ game.tileSize, x/ game.tileSize, this);
+        game.tileMap.addFixedEntitytoMap(this.getYCoordinate()/ game.tileSize, this.getXCoordinate()/ game.tileSize, this);
         loadImage();
     }
 

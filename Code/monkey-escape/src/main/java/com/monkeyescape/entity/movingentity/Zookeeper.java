@@ -34,8 +34,8 @@ public class Zookeeper extends MovingEntity {
 
         // random starting position
         Position randomPosition = super.createRandomPosition(game);
-        x = randomPosition.x;
-        y = randomPosition.y;
+        this.setXCoordinate(randomPosition.x);
+        this.setYCoordinate(randomPosition.y);
 
         areaX = 6;
         areaY = 14;
@@ -59,9 +59,9 @@ public class Zookeeper extends MovingEntity {
         if(game.state.getGameState() != State.GameState.PLAY) return;
         
         //If the Zookeeper is fully on a tile, it gets the next tile to move to
-        if(x % game.tileSize == 0 && y % game.tileSize == 0){
+        if(this.getXCoordinate() % game.tileSize == 0 && this.getYCoordinate() % game.tileSize == 0){
             //Add monkey.area to x and y to avoid thinking monkey is on wrong tile due to overlap
-            searchPath((monkey.x + (monkey.areaX))/ game.tileSize, (monkey.y + (monkey.areaY))/ game.tileSize);
+            searchPath((monkey.getXCoordinate() + (monkey.areaX))/ game.tileSize, (monkey.getYCoordinate() + (monkey.areaY))/ game.tileSize);
         }
         
         //Checks for collisions before moving
@@ -80,8 +80,8 @@ public class Zookeeper extends MovingEntity {
      */
     public void searchPath(int goalCol, int goalRow){
         //Gets zookeepers tile
-        int startCol = x/ game.tileSize;
-        int startRow = y/ game.tileSize;
+        int startCol = this.getXCoordinate()/ game.tileSize;
+        int startRow = this.getYCoordinate()/ game.tileSize;
 
         //Updates the pathfinders nodes for new goal and start positions
         pathfinder.setNodes(startCol, startRow, goalCol, goalRow);
@@ -94,10 +94,10 @@ public class Zookeeper extends MovingEntity {
             int nextY = pathfinder.pathList.get(0).row * game.tileSize;
 
             //Get the entities x and y
-            int enLeftX = x - areaX;
-            int enRightX = x;
-            int enTopY = y + areaY;
-            int enBottomY = y;
+            int enLeftX = this.getXCoordinate() - areaX;
+            int enRightX = this.getXCoordinate();
+            int enTopY = this.getYCoordinate() + areaY;
+            int enBottomY = this.getYCoordinate();
 
             //If statements to decide the best movement to the next tile while avoiding collisions
     

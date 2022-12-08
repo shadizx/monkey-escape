@@ -37,14 +37,14 @@ class MonkeyTest {
     void updateWhileNotInPlay() {
         //Set the game state to not be in play
         game.state.setGameState(State.GameState.START);
-        int x = monkey.x;
-        int y = monkey.y;
+        int x = monkey.getXCoordinate();
+        int y = monkey.getYCoordinate();
 
         monkey.update();
 
         //Check that monkey did not move positions
-        assertEquals(x, monkey.x);
-        assertEquals(y, monkey.y);
+        assertEquals(x, monkey.getXCoordinate());
+        assertEquals(y, monkey.getYCoordinate());
     }   
 
     @Test
@@ -54,45 +54,45 @@ class MonkeyTest {
         Monkey.inLionPit = false;
         //Check the monkey's movement depending on its direction
         //Jump
-        int beforeX = monkey.x;
-        int beforeY = monkey.y;
+        int beforeX = monkey.getXCoordinate();
+        int beforeY = monkey.getYCoordinate();
         monkey.update();
-        assertEquals(beforeX, monkey.x);
-        assertEquals(beforeY, monkey.y);
+        assertEquals(beforeX, monkey.getXCoordinate());
+        assertEquals(beforeY, monkey.getYCoordinate());
 
         //Left
         keyHandler.keyPressed(new KeyEvent(panel, KeyEvent.KEY_PRESSED,System.currentTimeMillis(),0,KeyEvent.VK_LEFT,KeyEvent.CHAR_UNDEFINED));
         if(keyHandler.isPressedLeft()){
-            beforeX = monkey.x;
+            beforeX = monkey.getXCoordinate();
             monkey.update();
-            assertEquals(beforeX-monkey.speed, monkey.x);
+            assertEquals(beforeX-monkey.speed, monkey.getXCoordinate());
         }
         keyHandler.keyReleased(new KeyEvent(panel, KeyEvent.KEY_RELEASED,System.currentTimeMillis(),0,KeyEvent.VK_LEFT,KeyEvent.CHAR_UNDEFINED));
 
         //Right
         keyHandler.keyPressed(new KeyEvent(panel, KeyEvent.KEY_PRESSED,System.currentTimeMillis(),0,KeyEvent.VK_RIGHT,KeyEvent.CHAR_UNDEFINED));
         if(keyHandler.isPressedRight()){
-            beforeX = monkey.x;
+            beforeX = monkey.getXCoordinate();
             monkey.update();
-            assertEquals(beforeX+monkey.speed, monkey.x);
+            assertEquals(beforeX+monkey.speed, monkey.getXCoordinate());
         }
         keyHandler.keyReleased(new KeyEvent(panel, KeyEvent.KEY_RELEASED,System.currentTimeMillis(),0,KeyEvent.VK_RIGHT,KeyEvent.CHAR_UNDEFINED));
 
         //Up
         keyHandler.keyPressed(new KeyEvent(panel, KeyEvent.KEY_PRESSED,System.currentTimeMillis(),0,KeyEvent.VK_UP,KeyEvent.CHAR_UNDEFINED));
         if(keyHandler.isPressedUp()){
-            beforeY = monkey.y;
+            beforeY = monkey.getYCoordinate();
             monkey.update();
-            assertEquals(beforeY-monkey.speed, monkey.y);
+            assertEquals(beforeY-monkey.speed, monkey.getYCoordinate());
         }
         keyHandler.keyReleased(new KeyEvent(panel, KeyEvent.KEY_RELEASED,System.currentTimeMillis(),0,KeyEvent.VK_UP,KeyEvent.CHAR_UNDEFINED));
 
         //Down
         keyHandler.keyPressed(new KeyEvent(panel, KeyEvent.KEY_PRESSED,System.currentTimeMillis(),0,KeyEvent.VK_DOWN,KeyEvent.CHAR_UNDEFINED));
         if(keyHandler.isPressedDown()){
-            beforeY = monkey.y;
+            beforeY = monkey.getYCoordinate();
             monkey.update();
-            assertEquals(beforeY+monkey.speed, monkey.y);
+            assertEquals(beforeY+monkey.speed, monkey.getYCoordinate());
         }
         keyHandler.keyReleased(new KeyEvent(panel, KeyEvent.KEY_RELEASED,System.currentTimeMillis(),0,KeyEvent.VK_DOWN,KeyEvent.CHAR_UNDEFINED));
 

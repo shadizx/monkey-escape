@@ -30,19 +30,19 @@ public class Sound {
     /**
      * Sets the file to the players and lowers the volume
      *
-     * @param i index for the sound file
+     * @param soundFileIndex index for the sound file
      */
-    public void setFile(int i) {
+    public void setFile(int soundFileIndex) {
         try {
             // Check for invalid index
-            if (i < 0 || i >= soundURL.length) {
-                System.out.printf("Invalid index %d for sound file%n", i);
+            if (soundFileIndex < 0 || soundFileIndex >= soundURL.length) {
+                System.out.printf("Invalid index %d for sound file%n", soundFileIndex);
                 clip = AudioSystem.getClip();
                 return;
             }
 
             //Get the file
-            AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
+            AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[soundFileIndex]);
             clip = AudioSystem.getClip();
             clip.open(ais);
 

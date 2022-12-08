@@ -36,8 +36,8 @@ class CollisionTest {
     @DisplayName("Running checkTile for invalid position")
     void checkTileInvalidPosition() {
         //Give the monkey a position that is off the map (to the left and above)
-        entity.x = (-1)*game.tileSize;
-        entity.y = (-1)*game.tileSize;
+        entity.setXCoordinate((-1)*game.tileSize);
+        entity.setYCoordinate((-1)*game.tileSize);
 
         collision.checkTile(entity);
 
@@ -48,8 +48,8 @@ class CollisionTest {
     @DisplayName("Running checkTile for valid position")
     void checkTileValidPosition() {
         //Give the monkey a position that is on the map (tile 1,1)
-        entity.x = (1)*game.tileSize;
-        entity.y = (1)*game.tileSize;
+        entity.setXCoordinate((1)*game.tileSize);
+        entity.setYCoordinate((1)*game.tileSize);
 
         collision.checkTile(entity);
 
@@ -60,8 +60,8 @@ class CollisionTest {
     @DisplayName("Running checkTile for tile that is blocked")
     void checkTileBlockedPosition() {
         //Give the monkey a position that is blocked (tile 0,5)
-        entity.x = (0)*game.tileSize;
-        entity.y = (5)*game.tileSize;
+        entity.setXCoordinate((0)*game.tileSize);
+        entity.setYCoordinate((5)*game.tileSize);
 
         collision.checkTile(entity);
 
@@ -72,8 +72,8 @@ class CollisionTest {
     @DisplayName("Running checkFixedEntity for invalid position")
     void checkFixedEntityInvalidPosition() {
         //Give the monkey a position that is off the map (to the left and above)
-        entity.x = (-1)*game.tileSize;
-        entity.y = (-1)*game.tileSize;
+        entity.setXCoordinate((-1)*game.tileSize);
+        entity.setYCoordinate((-1)*game.tileSize);
 
         boolean fixedEntity = collision.checkFixedEntity(entity);
 
@@ -84,8 +84,8 @@ class CollisionTest {
     @DisplayName("Running checkFixedEntity for valid position")
     void checkFixedEntityValidPosition() {
         //Set monkey to a tile in the middle of the map that might have a fixed entity
-        entity.x = (8)*game.tileSize;
-        entity.y = (8)*game.tileSize;
+        entity.setXCoordinate((8)*game.tileSize);
+        entity.setYCoordinate((8)*game.tileSize);
 
         boolean fixedEntity = collision.checkFixedEntity(entity);
 
@@ -96,8 +96,8 @@ class CollisionTest {
     @DisplayName("Running checkZookeeper for invalid position")
     void checkZookeeperInvalidPosition() {
         //Give the monkey a position that is off the map (to the left and above)
-        entity.x = (-1)*game.tileSize;
-        entity.y = (-1)*game.tileSize;
+        entity.setXCoordinate((-1)*game.tileSize);
+        entity.setYCoordinate((-1)*game.tileSize);
 
         boolean fixedEntity = collision.checkZookeeper(entity,game.zookeepers);
 
@@ -110,8 +110,8 @@ class CollisionTest {
         //Set monkey to the same tile that a zookeeper is on
         Zookeeper zookeeper = new Zookeeper(game, keyhandler, entity);
         game.addZookeeper(zookeeper);
-        entity.x = zookeeper.x;
-        entity.y = zookeeper.y;
+        entity.setXCoordinate(zookeeper.getXCoordinate());
+        entity.setYCoordinate(zookeeper.getYCoordinate());
 
         boolean fixedEntity = collision.checkZookeeper(entity,game.zookeepers);
 
@@ -138,8 +138,8 @@ class CollisionTest {
         tiletoadd.hasFixedEntity = true;
         tiletoadd.FixedEntityObject = new LionPit(game);
 
-        entity.x = tiletoadd.FixedEntityObject.x;
-        entity.y = tiletoadd.FixedEntityObject.y;
+        entity.setXCoordinate(tiletoadd.FixedEntityObject.getXCoordinate());
+        entity.setYCoordinate(tiletoadd.FixedEntityObject.getYCoordinate());
 
         potentialCollisions.add(tiletoadd);
 
